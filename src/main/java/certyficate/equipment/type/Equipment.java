@@ -1,15 +1,15 @@
-package certyficate.equipment;
+package certyficate.equipment.type;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import certyficate.calculation.CalculateT;
+import certyficate.equipment.calculation.Calculate;
 import certyficate.files.ReaderCreator;
 
 public abstract class Equipment {
 	final protected String SEPARATOR = "/t";
 	
-	public CalculateT calculate;
+	public Calculate calculate;
 	
     protected int numberOfStandardPoint;
     protected int numberOfRanges;

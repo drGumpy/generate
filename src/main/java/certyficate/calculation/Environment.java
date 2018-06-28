@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import certyficate.dataContainer.*;
+import certyficate.equipment.calculation.DataProbe;
 import certyficate.generate.*;
 
 public class Environment {
@@ -24,16 +25,16 @@ public class Environment {
             Scanner sc = new Scanner(doc);
             for(int i=0; i<4; i++){
             	certificateData[i]= new DataProbe();
-            	certificateData[i].valueT=sc.nextInt();
+            	certificateData[i].value=sc.nextInt();
             	certificateData[i].valueRh=sc.nextInt();
-            	certificateData[i].correctionT=sc.nextDouble();
+            	certificateData[i].correction=sc.nextDouble();
             	certificateData[i].correctionRh=sc.nextDouble();
-            	certificateData[i].uncertaintyT=sc.nextDouble();
+            	certificateData[i].uncertainty=sc.nextDouble();
             	certificateData[i].uncertaintyRh=sc.nextDouble();                
             }
             sc.close();
-            range[0] = certificateData[0].valueT;
-            range[1] = certificateData[3].valueT;
+            range[0] = certificateData[0].value;
+            range[1] = certificateData[3].value;
             range[2] = certificateData[0].valueRh;
             range[3] = certificateData[3].valueRh;
         }catch (FileNotFoundException e){}    
@@ -44,8 +45,8 @@ public class Environment {
         double correctionT = (a-range[0])/(range[1]-range[0]);
         double correctionRh = (b-range[2])/(range[3]-range[2]);
         double     c_t= DataCalculation.calculate(correctionT, correctionRh,
-        			certificateData[0].correctionT, certificateData[2].correctionT,
-        			certificateData[1].correctionT, certificateData[3].correctionT),
+        			certificateData[0].correction, certificateData[2].correction,
+        			certificateData[1].correction, certificateData[3].correction),
                 c_Rh=DataCalculation.calculate(correctionT, correctionRh,
                 		certificateData[0].correctionRh, certificateData[2].correctionRh,
                 		certificateData[1].correctionRh, certificateData[3].correctionRh);
@@ -56,8 +57,8 @@ public class Environment {
     
     //uzyskanie danych wyjściowych
     private void _corection() {
-        double a= Math.max(Math.max(certificateData[0].uncertaintyT, certificateData[1].uncertaintyT),
-                Math.max(certificateData[2].uncertaintyT, certificateData[3].uncertaintyT)),
+        double a= Math.max(Math.max(certificateData[0].uncertainty, certificateData[1].uncertainty),
+                Math.max(certificateData[2].uncertainty, certificateData[3].uncertainty)),
                b= Math.max(Math.max(certificateData[0].uncertaintyRh, certificateData[1].uncertaintyRh),
                         Math.max(certificateData[2].uncertaintyRh, certificateData[3].uncertaintyRh));
         new_data[0]-=a;

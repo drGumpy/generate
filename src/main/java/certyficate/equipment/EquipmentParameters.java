@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import certyficate.dataContainer.CalibrationPoint;
-import certyficate.dataContainer.DataProbe;
+import certyficate.equipment.calculation.DataProbe;
+import certyficate.equipment.type.Equipment;
+import certyficate.equipment.type.TProbe;
 import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 

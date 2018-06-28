@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import certyficate.dataContainer.*;
+import certyficate.equipment.calculation.DataProbe;
 
 //metody stowane w programie
 public class DataCalculation {
@@ -54,9 +55,9 @@ public class DataCalculation {
     public static DataProbe easyCalculate(double cor, DataProbe d1, DataProbe d2) {
     	DataProbe sol = new DataProbe();
         sol.correctionRh= d1.correctionRh+cor*(d2.correctionRh-d1.correctionRh);
-        sol.correctionT= d1.correctionT+cor*(d2.correctionT-d1.correctionT);
+        sol.correction= d1.correction+cor*(d2.correction-d1.correction);
         sol.uncertaintyRh=Math.max(d1.uncertaintyRh, d2.uncertaintyRh);
-        sol.uncertaintyT=Math.max(d1.uncertaintyT, d2.uncertaintyT);
+        sol.uncertainty=Math.max(d1.uncertainty, d2.uncertainty);
         return sol;
     }
     
@@ -187,29 +188,4 @@ public class DataCalculation {
             return 0;
           }
     }
-    
-    public static double[] maxUncertainty(DataProbe[] pointsInRange) {
-		double[] uncertainty = new double[2];
-		uncertainty[0] = maxUncertaintyT(pointsInRange);
-		uncertainty[1] = maxUncertaintyRh(pointsInRange);
-		return uncertainty;
-	}
-
-	private static double maxUncertaintyT(DataProbe[] pointsInRange) {
-		double uncertainty = 0D;
-		for(int i = 0; i < pointsInRange.length; i++) {
-			double pointUncertainty = pointsInRange[i].uncertaintyT;
-			uncertainty = Math.max(uncertainty, pointUncertainty);
-		}
-		return uncertainty;
-	}
-	
-	private static double maxUncertaintyRh(DataProbe[] pointsInRange) {
-		double uncertainty = 0D;
-		for(int i = 0; i < pointsInRange.length; i++) {
-			double pointUncertainty = pointsInRange[i].uncertaintyT;
-			uncertainty = Math.max(uncertainty, pointUncertainty);
-		}
-		return uncertainty;
-	}
 }

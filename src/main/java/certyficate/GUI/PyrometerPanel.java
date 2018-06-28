@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 
 import certyficate.calculation.Environment;
 import certyficate.dataContainer.CalibrationType;
-import certyficate.dataContainer.DataProbe;
-import certyficate.equipment.Equipment;
 import certyficate.equipment.EquipmentParameters;
 import certyficate.equipment.EquipmentType;
-import certyficate.equipment.TProbe;
+import certyficate.equipment.calculation.DataProbe;
+import certyficate.equipment.type.Equipment;
+import certyficate.equipment.type.TProbe;
 import certyficate.generate.DisplayedText;
 import certyficate.generate.IRGenerate;
 import certyficate.property.CalibrationData;

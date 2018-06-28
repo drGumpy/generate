@@ -24,6 +24,10 @@ import javax.swing.border.TitledBorder;
 
 import certyficate.entitys.*;
 import certyficate.equipment.*;
+import certyficate.equipment.calculation.DataProbe;
+import certyficate.equipment.type.Equipment;
+import certyficate.equipment.type.RhProbe;
+import certyficate.equipment.type.TProbe;
 import certyficate.generate.*;
 import certyficate.sheetHandlers.insert.*;
 import certyficate.sheetHandlers.search.*;

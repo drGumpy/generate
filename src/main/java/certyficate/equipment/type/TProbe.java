@@ -1,27 +1,27 @@
-package certyficate.equipment;
+package certyficate.equipment.type;
 
 import java.io.IOException;
 
-import certyficate.dataContainer.DataProbe;
+import certyficate.equipment.calculation.DataProbe;
 
 
-class TProbe extends ReferenceProbe {
+public class TProbe extends ReferenceProbe {
     public TProbe(String path) throws IOException {
 		super(path);
 	}
     
 	@Override
 	protected void setDrifts(String[] elements) {
-		driftT = getDouble(elements[1]);
+		driftT = getDouble(elements[0]);
 	}
 
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
-        data.valueT = getInteger(elements[0]);
-        data.correctionT = getDouble(elements[1]);
-        data.uncertaintyT = getDouble(elements[2]);
-        data.driftT = driftT;
+        data.value = getInteger(elements[0]);
+        data.correction = getDouble(elements[1]);
+        data.uncertainty = getDouble(elements[2]);
+        data.drift = driftT;
 		return data;
 	}
 
@@ -34,7 +34,7 @@ class TProbe extends ReferenceProbe {
 	@Override
 	protected boolean equalPoint(int[] point, int index) {
 		DataProbe data = standardPoints[index];
-		return point[0] == data.valueT;
+		return point[0] == data.value;
 	}
 
 	@Override

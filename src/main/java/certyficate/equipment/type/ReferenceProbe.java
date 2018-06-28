@@ -1,8 +1,8 @@
-package certyficate.equipment;
+package certyficate.equipment.type;
 
 import java.io.IOException;
 
-import certyficate.dataContainer.DataProbe;
+import certyficate.equipment.calculation.DataProbe;
 
 public abstract class ReferenceProbe extends Equipment {
 	protected DataProbe[] standardPoints;

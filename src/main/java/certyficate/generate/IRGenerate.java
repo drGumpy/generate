@@ -11,6 +11,7 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import certyficate.calculation.*;
 import certyficate.dataContainer.*;
 import certyficate.entitys.*;
+import certyficate.equipment.calculation.DataProbe;
 import certyficate.generate.DisplayedText;
 
 
@@ -90,7 +91,7 @@ public class IRGenerate {
             for(int i=0; i<point; i++){
                 if(device.q[i] || !dataProbe[i].question)
                     continue;
-                if(dataProbe[i].valueT!=type.point[0][count])
+                if(dataProbe[i].value!=type.point[0][count])
                 	continue;
                 CertificateValue val= new CertificateValue();
                 int line = i*32+3;
@@ -115,16 +116,16 @@ public class IRGenerate {
                 uncT[1]=Double.parseDouble(type.device.resolutionT)/Math.sqrt(3);
                 uncT[2]=0;
                 uncT[3]=0.1/Math.sqrt(3);
-                uncT[4]=dataProbe[i].uncertaintyT/2;
-                uncT[5]=dataProbe[i].driftT/Math.sqrt(3);
+                uncT[4]=dataProbe[i].uncertainty/2;
+                uncT[5]=dataProbe[i].drift/Math.sqrt(3);
                 uncT[6]=type.pyrometr.blackBodyError[count]/2;
  
                 sheet.setValueAt(device.averageT[i], 7 , line+5);
                 sheet.setValueAt(type.pyrometr.reference[count], 7 , line+7);
-                sheet.setValueAt(dataProbe[i].correctionT, 7 , line+9);
+                sheet.setValueAt(dataProbe[i].correction, 7 , line+9);
                 sheet.setValueAt(type.device.resolutionT, 9 , line+6);
-                sheet.setValueAt(dataProbe[i].uncertaintyT, 9, line+9);
-                sheet.setValueAt(dataProbe[i].driftT, 9, line+10);
+                sheet.setValueAt(dataProbe[i].uncertainty, 9, line+9);
+                sheet.setValueAt(dataProbe[i].drift, 9, line+10);
                 sheet.setValueAt(type.pyrometr.blackBodyError[count], 9, line+11);
                 for(int j=0; j<uncT.length; j++){
                     sheet.setValueAt(uncT[j], 13, line+5+j);
@@ -132,7 +133,7 @@ public class IRGenerate {
                 double unc =DataCalculation.uncertainty(uncT);
                 double round = DataCalculation.findRound(2*unc, Double.parseDouble(type.device.resolutionT));
                 double pt=DataCalculation.round_d(type.pyrometr.reference[count]+
-                		dataProbe[i].correctionT,round);
+                		dataProbe[i].correction,round);
                 double div =DataCalculation.round_d(device.averageT[i],round);
                 val.probeT= DataCalculation.round(pt,round).replace(".", ",");
                 val.deviceT = DataCalculation.round(div,round).replace(".", ",");

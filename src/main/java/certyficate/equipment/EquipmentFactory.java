@@ -2,7 +2,11 @@ package certyficate.equipment;
 
 import java.io.IOException;
 
-import certyficate.calculation.CalculateT;
+import certyficate.equipment.calculation.Calculate;
+import certyficate.equipment.calculation.CalculateRh;
+import certyficate.equipment.type.Equipment;
+import certyficate.equipment.type.RhProbe;
+import certyficate.equipment.type.TProbe;
 import certyficate.files.PathCreator;
 
 public class EquipmentFactory {
@@ -41,12 +45,13 @@ public class EquipmentFactory {
 	private void setTemperatureReference() throws IOException {
 		String path = PathCreator.filePath("");
 		equipment = new TProbe(path);
-		equipment.calculate = new CalculateT();
+		equipment.calculate = new Calculate();
 	}
 	
 	private void setHumidityReference() throws IOException {
 		String path = PathCreator.filePath("");
 		equipment = new RhProbe(path);
+		equipment.calculate = new CalculateRh();
 	}
 	
 	private void setInfraredReference() throws IOException {

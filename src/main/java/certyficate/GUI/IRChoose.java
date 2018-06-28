@@ -25,6 +25,8 @@ import javax.swing.border.TitledBorder;
 
 import certyficate.entitys.*;
 import certyficate.equipment.*;
+import certyficate.equipment.calculation.DataProbe;
+import certyficate.equipment.type.TProbe;
 import certyficate.generate.*;
 import certyficate.dataContainer.*;
 
@@ -364,7 +366,7 @@ public class IRChoose extends JDialog{
 				int k=0;
 				for(;blackBodyChoose[i][j].getSelectedItem().equals(blackBody[k]);k++){}
 				data.get(i).pyrometr.blackBodyError[j]= 
-						blackBodyError[k][j].uncertaintyT;
+						blackBodyError[k][j].uncertainty;
 			}
 		}
 		Collections.reverse(toRemove);

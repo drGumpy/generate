@@ -11,6 +11,7 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import certyficate.calculation.*;
 import certyficate.dataContainer.*;
 import certyficate.entitys.*;
+import certyficate.equipment.calculation.DataProbe;
 
 
 public class Generate {
@@ -214,17 +215,17 @@ public class Generate {
                 uncT[1]=Double.parseDouble(type.device.resolutionT)/Math.sqrt(3);
                 uncT[2]=patern.standardT[i];
                 uncT[3]=0.01/Math.sqrt(3);
-                uncT[4]=dataProbe[i].uncertaintyT/2;
-                uncT[5]=dataProbe[i].driftT/Math.sqrt(3);
+                uncT[4]=dataProbe[i].uncertainty/2;
+                uncT[5]=dataProbe[i].drift/Math.sqrt(3);
                 uncT[6]=data[i].t1/Math.sqrt(3);
                 uncT[7]=data[i].t2/2;
  
                 sheet.setValueAt(device.averageT[i], 7 , line+5);
                 sheet.setValueAt(patern.averageT[i], 7 , line+7);
-                sheet.setValueAt(dataProbe[i].correctionT, 7 , line+9);
+                sheet.setValueAt(dataProbe[i].correction, 7 , line+9);
                 sheet.setValueAt(type.device.resolutionT, 9 , line+6);
-                sheet.setValueAt(dataProbe[i].uncertaintyT, 9, line+9);
-                sheet.setValueAt(dataProbe[i].driftT, 9, line+10);
+                sheet.setValueAt(dataProbe[i].uncertainty, 9, line+9);
+                sheet.setValueAt(dataProbe[i].drift, 9, line+10);
                 sheet.setValueAt(data[i].t1, 9, line+11);
                 sheet.setValueAt(data[i].t2, 9, line+12);
                 for(int j=0; j<uncT.length; j++){
@@ -236,7 +237,7 @@ public class Generate {
                     if(round<0.1)
                         round=0.1;
                 }
-                double pt=DataCalculation.round_d(patern.averageT[i]+dataProbe[i].correctionT,round);
+                double pt=DataCalculation.round_d(patern.averageT[i]+dataProbe[i].correction,round);
                 double div =DataCalculation.round_d(device.averageT[i],round);
                 val.probeT= DataCalculation.round(pt,round).replace(".", ",");
                 val.deviceT = DataCalculation.round(div,round).replace(".", ",");

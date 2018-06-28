@@ -1,8 +1,8 @@
-package certyficate.equipment;
+package certyficate.equipment.type;
 
 import java.io.IOException;
 
-import certyficate.dataContainer.*;
+import certyficate.equipment.calculation.DataProbe;
 
 public class RhProbe extends ReferenceProbe {
     public RhProbe(String path) throws IOException{
@@ -18,13 +18,13 @@ public class RhProbe extends ReferenceProbe {
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
-		data.valueT = getInteger(elements[0]);
+		data.value = getInteger(elements[0]);
 		data.valueRh = getInteger(elements[1]);
-		data.correctionT = getDouble(elements[2]);
+		data.correction = getDouble(elements[2]);
 		data.correctionRh = getDouble(elements[3]);
-		data.uncertaintyT = getDouble(elements[4]);
+		data.uncertainty = getDouble(elements[4]);
 		data.uncertaintyRh = getDouble(elements[5]);
-		data.driftT = driftT;
+		data.drift = driftT;
 		data.driftRh = driftRh;
 		return data;
 	}
@@ -38,7 +38,7 @@ public class RhProbe extends ReferenceProbe {
 	@Override
 	protected boolean equalPoint(int[] point, int index) {
 		DataProbe data = standardPoints[index];
-		return (point[0] == data.valueT) && (point[1] == data.valueRh);
+		return (point[0] == data.value) && (point[1] == data.valueRh);
 	}
 
 	@Override
