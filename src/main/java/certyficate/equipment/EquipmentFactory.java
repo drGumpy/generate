@@ -2,23 +2,21 @@ package certyficate.equipment;
 
 import java.io.IOException;
 
-import certyficate.equipment.calculation.Calculate;
-import certyficate.equipment.calculation.CalculateRh;
 import certyficate.equipment.type.Equipment;
 import certyficate.equipment.type.RhProbe;
 import certyficate.equipment.type.TProbe;
 import certyficate.files.PathCreator;
 
 public class EquipmentFactory {
-	private Equipment equipment;
+	private static Equipment equipment;
 	
-	public Equipment getEquipment(EquipmentType equipmentType)
+	public static Equipment getEquipment(EquipmentType equipmentType)
 			throws IOException {
 		findAndGetEquipment (equipmentType);
 		return equipment;
 	}
 
-	private void findAndGetEquipment(EquipmentType equipmentType) 
+	private static void findAndGetEquipment(EquipmentType equipmentType) 
 			throws IOException {
 		switch(equipmentType) {
 		case TEMPERATURE_REFERENCE:
@@ -42,34 +40,32 @@ public class EquipmentFactory {
 		}
 	}
 
-	private void setTemperatureReference() throws IOException {
-		String path = PathCreator.filePath("");
+	private static void setTemperatureReference() throws IOException {
+		String path = PathCreator.filePath("13.026.txt");
 		equipment = new TProbe(path);
-		equipment.calculate = new Calculate();
 	}
 	
-	private void setHumidityReference() throws IOException {
-		String path = PathCreator.filePath("");
+	private static void setHumidityReference() throws IOException {
+		String path = PathCreator.filePath("61602551.txt");
 		equipment = new RhProbe(path);
-		equipment.calculate = new CalculateRh();
 	}
 	
-	private void setInfraredReference() throws IOException {
-		String path = PathCreator.filePath("");
+	private static void setInfraredReference() throws IOException {
+		String path = PathCreator.filePath("12030011.txt");
 		equipment = new TProbe(path);
 	}
 	
-	private void setChamberTemperature() throws IOException {
+	private static void setChamberTemperature() throws IOException {
 		String path = PathCreator.filePath("");
 		//TODO chamber method
 	}
 	
-	private void setChamberHumidity() throws IOException {
+	private static void setChamberHumidity() throws IOException {
 		String path = PathCreator.filePath("");
 		//TODO chamber method
 	}
 
-	private void setBlackBodyGenerator() throws IOException {
+	private static void setBlackBodyGenerator() throws IOException {
 		String path = PathCreator.filePath("");
 		//TODO black body method
 	}

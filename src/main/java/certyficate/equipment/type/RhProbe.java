@@ -2,11 +2,13 @@ package certyficate.equipment.type;
 
 import java.io.IOException;
 
+import certyficate.equipment.calculation.CalculateRh;
 import certyficate.equipment.calculation.DataProbe;
 
 public class RhProbe extends ReferenceProbe {
     public RhProbe(String path) throws IOException{
     	super(path);
+    	calculate = new CalculateRh();
     }
   
 	@Override

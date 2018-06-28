@@ -21,8 +21,10 @@ public class CertificateData {
     
     private static HashMap<String, Device> devicesData =new HashMap<String, Device>();
     
+    private static CodeVerification verification;
+    
     public static void findOrdersData() {
-    	CodeVerification.setVerificationCriteria();
+    	verification = new  CodeVerification();
         setSheetAndfindOrders();
         ClientsData.findClientData(clientsData);
         DeviceData.findDeviceData(devicesData);
@@ -55,7 +57,7 @@ public class CertificateData {
 	private static void checkAndAddOrderData(int line) {
 		Certificate order = new Certificate();
 		order.calibrationCode = sheet.getValueAt(9,line).toString();
-		if(CodeVerification.checkCalibrationCode(order))
+		if(verification.checkCalibrationCode(order))
 			addOrder(line, order);
 	}
 	

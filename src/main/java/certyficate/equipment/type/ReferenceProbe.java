@@ -51,7 +51,6 @@ public abstract class ReferenceProbe extends Equipment {
 		return range;
 	} 
 	
-	@SuppressWarnings("unchecked")
 	public DataProbe getPointData(int[] point) {
 		DataProbe pointData = findInStandardPoints(point);
 		if(pointData == null)

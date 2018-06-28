@@ -56,7 +56,7 @@ public class Console extends JFrame {
     
     private static ArrayList<Measurements> devices = new ArrayList<Measurements>();
     private static ArrayList<CalibrationPoint> point = new ArrayList<CalibrationPoint>();    
-    private static Measurements patern = new Measurements();
+    private static Measurements patern = new Measurements(0);
     
     private static ChamberData[] chamberData;
     
@@ -110,6 +110,7 @@ public class Console extends JFrame {
                 System.out.println(" w czasie: " +(endTime - startTime)/1000.0+" s");
             }
         });
+        
         //pozyskanie danych do świadectwa
         clientData.addActionListener(new ActionListener(){    
             public void actionPerformed(ActionEvent e) {
@@ -229,7 +230,7 @@ public class Console extends JFrame {
     	
     	JTabbedPane tabbedPane = new JTabbedPane();
     	tabbedPane.addTab("komora klimatyczna", _climateChamber());
-    	tabbedPane.addTab("pirometry", new PyrometerPanel());
+    	tabbedPane.addTab("pirometry", new PyrometerPanel(this));
     	tabbedPane.setMaximumSize(new Dimension(700, 10));
 
     	c.weighty=0.2;

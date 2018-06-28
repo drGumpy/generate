@@ -2,12 +2,14 @@ package certyficate.equipment.type;
 
 import java.io.IOException;
 
+import certyficate.equipment.calculation.Calculate;
 import certyficate.equipment.calculation.DataProbe;
 
 
 public class TProbe extends ReferenceProbe {
     public TProbe(String path) throws IOException {
-		super(path);
+    	super(path);
+    	calculate = new Calculate();
 	}
     
 	@Override

@@ -9,6 +9,7 @@ import certyficate.dataContainer.CalibrationPoint;
 import certyficate.dataContainer.CalibrationType;
 import certyficate.dataContainer.Measurements;
 import certyficate.entitys.Certificate;
+import certyficate.equipment.calculation.DataProbe;
 
 public class CalibrationData {
 	final public static int MEASUREMENTS_POINTS = 10;
@@ -18,8 +19,12 @@ public class CalibrationData {
 	public static String referenceSerial;
 	
 	public static ArrayList<Certificate> orders = new ArrayList<Certificate>();
+	
 	public static ArrayList<Measurements> devices = new ArrayList<Measurements>();
+	
 	public static ArrayList<CalibrationPoint> point = new ArrayList<CalibrationPoint>();
+	
+	public static DataProbe[] probe;
 	
 	public static Measurements patern = new Measurements(1);
 	
