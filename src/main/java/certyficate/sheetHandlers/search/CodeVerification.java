@@ -4,7 +4,6 @@ import java.util.HashSet;
 
 import certyficate.entitys.Certificate;
 import certyficate.property.CalibrationData;
-import tests.StandardPoint;
 
 public class CodeVerification {
 	private HashSet<String> VerificationCriteria;
@@ -26,17 +25,19 @@ public class CodeVerification {
 	}
 	
 	public boolean checkCalibrationCode(Certificate order) {
-		String code = setCode(order);
+		String code = findCodeAndPoints(order);
 		return VerificationCriteria.contains(code);
 	}
 	
-	private String setCode(Certificate order) {
+	private String findCodeAndPoints(Certificate order) {
 		String code = order.calibrationCode;
 		int indexOfSeparator = code.indexOf("-");
-		if(indexOfSeparator != -1)
+		if(indexOfSeparator != -1) {
 			code = code.substring(2, indexOfSeparator);
-		else
+		} else {
 			code = code.substring(2, code.length());
+			order.point = StandardPoint.point();
+		}
 		return code;
 	}
 	

@@ -1,6 +1,12 @@
 package certyficate.sheetHandlers.search;
 
+import certyficate.property.CalibrationData;
+
 public class StandardPoint {
+	private final static int[][] TEMPERATURE_STANDARD_POINT = new int[][] {{-25},{0},{25}}; 
+	private final static int[][] HUMINIDITY_STANDARD_POINT 
+		 = new int[][] {{15, 50}, {25, 30}, {25, 50}, {25, 70}, {35, 50}};
+	private final static int[][] INFRARED_STANDARD_POINT = new int[][] {{25},{90},{180}}; 
 	
 	static int toInt(String data){
 		data = data.replaceAll("[^\\d.]", "");
@@ -47,7 +53,7 @@ public class StandardPoint {
 	
 	static int[][] point(String data, int code){
 		if(data.equals(""))
-			return point(code);
+			return point();
 		data= data.replaceAll(" ", "");
 		String[] points = data.split(",");
 		int[][] point;
@@ -77,20 +83,18 @@ public class StandardPoint {
 		return point;	
 	}
 
-	static int[][] point(int code){
+	static int[][] point(){
 		int[][] point;
-		switch(code){
-		case 1:
-		case 2:
-			point = new int[][] {{-25,0,25}};
+		switch (CalibrationData.calibrationType) {
+		case HUMINIDITY:
+			point = HUMINIDITY_STANDARD_POINT;
 			break;
-		case 3:
-			point = new int[][] {{15,25,25,25,35},{50,30,50,70,50}};
+		case INFRARED:
+			point = INFRARED_STANDARD_POINT;
+			break;		
+		default:
+			point = TEMPERATURE_STANDARD_POINT;
 			break;
-		case 5:
-			point = new int[][] {{25,90,180}};
-			break;
-		default: return null;
 		}
 		return point;
 	}
