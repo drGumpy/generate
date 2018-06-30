@@ -6,16 +6,16 @@ public class CalculateRh extends Calculate {
 	
 	protected double[] findCorrection() {
 		double[] correction = checkPoint();
-		if(correction == null) {
+		if(correction == null)
 			correction = calculateCorrection();
-		} 
 		return correction;
 	}	
 
 	private double[] checkPoint() {
 		double[] correction;
 		correction = checkTemperature();
-		correction = checkHuminidity();
+		if(correction == null)
+			correction = checkHuminidity();
 		return correction;
 	}
 
