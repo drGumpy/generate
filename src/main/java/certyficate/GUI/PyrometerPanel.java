@@ -3,7 +3,6 @@ package certyficate.GUI;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -33,10 +32,13 @@ public class PyrometerPanel extends JPanel {
 	final private JButton calibrationData = new JButton("wybierz zlecenia");
 	final private JButton generation= new JButton("generuj świadetwa");
 	
-	public PyrometerPanel() {
+	private Console console;
+	
+	public PyrometerPanel(Console console) {
+		this.console = console;
 		setButtons();
 	}
-	
+
 	private void setButtons() {
 		setCalibrationDataButton();
 		setGenerationButton();
@@ -75,22 +77,21 @@ public class PyrometerPanel extends JPanel {
 
 		private void bulidSheet() throws IOException  {
 			SheetBulider.setSpreadSheet();
-	
 		}
 		
 		private void getCalibrationData() {
 			CertificateData.findOrdersData();
+			new IRChoose(console);
 		}
 		
-
 		private void findMeasurementsData() {
 			CalibrationData.calibrationPoints 
 				= MAXIMUM_CALIBRATION_POINTS;
 			MeasurementsData.findMeasurementsData();
 		}
 		
-		private void findReferenceData() throws FileNotFoundException {
-			EquipmentParameters.find(EquipmentType.INFRARED_REFERENCE);
+		private void findReferenceData() throws IOException {
+			CalibrationData.probe =EquipmentParameters.find(EquipmentType.INFRARED_REFERENCE);
 		}	
 
 		private void generateCalibrationCeryficate() {

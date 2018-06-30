@@ -7,10 +7,10 @@ public class CalibrationPoint{
 	public int number;
 	public String date = "";
 	public String time = "";
-	public int[] calibrationPoint;
+	public int[] point;
 	
 	public CalibrationPoint() {
-		calibrationPoint = new int[CalibrationData.numberOfParameters];
+		point = new int[CalibrationData.numberOfParameters];
 	}
 	
 	//ustalenie wartości nr. przyrządu na liście i plik z danymi

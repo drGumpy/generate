@@ -1,30 +1,35 @@
 package certyficate.equipment;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import certyficate.dataContainer.CalibrationPoint;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.equipment.type.Equipment;
-import certyficate.equipment.type.TProbe;
-import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 
 public class EquipmentParameters {
-	static DataProbe[] dataProbe;
-	static ArrayList<CalibrationPoint> point;
+	private static Equipment equipment;
 	
-	static String equpipmentName;
+	private static ArrayList<CalibrationPoint> points;
+	private static DataProbe[] equipmentData;
 	
-	public static void find(EquipmentType equipment) {
-		point = CalibrationData.point;
-		String filePath = PathCreator.filePath(CalibrationData.referenceSerial);
-		dataProbe = new DataProbe[point.size()];
-		Equipment probe = new TProbe(new File(filePath));
-	    for(int i=0; i<point.size(); i++){
-			int t=Integer.parseInt(CalibrationData.point.get(i).temp);
-	        dataProbe[i]=probe.getPointData(t, 0);
-	    }
+	public static DataProbe[] find(EquipmentType equipmentType) throws IOException {
+		equipment = EquipmentFactory.getEquipment(equipmentType);
+		points = CalibrationData.point;
+		findData();
+		return equipmentData;
 	}
-	
+
+	private static void findData() {
+		int size = points.size();
+		equipmentData = new DataProbe[size];
+		for(int i = 0; i < size; i++)
+			setPoint(i);
+	}
+
+	private static void setPoint(int i) {
+		int[] point = points.get(i).point;
+		equipmentData[i] = equipment.getPointData(point);
+	}
 }

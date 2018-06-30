@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import certyficate.equipment.calculation.Calculate;
+import certyficate.equipment.calculation.DataProbe;
 import certyficate.files.ReaderCreator;
 
 public abstract class Equipment {
@@ -57,5 +58,5 @@ public abstract class Equipment {
 
 	protected abstract void getRange(String readLine, int index);
 	
-	protected abstract <E> E getPointData(int[] point);
+	public abstract DataProbe getPointData(int[] point);
 }

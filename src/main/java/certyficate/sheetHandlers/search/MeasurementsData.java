@@ -49,7 +49,7 @@ public class MeasurementsData {
 		point.date = sheet.getValueAt(SheetData.DATE_COLUMN, line)
 				.toString();
 		point.number = points.size();
-		point.calibrationPoint = getPoint(line);
+		point.point = getPoint(line);
 		points.add(point);
 	}
 

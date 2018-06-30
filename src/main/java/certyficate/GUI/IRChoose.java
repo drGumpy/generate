@@ -28,6 +28,7 @@ import certyficate.equipment.*;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.equipment.type.TProbe;
 import certyficate.generate.*;
+import certyficate.property.CalibrationData;
 import certyficate.dataContainer.*;
 
 @SuppressWarnings("serial")
@@ -422,9 +423,9 @@ public class IRChoose extends JDialog{
 		}
 	}
 	
-	public IRChoose(Frame owner, boolean modal, ArrayList<Certificate> _data){
-		super(owner, modal);
-		data= _data;
+	public IRChoose(Frame owner){
+		super(owner, true);
+		data= CalibrationData.orders;
 		num = data.size();
 		blackBodyChoose = new JComboBox[num][];
 		referenceValue = new JTextField[num][];
