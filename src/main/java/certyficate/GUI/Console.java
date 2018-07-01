@@ -31,6 +31,7 @@ import certyficate.equipment.type.TProbe;
 import certyficate.generate.*;
 import certyficate.sheetHandlers.insert.*;
 import certyficate.sheetHandlers.search.*;
+import certyficate.GUI.infrared.InfraredPanel;
 import certyficate.GUI.path.PathFinder;
 import certyficate.GUI.path.PathType;
 import certyficate.calculation.*;
@@ -230,7 +231,7 @@ public class Console extends JFrame {
     	
     	JTabbedPane tabbedPane = new JTabbedPane();
     	tabbedPane.addTab("komora klimatyczna", _climateChamber());
-    	tabbedPane.addTab("pirometry", new PyrometerPanel(this));
+    	tabbedPane.addTab("pirometry", new InfraredPanel(this));
     	tabbedPane.setMaximumSize(new Dimension(700, 10));
 
     	c.weighty=0.2;

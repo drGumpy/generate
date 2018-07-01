@@ -23,17 +23,18 @@ public class CalculateRh extends Calculate {
 		double[] correction = null;
 		for(int i = 0; i < 2; i++)
 			if(pointsInRange[i].value == point[0]){
-				setTemperatureSubArray(i);
+				pointsInRange = temperatureSubArray(i);
 				correction = calculateCorrection(
 						pointsInRange);
 			}
 		return correction;
 	}
 
-	private void setTemperatureSubArray(int index) {
+	private DataProbe[] temperatureSubArray(int index) {
 		int startSubArray = 2 * index;
-		pointsInRange = Arrays.copyOfRange(pointsInRange, 
-				startSubArray,  startSubArray + 1);;
+		DataProbe[] array = Arrays.copyOfRange(pointsInRange, 
+				startSubArray,  startSubArray + 1);
+		return array;
 	}
 
 	private double[] checkHuminidity() {
@@ -63,8 +64,14 @@ public class CalculateRh extends Calculate {
 		int[][] subPoints = setSubPoints();
 		DataProbe[] points = new DataProbe[2];
 		for(int i = 0; i < 2; i++)
-			points[i] = getDataPoint(subPoints[0]);
+			points[i] = setPoint(i, subPoints[i]);
 		return calculateCorrectionRh(points);
+	}
+	
+	private DataProbe setPoint(int index, int[] point) {
+		Calculate calculate = new Calculate();
+		DataProbe[] checkPoint = temperatureSubArray(index);
+		return calculate.findPoint(checkPoint, point);
 	}
 
 	private int[][] setSubPoints() {

@@ -63,11 +63,11 @@ public class CertificateData {
 	
 	private static void addOrder(int line, Certificate order) {
 		String probe = sheet.getValueAt(8,line).toString();
-        order.num = sheet.getValueAt(1,line).toString();
+        order.numberOfCalibration = sheet.getValueAt(1,line).toString();
         order.declarant.name = sheet.getValueAt(3,line).toString();
         order.user.name = sheet.getValueAt(4,line).toString();
         order.device.model = sheet.getValueAt(5,line).toString();
-        order.deviceSerial = sheet.getValueAt(6,line).toString();
+        order.deviceSerialNumber = sheet.getValueAt(6,line).toString();
         order.probe.model = sheet.getValueAt(7,line).toString();
         order.calibrationCode = sheet.getValueAt(9,line).toString();
         order.calibrationDate = sheet.getValueAt(10,line).toString();

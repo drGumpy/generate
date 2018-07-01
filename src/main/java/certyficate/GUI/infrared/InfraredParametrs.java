@@ -1,4 +1,4 @@
-package certyficate.GUI;
+package certyficate.GUI.infrared;
 
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -32,24 +32,45 @@ import certyficate.property.CalibrationData;
 import certyficate.dataContainer.*;
 
 @SuppressWarnings("serial")
-public class IRChoose extends JDialog{
+public class InfraredParametrs extends JDialog {
+	final public static String PANEL_NAME = "dane o badanych pirometrach";
 	private JRadioButton[] set;
 	private JRadioButton[] copy;
+	
 	private JTextField[] emissivity;
 	private JTextField[] distance;
 	private JTextField[][] referenceValue;
+	
+	PyrometrPanel[] pyrometers;
 			
 	private JComboBox<String>[][] blackBodyChoose;
 	
 	private String path = DisplayedText.dataPath;
 	
 	private String[] blackBody= {"10000236", "10000220"};
-	private static ArrayList<Certificate> data = new ArrayList<Certificate>();
+	
+	private ArrayList<Certificate> data = new ArrayList<Certificate>();
 	
 	private int num;
 	
+	private Dimension SIZE = new Dimension(700, 600);
+	
+	public InfraredParametrs(Frame owner){
+		super(owner, true);
+		setPanelSettings();
+		
+		_start();
+	}
+	
+	private void setPanelSettings() {
+		data = CalibrationData.orders;
+		pyrometers = new PyrometrPanel[data.size()];
+		setSize(SIZE);
+		setTitle(PANEL_NAME);
+	}
+
 	private boolean _compareArray(int[][] point, int[][] point2){
-		if(point[0].length!=point2[0].length)
+		if(point[0].length != point2[0].length)
 			return false;
 		for(int i=0; i<point.length; i++){
 			if(point[0][i]!=point2[0][i])
@@ -251,7 +272,7 @@ public class IRChoose extends JDialog{
 		jp.add(serialT, c);
 		JTextField serial = new JTextField(10);
 		serial.setEditable(false);
-		serial.setText(data.get(num).deviceSerial);
+		serial.setText(data.get(num).deviceSerialNumber);
 		c.gridx=1;
 		jp.add(serial, c);
 
@@ -422,18 +443,5 @@ public class IRChoose extends JDialog{
 			add(_panel(0, num));
 		}
 	}
-	
-	public IRChoose(Frame owner){
-		super(owner, true);
-		data= CalibrationData.orders;
-		num = data.size();
-		blackBodyChoose = new JComboBox[num][];
-		referenceValue = new JTextField[num][];
-		_start();
-		setSize(700,600);
-		setTitle("dane o badanych pirometrach");
-		setVisible(true);
-	}
-	
 }
 

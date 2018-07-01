@@ -58,19 +58,19 @@ public class Generate {
         if(Rh){
             sheet.setValueAt(new Date( ), 9 , 13);
             sheet.setValueAt(new Date( ), 9 , 70);
-            sheet.setValueAt(type.num, 24 , 13);
-            sheet.setValueAt(type.num, 24 , 70);
+            sheet.setValueAt(type.numberOfCalibration, 24 , 13);
+            sheet.setValueAt(type.numberOfCalibration, 24 , 70);
             col=13;
         }else{
             sheet.setValueAt(new Date( ), 8 , 13);
             sheet.setValueAt(new Date( ), 8 , 70);
-            sheet.setValueAt(type.num, 22 , 13);
-            sheet.setValueAt(type.num, 22 , 70);
+            sheet.setValueAt(type.numberOfCalibration, 22 , 13);
+            sheet.setValueAt(type.numberOfCalibration, 22 , 70);
             col=12;
         }
         //dane na temat przyrządu
         String name =String.format(DisplayedText.calibrationDevice,
-                type.device.type, type.device.model, type.device.producent,type.deviceSerial);
+                type.device.type, type.device.model, type.device.producent,type.deviceSerialNumber);
         if(!type.probeSerial[0].equals("")){
             if(type.probe.type.equals(""))
                 name+=String.format(DisplayedText.calibrationProbe1,
@@ -161,7 +161,7 @@ public class Generate {
                 line+=1;
             }
         }
-        name = calPath+type.num+"_"+type.declarant.name + ".ods";
+        name = calPath+type.numberOfCalibration+"_"+type.declarant.name + ".ods";
         sheet.getSpreadSheet().saveAs(new File(name));
     }
     
@@ -177,7 +177,7 @@ public class Generate {
                 if(device.q[i] || !dataProbe[i].question)
                     continue;
                 CertificateValue val= new CertificateValue();
-                sheet.setValueAt(type.num, 3 , line);
+                sheet.setValueAt(type.numberOfCalibration, 3 , line);
                 sheet.setValueAt(type.calibrationCode, 8 , line);
                 sheet.setValueAt(type.calibrationDate, 13 , line);
                 sheet.setValueAt(environment[0], 3 , line+1);
@@ -186,7 +186,7 @@ public class Generate {
                 sheet.setValueAt(type.device.model, 3 , line+6);
                 sheet.setValueAt(type.probe.model, 4 , line+6);
                 sheet.setValueAt(type.device.channel[0], 3 , line+8);
-                sheet.setValueAt(type.deviceSerial, 3 , line+9);
+                sheet.setValueAt(type.deviceSerialNumber, 3 , line+9);
                 if(i<3)
                     sheet.setValueAt(type.probeSerial[0], 4 , line+9);
                 else if(type.probeSerial.length>1)
@@ -301,10 +301,10 @@ public class Generate {
                 cdata.add(val);
             }
             if(cdata.isEmpty()) return;
-            String name = notePath+type.num+"_"+type.device.model + ".ods";
+            String name = notePath+type.numberOfCalibration+"_"+type.device.model + ".ods";
             sheet.getSpreadSheet().saveAs(new File(name));
             _generateCal(cdata,type);
-            done.add(type.num);
+            done.add(type.numberOfCalibration);
         } catch (IOException e) {
         	System.out.println("błąd przy generowaniu");
         	e.printStackTrace();
@@ -355,7 +355,7 @@ public class Generate {
         _findData();
         for(int i=0; i<n; i++){
             if(devices.size()==0) break;
-            String name = data.get(i).deviceSerial;
+            String name = data.get(i).deviceSerialNumber;
             for(int j=0; j<devices.size(); j++){
                 if(devices.get(j).name.equals(name)){
                     _generateDoc(devices.get(j), data.get(i));

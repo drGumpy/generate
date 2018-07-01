@@ -35,13 +35,13 @@ public class IRGenerate {
         //umieszczenie daty i numeru świadectwa
         sheet.setValueAt(new Date(), 8 , 13);
         sheet.setValueAt(new Date(), 8 , 70);
-        sheet.setValueAt(type.num, 22 , 13);
-        sheet.setValueAt(type.num, 22 , 70);
+        sheet.setValueAt(type.numberOfCalibration, 22 , 13);
+        sheet.setValueAt(type.numberOfCalibration, 22 , 70);
         col=12;
         
         //dane na temat przyrządu
         String name =String.format(DisplayedText.calibrationDevice,
-                type.device.type, type.device.model, type.device.producent,type.deviceSerial);
+                type.device.type, type.device.model, type.device.producent,type.deviceSerialNumber);
        
         name+=".";
         //dane na temat klientów i wzorcowań
@@ -76,7 +76,7 @@ public class IRGenerate {
         sheet.setValueAt(type.pyrometr, 4, line);
         sheet.setValueAt(String.format(DisplayedText.emissivity,type.pyrometr.emissivity) 
         		, 4, line+1);
-        name = calPath+type.num+"_"+type.declarant.name + ".ods";
+        name = calPath+type.numberOfCalibration+"_"+type.declarant.name + ".ods";
         sheet.getSpreadSheet().saveAs(new File(name));       
     }
     
@@ -95,14 +95,14 @@ public class IRGenerate {
                 	continue;
                 CertificateValue val= new CertificateValue();
                 int line = i*32+3;
-                sheet.setValueAt(type.num, 3 , line);
+                sheet.setValueAt(type.numberOfCalibration, 3 , line);
                 sheet.setValueAt(type.calibrationCode, 8 , line);
                 sheet.setValueAt(type.calibrationDate, 13 , line);
                 sheet.setValueAt(environment[0], 3 , line+1);
                 sheet.setValueAt(environment[1], 7 , line+1);
                 sheet.setValueAt(type.device.type, 3 , line+3);
                 sheet.setValueAt(type.device.model, 3 , line+6);
-                sheet.setValueAt(type.deviceSerial, 3 , line+9);
+                sheet.setValueAt(type.deviceSerialNumber, 3 , line+9);
                 sheet.setValueAt(type.device.producent, 3 , line+11);
                 sheet.setValueAt(type.device.resolutionT, 3 , line+13);
                 for(int j=0; j<10; j++){
@@ -147,10 +147,10 @@ public class IRGenerate {
                 count++;
                 cdata.add(val);
             }
-            String name = notePath+type.num+"_"+type.device.model + ".ods";
+            String name = notePath+type.numberOfCalibration+"_"+type.device.model + ".ods";
             sheet.getSpreadSheet().saveAs(new File(name));
             _generateCal(cdata,type);
-            done.add(type.num);
+            done.add(type.numberOfCalibration);
         }catch (IOException e){}
     }
     
@@ -183,7 +183,7 @@ public class IRGenerate {
         _findData();
         for(int i=0; i<n; i++){
             if(devices.size()==0) break;
-            String name = data.get(i).deviceSerial;
+            String name = data.get(i).deviceSerialNumber;
 //          System.out.println("szukam: "+name);
             for(int j=0; j<devices.size(); j++){
 //            	System.out.println(devices.get(j).name);

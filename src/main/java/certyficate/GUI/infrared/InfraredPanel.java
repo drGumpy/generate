@@ -1,4 +1,4 @@
-package certyficate.GUI;
+package certyficate.GUI.infrared;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import certyficate.GUI.Console;
 import certyficate.calculation.Environment;
 import certyficate.dataContainer.CalibrationType;
 import certyficate.equipment.EquipmentParameters;
@@ -26,15 +27,15 @@ import certyficate.sheetHandlers.search.CertificateData;
 import certyficate.sheetHandlers.search.MeasurementsData;
 
 @SuppressWarnings("serial")
-public class PyrometerPanel extends JPanel {
+public class InfraredPanel extends JPanel {
 	final private Dimension SIZE = new Dimension(200, 23);
 	
 	final private JButton calibrationData = new JButton("wybierz zlecenia");
-	final private JButton generation= new JButton("generuj świadetwa");
+	final private JButton generation = new JButton("generuj świadetwa");
 	
 	private Console console;
 	
-	public PyrometerPanel(Console console) {
+	public InfraredPanel(Console console) {
 		this.console = console;
 		setButtons();
 	}
@@ -81,7 +82,7 @@ public class PyrometerPanel extends JPanel {
 		
 		private void getCalibrationData() {
 			CertificateData.findOrdersData();
-			new IRChoose(console);
+			new InfraredParametrs(console);
 		}
 		
 		private void findMeasurementsData() {
@@ -91,7 +92,8 @@ public class PyrometerPanel extends JPanel {
 		}
 		
 		private void findReferenceData() throws IOException {
-			CalibrationData.probe =EquipmentParameters.find(EquipmentType.INFRARED_REFERENCE);
+			CalibrationData.probe 
+				= EquipmentParameters.find(EquipmentType.INFRARED_REFERENCE);
 		}	
 
 		private void generateCalibrationCeryficate() {

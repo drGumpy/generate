@@ -36,6 +36,12 @@ public class Calculate {
 		LineCreator creator = new LineCreator(points);
 		return creator.findCorrection(point[0]);
 	}
+	
+
+	private void setData(DataProbe data) {
+    	data.setDrift(pointsInRange[0]);
+    	findUncertainty(data);	
+	}
 
 	private void findUncertainty(DataProbe data) {
 		double[] uncertainty = maxUncertainty();
@@ -66,10 +72,5 @@ public class Calculate {
 			uncertainty = Math.max(uncertainty, pointUncertainty);
 		}
 		return uncertainty;
-	}
-	
-    private void setData(DataProbe data) {
-    	data.setDrift(pointsInRange[0]);
-    	findUncertainty(data);	
 	}
 }
