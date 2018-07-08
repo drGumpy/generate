@@ -14,7 +14,7 @@ public class TProbe extends ReferenceProbe {
     
 	@Override
 	protected void setDrifts(String[] elements) {
-		driftT = getDouble(elements[0]);
+		driftT = getDouble(elements[1]);
 	}
 
 	@Override
