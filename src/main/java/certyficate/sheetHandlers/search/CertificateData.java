@@ -93,10 +93,10 @@ public class CertificateData {
         orders.add(order);
 	}
     
-    //wprowadza uzyskane dane do klas certificate
     private static void gatherData(){
-        for (int i=0; i < orders.size(); i++)
+        for (int i=0; i < orders.size(); i++) {
         	completeCertyficationData(i);
+        }
     }
        
     private static void completeCertyficationData(int index) {
@@ -110,10 +110,11 @@ public class CertificateData {
 	}
 
 	private static void checkProbe(Certificate certyficate, int index) {
-		if(probesData.containsKey(orders.get(index).probe.model))
+		if(probesData.containsKey(orders.get(index).probe.model)) {
 			certyficate.probe = probesData.get(orders.get(index).probe.model);
-		else
+		} else {
 			certyficate.probe = new Probe();	
+		}
 	}
 }
 
