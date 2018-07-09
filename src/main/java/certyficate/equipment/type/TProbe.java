@@ -7,6 +7,8 @@ import certyficate.equipment.calculation.DataProbe;
 
 
 public class TProbe extends ReferenceProbe {
+	private static int rangeSize;
+	
     public TProbe(String path) throws IOException {
     	super(path);
     	calculate = new Calculate();

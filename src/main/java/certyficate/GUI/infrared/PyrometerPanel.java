@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import certyficate.dataContainer.IRData;
 import certyficate.entitys.Certificate;
@@ -50,6 +51,7 @@ public class PyrometerPanel extends JPanel {
 	public PyrometerPanel(Certificate certificate, InfraredParametrs infraredParametrs) {
 		owner = infraredParametrs;
 		this.certificate = certificate;
+		setBorder(new TitledBorder(certificate.declarant.name));
 		pointPanel = new PointPanel(certificate);
 		setPanel();
 	}
@@ -197,7 +199,7 @@ public class PyrometerPanel extends JPanel {
 
 	public void setPyrometerData() {
 		IRData data = getPyrometerData();
-		pointPanel.setBlackBodyData();
+		pointPanel.setBlackBodyError(data);
 		certificate.pyrometr = data;		
 	}
 }

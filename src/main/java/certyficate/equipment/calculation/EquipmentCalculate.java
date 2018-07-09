@@ -1,6 +1,13 @@
 package certyficate.equipment.calculation;
 
-public class EqipmentCalculate extends Calculate {
+public class EquipmentCalculate extends Calculate {
+	@Override
+	protected DataProbe getDataPoint(int[] point) {
+    	DataProbe data  = setCorrections(point);
+    	findUncertainty(data);
+		return data;
+	}
+	
 	protected double[] findCorrection() {
 		return findMaxCorrection(pointsInRange);
 	}

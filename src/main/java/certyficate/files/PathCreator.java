@@ -51,6 +51,12 @@ public class PathCreator {
 		return path.toString();
 	}
 	
+	public static String txtFilePath(String fileName) {
+		StringBuilder path = new StringBuilder(filePath(fileName));
+		path.append(".txt");
+		return path.toString();
+	}
+	
 	public static StringBuilder filePath() {
 		StringBuilder path = new StringBuilder(folderPath());
 		path.append(withSeparator("generacja"));

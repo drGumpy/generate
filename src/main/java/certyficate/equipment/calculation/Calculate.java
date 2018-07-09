@@ -43,7 +43,7 @@ public class Calculate {
     	findUncertainty(data);	
 	}
 
-	private void findUncertainty(DataProbe data) {
+	protected void findUncertainty(DataProbe data) {
 		double[] uncertainty = maxUncertainty();
 		data.uncertainty = uncertainty[0];
 		data.uncertainty = uncertainty[1];

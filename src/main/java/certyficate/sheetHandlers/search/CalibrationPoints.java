@@ -87,13 +87,19 @@ public class CalibrationPoints {
 		int[] pointArray = new int[2];
 		String[] points = point.split(POINT_SEPARATOR);
 		for(int i = 0; i < 2; i++)
-			pointArray[i] = Integer.parseInt(points[i]);
+			pointArray[i] = findValue(points[i]);
 		return pointArray;
 	}
 
 	private static int[] findPoint(String point) {
-		int[] pointArray = new int[1];
-		pointArray[0] = Integer.parseInt(point);
+		int[] pointArray = new int[2];
+		pointArray[0] = findValue(point);
 		return pointArray;
+	}
+	
+	private static int findValue(String point) {
+		String nonNumber = "[^\\d.]";
+		point = point.replaceAll(nonNumber, "");
+		return Integer.parseInt(point);
 	}
 }

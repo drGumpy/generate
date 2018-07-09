@@ -14,7 +14,6 @@ import certyficate.entitys.Certificate;
 
 @SuppressWarnings("serial")
 public class PointPanel extends JPanel {
-	private final static String RADIATOR = "radiator";
 	private int numberOfParametrs;
 	
 	private Certificate certificate;
@@ -76,32 +75,16 @@ public class PointPanel extends JPanel {
 	
 
 	private void setComboBox(int index) {
-		blackBodyChoose[index] = new JComboBox<String>();
-		setComboBoxValue(index);		
-	}
-
-	private void setComboBoxValue(int index) {
-		int numberOfBlackBody = BlackBodyData.blackBody.length;
-		for(int i = 0; i < numberOfBlackBody; i++) 
-			blackBodyChoose[index].addItem(BlackBodyData.blackBody[i]);
-		blackBodyChoose[index].setSelectedIndex((
-				index + 1) / numberOfBlackBody);
-		addComboBox(index);
+		blackBodyChoose[index] = 
+				BlackBodyData.setComboBox(certificate.point[index][0], index);
+		addComboBox(index);		
 	}
 
 	private void addComboBox(int index) {
-		checkValue(index);
 		constrain.gridx = 1;
 		add(blackBodyChoose[index], constrain);
 	}
 
-	private void checkValue(int index) {
-		if (certificate.point[index][0] == 25) {
-			blackBodyChoose[index].addItem(RADIATOR);
-			blackBodyChoose[index].setSelectedItem(RADIATOR);
-		}
-	}
-	
 	private void setTextField(int index) {
 		referenceValue[index] = createTextField(index);
 		constrain.gridx = 2;
@@ -147,8 +130,12 @@ public class PointPanel extends JPanel {
 		referenceValue[index].setValue(pyrometerData.reference[index]);
 	}
 
-	public void setBlackBodyData() {
-		// TODO Auto-generated method stub
-		
+	public void setBlackBodyError(IRData data) {
+		double[] blackBodyError = new double[numberOfParametrs];
+		for(int i = 0; i < numberOfParametrs; i++) {
+			blackBodyError[i] = 
+					BlackBodyData.getBlackBodyError(getBlackBodyName(i), certificate.point[i]);
+		}
+		data.blackBodyError = blackBodyError;
 	}
 }

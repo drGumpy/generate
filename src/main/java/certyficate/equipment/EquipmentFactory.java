@@ -31,11 +31,8 @@ public class EquipmentFactory {
 		case CHAMBER_TEMPERATURE:
 			setChamberTemperature();
 			break;
-		case CHAMBER_HUMIDITY:
-			setChamberHumidity();
-			break;
 		default:
-			setBlackBodyGenerator();
+			setChamberHumidity();
 			break;
 		}
 	}
@@ -65,9 +62,5 @@ public class EquipmentFactory {
 		//TODO chamber method
 	}
 
-	private static void setBlackBodyGenerator() throws IOException {
-		String path = PathCreator.filePath("");
-		//TODO black body method
-	}
-	
+
 }
