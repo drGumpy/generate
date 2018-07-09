@@ -40,7 +40,7 @@ import certyficate.dataContainer.*;
 @SuppressWarnings("serial")
 public class Console extends JFrame {
 	
-	static EnvironmentPanel environment = new EnvironmentPanel();
+	private static EnvironmentPanel environment = new EnvironmentPanel();
     private static PathFinder certificateFinder =
     		new PathFinder(PathType.CERTIFICATES);
     private static PathFinder sheetFinder =

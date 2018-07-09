@@ -1,7 +1,7 @@
 package certyficate.property;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
@@ -18,19 +18,21 @@ public class CalibrationData {
 	
 	public static String referenceSerial;
 	
-	public static ArrayList<Certificate> orders = new ArrayList<Certificate>();
+	public static List<Certificate> orders;
 	
-	public static ArrayList<Measurements> devices = new ArrayList<Measurements>();
+	public static List<Measurements> devices;
 	
-	public static ArrayList<CalibrationPoint> point = new ArrayList<CalibrationPoint>();
+	public static List<CalibrationPoint> point;
 	
 	public static DataProbe[] probe;
 	
-	public static Measurements patern = new Measurements(1);
+	public static Measurements patern;
 	
 	public static CalibrationType calibrationType;
 	
 	public static SpreadSheet spreadSheet;
+	
+	public static double[] eniromentData;
 	
 	public static File sheet;
 	public static File certificate;

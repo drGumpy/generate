@@ -13,18 +13,18 @@ import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 public class EnvironmentPanel extends JPanel {
-	protected final double DEFAULT_TEMPERATURE = 22.000;
-	protected final double DEFAULT_HUMINIDITY = 45.000;
+	protected static final double DEFAULT_TEMPERATURE = 22.000;
+	protected static final double DEFAULT_HUMINIDITY = 45.000;
 	
 	private final Dimension SIZE = new Dimension(400, 80);
 	
-	protected int PARAMETS_NUMBER = 4;
+	protected static final int PARAMETS_NUMBER = 4;
 	
 	protected String[] LABEL_TEXT  = {"t min","t max","Rh min","Rh max"};
 	
 	private String PANEL_TITLE = "Warunki środowiskowe";
 	
-	protected JFormattedTextField[] environment = new JFormattedTextField[PARAMETS_NUMBER];
+	protected static JFormattedTextField[] environment = new JFormattedTextField[PARAMETS_NUMBER];
 	
 	private NumberFormat NumbersFormat;
 	
@@ -93,14 +93,14 @@ public class EnvironmentPanel extends JPanel {
 		}	
 	}
 	
-	public double[] getEnviromentCondition() {
+	public static double[] getEnviromentCondition() {
 		double[] enviromentCondition = new double[PARAMETS_NUMBER];
 		for(int i = 0; i < PARAMETS_NUMBER; i++)
 			enviromentCondition[i] = getParametr(i);
 		return enviromentCondition;
 	}
 	
-	protected double getParametr(int index) {
+	protected static double getParametr(int index) {
 		double parametr = Double.parseDouble(environment[index]
 				.getValue().toString());
 		return parametr;
