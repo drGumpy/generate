@@ -35,8 +35,7 @@ public class MeasurementsData {
 	
 	private static void getCalibtationPoints() {
 		int line = 6;
-		for(int i = 0; 
-				i < calibrationPoints; i++){
+		for(int i = 0; i < calibrationPoints; i++){
 			addCalibrationPoint(line);
 			line += SheetData.POINT_GAP;
 		}
@@ -56,7 +55,8 @@ public class MeasurementsData {
 	private static int[] getPoint(int line) {
 		int[] point = new int[CalibrationData.numberOfParameters];
 		for(int i = 0; i < CalibrationData.numberOfParameters; i++) 
-			point[i] = Integer.parseInt(sheet.getValueAt(1 - i, line).toString());
+			point[i] = Integer.parseInt(sheet.getValueAt(1 - i, line)
+					.toString());
 		return point;
 	}
 }

@@ -31,8 +31,11 @@ public class EquipmentFactory {
 		case CHAMBER_TEMPERATURE:
 			setChamberTemperature();
 			break;
-		default:
+		case CHAMBER_HUMIDITY:
 			setChamberHumidity();
+			break;
+		default:
+			setEnvironment();
 			break;
 		}
 	}
@@ -62,5 +65,9 @@ public class EquipmentFactory {
 		//TODO chamber method
 	}
 
+	private static void setEnvironment() throws IOException {
+		String path = PathCreator.filePath("w-srod.txt");
+		equipment = new RhProbe(path);
+	}
 
 }

@@ -3,35 +3,30 @@ package certyficate.GUI.infrared;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import certyficate.GUI.Console;
-import certyficate.calculation.Environment;
+import certyficate.calculation.EnvironmentData;
 import certyficate.dataContainer.CalibrationType;
 import certyficate.equipment.EquipmentParameters;
 import certyficate.equipment.EquipmentType;
-import certyficate.equipment.calculation.DataProbe;
-import certyficate.equipment.type.Equipment;
-import certyficate.equipment.type.TProbe;
-import certyficate.generate.DisplayedText;
-import certyficate.generate.IRGenerate;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 import certyficate.sheetHandlers.SheetBulider;
-import certyficate.sheetHandlers.insert.PutDate;
 import certyficate.sheetHandlers.search.CertificateData;
 import certyficate.sheetHandlers.search.MeasurementsData;
 
 @SuppressWarnings("serial")
 public class InfraredPanel extends JPanel {
-	final private Dimension SIZE = new Dimension(200, 23);
+	public static final String BUTTON_LABEL = "generuj";
 	
-	final private JButton calibrationData = new JButton("wybierz zlecenia");
-	final private JButton generation = new JButton("generuj świadetwa");
+	public static final int WIDTH = 200;
+	public static final int HIGHT = 23;
+	
+	private JButton generate;
 	
 	private Console console;
 	
@@ -42,13 +37,15 @@ public class InfraredPanel extends JPanel {
 
 	private void setButtons() {
 		setCalibrationDataButton();
-		setGenerationButton();
-		addElements();
+		add(generate);
 	}
 
 	private void setCalibrationDataButton() {
-		calibrationData.setMinimumSize(SIZE);
-		calibrationData.addActionListener(new IRGenerateListener());
+		Dimension size = new Dimension(WIDTH, HIGHT);
+		setSize(size);
+		generate = new JButton(BUTTON_LABEL);
+		generate.setMinimumSize(size);
+		generate.addActionListener(new IRGenerateListener());
 	}
 	
 	private class IRGenerateListener implements ActionListener {
@@ -57,23 +54,29 @@ public class InfraredPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			CalibrationData.calibrationType = CalibrationType.INFRARED;
 			SheetData.setInfrared();
-			getCalibrationCertyficate();
+			getFilesData();
+			generateCalibrationCeryficate();
 		}
 
-		private void getCalibrationCertyficate()  {
+		private void getFilesData()  {
 			try {
 				findCalibrationData();
-				generateCalibrationCeryficate();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 		}
 		
 		private void findCalibrationData() throws IOException {
+			findMeasurmentsData();
+			findReferenceData();
+			EnvironmentData.setEnvirometsData();
+		}
+
+		private void findMeasurmentsData() throws IOException {
 			bulidSheet();
 			getCalibrationData();
 			findMeasurementsData();
-			findReferenceData();
+			new InfraredParametrs(console);
 		}
 
 		private void bulidSheet() throws IOException  {
@@ -82,7 +85,6 @@ public class InfraredPanel extends JPanel {
 		
 		private void getCalibrationData() {
 			CertificateData.findOrdersData();
-			new InfraredParametrs(console);
 		}
 		
 		private void findMeasurementsData() {
@@ -97,7 +99,6 @@ public class InfraredPanel extends JPanel {
 		}	
 
 		private void generateCalibrationCeryficate() {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -133,12 +134,6 @@ public class InfraredPanel extends JPanel {
 	}
 	
 	
-	private void setGenerationButton() {
-		generation.setMinimumSize(SIZE);
-    	generation.setEnabled(false);
-    	generation.addActionListener(new GenerationListener());
-	}
-	
 	private class GenerationListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -166,11 +161,6 @@ public class InfraredPanel extends JPanel {
              System.out.println("koniec wprowadzania");
 		}*/
 		}
-	}
-			
-	private void addElements() {
-		add(calibrationData);
-        add(generation);
 	}
 
 }

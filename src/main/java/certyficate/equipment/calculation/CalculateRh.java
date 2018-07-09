@@ -78,7 +78,7 @@ public class CalculateRh extends Calculate {
 		int[][] subPoints = new int[2][2];
 		for(int i = 0; i < 2; i++) {
 			subPoints[i][0] = point[0];
-			subPoints[i][1] = pointsInRange[i].valueRh;
+			subPoints[i][1] = (int) pointsInRange[i].valueRh;
 		}
 		return subPoints;
 	}

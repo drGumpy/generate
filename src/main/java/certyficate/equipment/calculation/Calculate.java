@@ -22,7 +22,7 @@ public class Calculate {
 		return data;
 	}
 
-	private void estimateCorection(DataProbe data) {
+	protected void estimateCorection(DataProbe data) {
 		double[] correction = findCorrection();
 		data.correction = correction[0];
 		data.correctionRh = correction[1];
@@ -38,7 +38,7 @@ public class Calculate {
 	}
 	
 
-	private void setData(DataProbe data) {
+	protected void setData(DataProbe data) {
     	data.setDrift(pointsInRange[0]);
     	findUncertainty(data);	
 	}
@@ -72,5 +72,9 @@ public class Calculate {
 			uncertainty = Math.max(uncertainty, pointUncertainty);
 		}
 		return uncertainty;
+	}
+
+	public DataProbe findPoint(DataProbe[] pointsInRange, double[] point) {
+		return null;
 	}
 }

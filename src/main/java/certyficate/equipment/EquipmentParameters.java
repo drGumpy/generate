@@ -1,7 +1,7 @@
 package certyficate.equipment;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import certyficate.dataContainer.CalibrationPoint;
 import certyficate.equipment.calculation.DataProbe;
@@ -11,7 +11,7 @@ import certyficate.property.CalibrationData;
 public class EquipmentParameters {
 	private static Equipment equipment;
 	
-	private static ArrayList<CalibrationPoint> points;
+	private static List<CalibrationPoint> points;
 	private static DataProbe[] equipmentData;
 	
 	public static DataProbe[] find(EquipmentType equipmentType) throws IOException {

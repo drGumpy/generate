@@ -22,8 +22,9 @@ public class InfraredParametrs extends JDialog {
 	public static final String PANEL_NAME = "dane o badanych pirometrach";
 	public static final String BUTTON_LABEL = "zatwierdź";
 	
-	public static final int HIGHT = 700;
-	public static final int WIDTH = 600;
+	public static final int WIDTH= 700;
+	public static final int HIGHT = 600;
+	public static final int DEVICES_PER_LINE = 3;
 	
 	private JButton accept;
 	
@@ -31,7 +32,7 @@ public class InfraredParametrs extends JDialog {
 	
 	private List<Certificate> data;
 	
-	private int devicesPerWindow = 6;
+	private int devicesPerWindow = 2 * DEVICES_PER_LINE;
 	private int numberOfOrders;
 	
 	private GridBagConstraints constrain;
@@ -52,7 +53,7 @@ public class InfraredParametrs extends JDialog {
 	private void checkMaxCalibrationPoints() {
 		int max = findMaxCalibrationPoints();
 		if(max > 3) {
-			devicesPerWindow = 3;
+			devicesPerWindow = DEVICES_PER_LINE;
 		}
 	}
 
@@ -66,7 +67,7 @@ public class InfraredParametrs extends JDialog {
 	}
 
 	private void setPanelSettings() {
-		Dimension size = new Dimension(HIGHT, WIDTH);
+		Dimension size = new Dimension(WIDTH, HIGHT);
 		pyrometers = new PyrometerPanel[data.size()];
 		accept = getAcceptButton();
 		setSize(size);
@@ -121,8 +122,8 @@ public class InfraredParametrs extends JDialog {
 	private void setPyrometrPanel(JPanel panel, int index) {
 		Certificate certificate = data.get(index);
 		pyrometers[index] = new PyrometerPanel(certificate, this);
-		constrain.gridy = index / 3;
-		constrain.gridx = index % 3;
+		constrain.gridy = index / DEVICES_PER_LINE;
+		constrain.gridx = index % DEVICES_PER_LINE;
 		panel.add(pyrometers[index], constrain);
 	}
 	

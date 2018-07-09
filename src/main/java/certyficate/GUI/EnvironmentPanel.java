@@ -16,7 +16,8 @@ public class EnvironmentPanel extends JPanel {
 	protected static final double DEFAULT_TEMPERATURE = 22.000;
 	protected static final double DEFAULT_HUMINIDITY = 45.000;
 	
-	private final Dimension SIZE = new Dimension(400, 80);
+	public static final int WIDTH = 400;
+	public static final int HIGHT = 80;
 	
 	protected static final int PARAMETS_NUMBER = 4;
 	
@@ -24,13 +25,13 @@ public class EnvironmentPanel extends JPanel {
 	
 	private String PANEL_TITLE = "Warunki środowiskowe";
 	
-	protected static JFormattedTextField[] environment = new JFormattedTextField[PARAMETS_NUMBER];
+	protected static JFormattedTextField[] environment;
 	
-	private NumberFormat NumbersFormat;
+	private NumberFormat numbersFormat;
 	
-	private GridBagConstraints constrain = new GridBagConstraints();
+	private GridBagConstraints constrain;
 	
-	private EnvironmentListener listener = new EnvironmentListener(this);
+	private EnvironmentListener listener;
 
 	EnvironmentPanel(){
 		setPanelSettings();
@@ -40,37 +41,46 @@ public class EnvironmentPanel extends JPanel {
 	}
 
 	private void setPanelSettings() {
-		this.setPreferredSize(SIZE);
-		this.setBorder(new TitledBorder(PANEL_TITLE));
-		this.setLayout(new GridBagLayout());
+		Dimension size = new Dimension(WIDTH, HIGHT);
+		setPreferredSize(size);
+		setBorder(new TitledBorder(PANEL_TITLE));
+		setLayout(new GridBagLayout());
 		setNumbersFormat();
 		setLayoutSettings();
 	}
 
 	private void setLayoutSettings() {
+		constrain = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		constrain.fill = GridBagConstraints.HORIZONTAL;
-		constrain.ipadx=10;
+		constrain.ipadx = 10;
 	}
 
 	private void setNumbersFormat() {
-		NumbersFormat = new DecimalFormat("#0.000");;
-		NumbersFormat.setMinimumFractionDigits(3);
+		numbersFormat = new DecimalFormat("#0.000");;
+		numbersFormat.setMinimumFractionDigits(3);
 	}
 	
 	private void setEviromentsTextField() {
+		environment = new JFormattedTextField[PARAMETS_NUMBER];
+		listener = new EnvironmentListener(this);
 		for(int i = 0; i < PARAMETS_NUMBER ; i++) {
-			environment[i] = new JFormattedTextField(NumbersFormat);
-			environment[i].setName(LABEL_TEXT[i]);
-			if(i<2)
-				environment[i].setValue(new Double(DEFAULT_TEMPERATURE));
-			else
-				environment[i].setValue(new Double(DEFAULT_HUMINIDITY));
-			environment[i].setColumns(5);
-			environment[i].addPropertyChangeListener(listener);
+			setEvironmetField(i);
 		}
 	}
 	
+	private void setEvironmetField(int index) {
+		environment[index] = new JFormattedTextField(numbersFormat);
+		environment[index].setName(LABEL_TEXT[index]);
+		if(index<2) {
+			environment[index].setValue(new Double(DEFAULT_TEMPERATURE));
+		} else {
+			environment[index].setValue(new Double(DEFAULT_HUMINIDITY));
+		}
+		environment[index].setColumns(5);
+		environment[index].addPropertyChangeListener(listener);
+	}
+
 	private void addFields() {
 	    for(int i = 0; i < PARAMETS_NUMBER ; i++) {
 	    	constrain.gridx = (i * 2) % PARAMETS_NUMBER;

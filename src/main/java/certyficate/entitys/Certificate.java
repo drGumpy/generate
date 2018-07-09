@@ -1,8 +1,8 @@
 package certyficate.entitys;
 
 import certyficate.dataContainer.IRData;
+import certyficate.dataContainer.Point;
 
-//dane do świadectwa
 public class Certificate{
 	public int[][] point;
 	
@@ -22,6 +22,8 @@ public class Certificate{
 	public Device device = new Device();
 	
 	public Probe probe= new Probe();
+	
+	public Point[] measurmets; 
 	
 	public IRData pyrometr;
 }

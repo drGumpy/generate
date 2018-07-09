@@ -37,8 +37,8 @@ public class DeviceData {
         device.model = model;
         device.type = sheet.getValueAt(1,line).toString();
         device.producent = sheet.getValueAt(2,line).toString();
-        device.resolutionT = sheet.getValueAt(4,line).toString();
-        device.resolutionRh = sheet.getValueAt(7,line).toString();;
+        device.resolution[0] = sheet.getValueAt(4,line).toString();
+        device.resolution[1] = sheet.getValueAt(7,line).toString();;
         data.put(model, device);
 	}
 

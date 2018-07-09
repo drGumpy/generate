@@ -3,9 +3,8 @@ package certyficate.equipment.calculation;
 public class DataProbe {
 	public boolean question = true;
 	
-	public int value;
-	public int valueRh;
-	
+	public double value;
+	public double valueRh;
 	public double correction;
     public double correctionRh;
     public double uncertainty;
@@ -27,6 +26,12 @@ public class DataProbe {
 			valueRh = point[1];
 	}
 	
+	public DataProbe(double[] point) {
+		value = point[0];
+		if(point.length == 2)
+			valueRh = point[1];
+	}
+
 	public void setDrift(DataProbe data) {
 		drift = data.drift;
 		driftRh = data.driftRh;
@@ -46,5 +51,21 @@ public class DataProbe {
 		a /= (this.valueRh - data.valueRh);
 		b -= a * this.valueRh;
 		return new StraightLine(a, b);
+	}
+
+	public double getUncertainty(int parametrIndex) {
+		if(parametrIndex == 0) {
+			return uncertainty;
+		} else {
+			return uncertaintyRh;
+		}
+	}
+
+	public double getDrift(int parametrIndex) {
+		if(parametrIndex == 0) {
+			return drift;
+		} else {
+			return driftRh;
+		}
 	}  
 }

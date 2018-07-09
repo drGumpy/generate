@@ -6,7 +6,7 @@ public class Point {
 	
 	public double[][] data;
 	
-	public boolean haveMeasurments;
+	public boolean haveMeasurments = true;
 
 	public double[] standardDeviation;
 	public double[] average;

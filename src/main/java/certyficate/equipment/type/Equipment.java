@@ -59,4 +59,12 @@ public abstract class Equipment {
 	protected abstract void getRange(String readLine, int index);
 	
 	public abstract DataProbe getPointData(int[] point);
+	
+	public DataProbe getPointData(double[] point) {
+		int[] points = new int[point.length];
+		for(int i = 0; i < point.length; i++) {
+			points[i] = (int) point[i];
+		}
+		return getPointData(points);
+	}
 }

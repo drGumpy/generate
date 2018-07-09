@@ -1,6 +1,6 @@
 package certyficate.dataContainer;
 
-class CertificateValue {
+public class CertificateValue {
     String probeT;
     String probeRh;
     String deviceT;

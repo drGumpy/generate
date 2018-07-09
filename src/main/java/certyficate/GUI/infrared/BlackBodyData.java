@@ -46,8 +46,8 @@ public class BlackBodyData {
 			comboBox.addItem(RADIATOR);
 			comboBox.setSelectedItem(RADIATOR);
 		} else {
-			comboBox.setSelectedIndex((
-					index + 1) / blackBodyData.size());
+			comboBox.setSelectedIndex(
+					(index + 1) / blackBodyData.size());
 		}
 		return comboBox;
 	}

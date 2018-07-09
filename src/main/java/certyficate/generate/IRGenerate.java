@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
@@ -13,6 +14,7 @@ import certyficate.dataContainer.*;
 import certyficate.entitys.*;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.generate.DisplayedText;
+import certyficate.property.CalibrationData;
 
 
 public class IRGenerate {
@@ -26,10 +28,28 @@ public class IRGenerate {
     
     private String[] environment;
     
+    public void generateCertificate() {
+    	environment = CertificateText.getEnviromentData();
+    	findCertificateData();
+    }
+    
+    private void findCertificateData() {
+		for(Certificate certificate: CalibrationData.orders) {
+			generateCalibrationDocuments(certificate);
+		}
+	}
 
-    //wygenerowanie świadectwa wzorcowania
+	private void generateCalibrationDocuments(Certificate certificate) {
+		generateNote(certificate);
+		
+	}
 
-    private void _generateCal(ArrayList<CertificateValue> data, Certificate type) throws IOException{
+	private void generateNote(Certificate certificate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void _generateCal(ArrayList<CertificateValue> data, Certificate type) throws IOException{
         final Sheet sheet = SpreadSheet.createFromFile(cal).getSheet(DisplayedText.calibraionSheet);
         int col;
         //umieszczenie daty i numeru świadectwa
