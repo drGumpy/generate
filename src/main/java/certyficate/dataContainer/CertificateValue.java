@@ -1,12 +1,12 @@
 package certyficate.dataContainer;
 
 public class CertificateValue {
-    String probeT;
-    String probeRh;
-    String deviceT;
-    String deviceRh;
-    String errorT;
-    String errorRh;
-    String uncertaintyT;
-    String uncertaintyRh;
+	public String probeT;
+	public String probeRh;
+	public String deviceT;
+	public String deviceRh;
+	public String errorT;
+	public String errorRh;
+	public String uncertaintyT;
+	public String uncertaintyRh;
 }

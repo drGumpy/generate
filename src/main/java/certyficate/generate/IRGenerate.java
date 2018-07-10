@@ -28,7 +28,7 @@ public class IRGenerate {
     
     private String[] environment;
     
-    public void generateCertificate() {
+    public void generateDocuments() {
     	environment = CertificateText.getEnviromentData();
     	findCertificateData();
     }
@@ -40,12 +40,17 @@ public class IRGenerate {
 	}
 
 	private void generateCalibrationDocuments(Certificate certificate) {
-		generateNote(certificate);
-		
+		List<CertificateValue> calibrationData = generateNote(certificate);
+		if(calibrationData != null)
+			generateCertificate(certificate, calibrationData);
 	}
 
-	private void generateNote(Certificate certificate) {
-		// TODO Auto-generated method stub
+	private List<CertificateValue> generateNote(Certificate certificate) {
+		return PyrometerNote.setNote(certificate);
+	}
+	
+	private void generateCertificate(Certificate certificate, List<CertificateValue> calibrationData) {
+		PyrometerCertificate.setCertificate(certificate, calibrationData);
 		
 	}
 

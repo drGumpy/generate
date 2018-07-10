@@ -1,6 +1,7 @@
 package certyficate.generate;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,6 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 import certyficate.calculation.DataCalculation;
 import certyficate.dataContainer.CertificateValue;
-import certyficate.dataContainer.Measurements;
 import certyficate.entitys.Certificate;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.files.PathCreator;
@@ -34,9 +34,10 @@ public class PyrometerNote {
 	
 	private static String[] environment;
 	
-	public static void setNote(Certificate certificateData) {
+	public static List<CertificateValue> setNote(Certificate certificateData) {
 		setCalibrationData(certificateData);
 		setDataSheet();
+		return calibrationData;
 	}
 	
 	private static void setCalibrationData(Certificate certificateData) {
@@ -47,12 +48,17 @@ public class PyrometerNote {
 
 	private static void setDataSheet() {
 		try {
-			setSheet();
-			setSheetData();
+			createSheet();
 		} catch (IOException e) {
 			System.out.println("Note file fail");
 			e.printStackTrace();
 		}
+	}
+
+	private static void createSheet() throws FileNotFoundException, IOException {
+		setSheet();
+		setSheetData();
+		safeFile();
 	}
 
 	private static void setSheet() throws IOException {
@@ -65,26 +71,28 @@ public class PyrometerNote {
 		calibrationData = new ArrayList<CertificateValue>();
 		calibrationPointCount = 0;
 		for(int i = 0; i< CalibrationData.calibrationPoints; i++) { 
-			if(checkData(i)) {
-				setPointData(i);
-				calibrationPointCount++;
-			}
+			checkData(i);
 		}
 	}
 
-	private static boolean checkData(int index) {
-		boolean answer = certificate.measurmets[index].haveMeasurments;
-		answer &= reference[index].question;
-		answer &= reference[index].value 
+	private static void checkData(int index) {
+		boolean haveData = certificate.measurmets[index].haveMeasurments;
+		haveData &= reference[index].question;
+		haveData &= reference[index].value 
 				!= certificate.point[calibrationPointCount][0];
-        return answer;
+        if(haveData) {
+        	setPointData(index);
+        }	
 	}
 	
 	private static void setPointData(int index) {
 		int line = calibrationPointCount * POINT_GAP + 3;
+		CertificateValue pointValue;
 		setConstantValue(line);
 		setMeasurmentValue(line, index);
-		setCalibrationBudget(line, index);
+		pointValue = setCalibrationBudget(line, index);
+		setPointValue(line, pointValue);
+		calibrationPointCount++;
 	}
 
 	private static void setConstantValue(int line) {
@@ -111,8 +119,9 @@ public class PyrometerNote {
 		}
 	}
 	
-	private static void setCalibrationBudget(int line, int index) {
+	private static CertificateValue setCalibrationBudget(int line, int index) {
 		double[] uncerinity = findUncerinity(index, 0);
+		setUncerinity(uncerinity, line);
 		sheet.setValueAt(certificate.measurmets[index].average[0], 7 , line+5);
         sheet.setValueAt(certificate.pyrometr.reference[calibrationPointCount],
         		7 , line+7);
@@ -122,11 +131,9 @@ public class PyrometerNote {
         sheet.setValueAt(reference[index].drift, 9, line+10);
         sheet.setValueAt(certificate.pyrometr.blackBodyError[calibrationPointCount],
         		9, line+11);
-        for(int j=0; j<uncerinity.length; j++){
-            sheet.setValueAt(uncerinity[j], 13, line+5+j);
-        }
+        return setCertificateValue(index, uncerinity);
 	}
-	
+
 	private static double[] findUncerinity(int index, int parametrIndex) {
 		double[] uncerinity = new double[7];
         uncerinity[0] = certificate.measurmets[index].standardDeviation[parametrIndex];
@@ -138,77 +145,51 @@ public class PyrometerNote {
         uncerinity[6] = certificate.pyrometr.blackBodyError[calibrationPointCount] / 2;
 		return uncerinity;
 	}
+	
+	private static void setUncerinity(double[] uncerinity, int line) {
+		for(int i = 0; i < uncerinity.length; i++){
+            sheet.setValueAt(uncerinity[i], 13, line+5+i);
+        }
+	}
+	
+	private static CertificateValue setCertificateValue(int index, double[] uncerinities) {
+		CertificateValue pointValue = new CertificateValue();
+		double uncerinity =DataCalculation.uncertainty(uncerinities);
+        double round = DataCalculation.findRound(2*uncerinity, Double.parseDouble(certificate.device.resolution[0]));
+        double pt=DataCalculation.round_d(certificate.pyrometr.reference[calibrationPointCount]+
+        		reference[index].correction,round);
+        double div =DataCalculation.round_d(certificate.measurmets[index].average[0], round);
+        pointValue.probeT= DataCalculation.round(pt,round).replace(".", ",");
+        pointValue.deviceT = DataCalculation.round(div,round).replace(".", ",");
+        pointValue.errorT = DataCalculation.round(div-pt,round).replace(".", ",");
+        pointValue.uncertaintyT = DataCalculation.round(2*uncerinity,round).replace(".", ",");
+		return pointValue;
+	}
+	
+	private static void setPointValue(int line, CertificateValue pointValue) {
+		sheet.setValueAt(pointValue.probeT, 5, line+17);
+		sheet.setValueAt(pointValue.deviceT, 7, line+17);
+		sheet.setValueAt(pointValue.errorT, 9, line+17);
+		sheet.setValueAt(pointValue.uncertaintyT, 13, line+17);
+		calibrationData.add(pointValue);	
+	}
+	
+	private static void safeFile() throws FileNotFoundException, IOException {
+		File noteFile = noteFile();
+		sheet.getSpreadSheet().saveAs(noteFile);
+	}
 
-	private  void _generateDoc(Measurements device, Certificate type){
-	        
-	        point = device.averageT.length;
-	        ArrayList<CertificateValue> cdata = new ArrayList<CertificateValue>();
-	        try {
-	            final Sheet sheet = SpreadSheet.createFromFile(note).getSheet(DisplayedText.noteSheet);
-	            int count=0;
-	            for(int i=0; i<point; i++){
-	                if(device.q[i] || !dataProbe[i].question)
-	                    continue;
-	                if(dataProbe[i].value!=type.point[0][count])
-	                	continue;
-	                CertificateValue val= new CertificateValue();
-	                int line = i*32+3;
-	                sheet.setValueAt(type.numberOfCalibration, 3 , line);
-	                sheet.setValueAt(type.calibrationCode, 8 , line);
-	                sheet.setValueAt(type.calibrationDate, 13 , line);
-	                sheet.setValueAt(environment[0], 3 , line+1);
-	                sheet.setValueAt(environment[1], 7 , line+1);
-	                sheet.setValueAt(type.device.type, 3 , line+3);
-	                sheet.setValueAt(type.device.model, 3 , line+6);
-	                sheet.setValueAt(type.deviceSerialNumber, 3 , line+9);
-	                sheet.setValueAt(type.device.producent, 3 , line+11);
-	                sheet.setValueAt(type.device.resolutionT, 3 , line+13);
-	                for(int j=0; j<10; j++){
-	                    sheet.setValueAt(type.pyrometr.reference[count],
-	                    		1 , line+17+j);
-	                    sheet.setValueAt(device.dataT[i][j], 3 , line+17+j);
-	                }
-	                
-	                double[] uncT= new double[7];
-	                uncT[0]=device.standardT[i];
-	                uncT[1]=Double.parseDouble(type.device.resolutionT)/Math.sqrt(3);
-	                uncT[2]=0;
-	                uncT[3]=0.1/Math.sqrt(3);
-	                uncT[4]=dataProbe[i].uncertainty/2;
-	                uncT[5]=dataProbe[i].drift/Math.sqrt(3);
-	                uncT[6]=type.pyrometr.blackBodyError[count]/2;
-	 
-	                sheet.setValueAt(device.averageT[i], 7 , line+5);
-	                sheet.setValueAt(type.pyrometr.reference[count], 7 , line+7);
-	                sheet.setValueAt(dataProbe[i].correction, 7 , line+9);
-	                sheet.setValueAt(type.device.resolutionT, 9 , line+6);
-	                sheet.setValueAt(dataProbe[i].uncertainty, 9, line+9);
-	                sheet.setValueAt(dataProbe[i].drift, 9, line+10);
-	                sheet.setValueAt(type.pyrometr.blackBodyError[count], 9, line+11);
-	                for(int j=0; j<uncT.length; j++){
-	                    sheet.setValueAt(uncT[j], 13, line+5+j);
-	                }
-	                double unc =DataCalculation.uncertainty(uncT);
-	                double round = DataCalculation.findRound(2*unc, Double.parseDouble(type.device.resolutionT));
-	                double pt=DataCalculation.round_d(type.pyrometr.reference[count]+
-	                		dataProbe[i].correction,round);
-	                double div =DataCalculation.round_d(device.averageT[i],round);
-	                val.probeT= DataCalculation.round(pt,round).replace(".", ",");
-	                val.deviceT = DataCalculation.round(div,round).replace(".", ",");
-	                val.errorT = DataCalculation.round(div-pt,round).replace(".", ",");
-	                val.uncertaintyT = DataCalculation.round(2*unc,round).replace(".", ",");
-	                
-	                sheet.setValueAt(val.probeT, 5, line+17);
-	                sheet.setValueAt(val.deviceT, 7, line+17);
-	                sheet.setValueAt(val.errorT, 9, line+17);
-	                sheet.setValueAt(val.uncertaintyT, 13, line+17);
-	                count++;
-	                cdata.add(val);
-	            }
-	            String name = notePath+type.numberOfCalibration+"_"+type.device.model + ".ods";
-	            sheet.getSpreadSheet().saveAs(new File(name));
-	            _generateCal(cdata,type);
-	            done.add(type.numberOfCalibration);
-	        }catch (IOException e){}
-	    }
+	private static File noteFile() {
+		File notes = CalibrationData.notes;
+		String fileName = setFileName();
+		File note = new File(notes, fileName);
+		return note;
+	}
+
+	private static String setFileName() {
+		StringBuilder bulid = new StringBuilder(certificate.numberOfCalibration);
+		bulid.append(certificate.device.model);
+		bulid.append(".ods");
+		return bulid.toString();
+	}
 }
