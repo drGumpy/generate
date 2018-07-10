@@ -5,7 +5,4 @@ public class Client{
 	  public String address;
 	  public String postalCode;
 	  public String town;
-	  public String toString(){
-	      return address+", "+postalCode+" "+town;
-	  }
 }

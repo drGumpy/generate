@@ -34,25 +34,16 @@ public class PyrometerNote {
 	
 	private static String[] environment;
 	
-	public static List<CertificateValue> setNote(Certificate certificateData) {
+	public static void setNoteAndCertificate(Certificate certificateData) throws IOException {
 		setCalibrationData(certificateData);
-		setDataSheet();
-		return calibrationData;
+		createSheet();
+		PyrometerCertificate.setCertificate(certificate, calibrationData);
 	}
 	
 	private static void setCalibrationData(Certificate certificateData) {
 		certificate = certificateData;
 		reference = CalibrationData.probe;
 		environment = CertificateText.getEnviromentData();
-	}
-
-	private static void setDataSheet() {
-		try {
-			createSheet();
-		} catch (IOException e) {
-			System.out.println("Note file fail");
-			e.printStackTrace();
-		}
 	}
 
 	private static void createSheet() throws FileNotFoundException, IOException {
@@ -188,6 +179,7 @@ public class PyrometerNote {
 
 	private static String setFileName() {
 		StringBuilder bulid = new StringBuilder(certificate.numberOfCalibration);
+		bulid.append("_");
 		bulid.append(certificate.device.model);
 		bulid.append(".ods");
 		return bulid.toString();

@@ -13,6 +13,7 @@ import certyficate.calculation.EnvironmentData;
 import certyficate.dataContainer.CalibrationType;
 import certyficate.equipment.EquipmentParameters;
 import certyficate.equipment.EquipmentType;
+import certyficate.generate.IRGenerate;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 import certyficate.sheetHandlers.SheetBulider;
@@ -55,7 +56,7 @@ public class InfraredPanel extends JPanel {
 			CalibrationData.calibrationType = CalibrationType.INFRARED;
 			SheetData.setInfrared();
 			getFilesData();
-			generateCalibrationCeryficate();
+			generateCalibrationDocuments();
 		}
 
 		private void getFilesData()  {
@@ -98,69 +99,8 @@ public class InfraredPanel extends JPanel {
 				= EquipmentParameters.find(EquipmentType.INFRARED_REFERENCE);
 		}	
 
-		private void generateCalibrationCeryficate() {
-			
-		}
-
-		public void doing() {
-		/*	File file = sheetFinder.getFile();
-            CertificateData.setFile(file);
-            CertificateData.calibration=5;
-            try {
-                CertificateData.run();
-                data=CertificateData.getData();
-            } catch (IOException e1) {}
-            new IRChoose(Console.this, true, data);
-            try {
-                GetData.setData(false);
-                GetData.IR();
-                GetData.setFile(file);
-                devices = GetData.findData(6);
-                point = GetData.getPoint();
-            } catch (IOException e1) {}
-            try {
-                dataProbe = new DataProbe[point.size()];
-                PaternProbe probe;
-                probe= new TProbe(new File(DisplayedText.dataPath+"12030011.txt"));
-                for(int i=0; i<point.size(); i++){
-                    int t=Integer.parseInt(point.get(i).temp);
-                    dataProbe[i]=probe.get(t, 0);
-                }
-            } catch (IOException e1) {}
-            generation.setEnabled(true);
-        }    
-		}*/
-	}
-	}
-	
-	
-	private class GenerationListener implements ActionListener {
-
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		public void doing() {
-		/*	 IRGenerate make = new IRGenerate();
-             make.putDataProbe(dataProbe);
-             make.putDevice(devices);
-			 make.putPaths(notesFinder.getFile().toString(),
-					 certificateFinder.getFile().toString());
-             Environment d= new Environment();
-             make.putEnvironment(d.calculateData(
-            		 environment.getEnviromentCondition()));
-             make.run(data);
-             try {
-                 File file = sheetFinder.getFile();
-                 PutDate.putFile(file);
-                 PutDate.date(make.get_done());
-             } catch (IOException e1) {
-                 e1.printStackTrace();
-             }
-             System.out.println("koniec wprowadzania");
-		}*/
+		private void generateCalibrationDocuments() {
+			IRGenerate.generateDocuments();
 		}
 	}
-
 }

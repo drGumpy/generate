@@ -1,37 +1,57 @@
 package certyficate.sheetHandlers.insert;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
  
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
+
+import certyficate.property.CalibrationData;
  
 public class PutDate {
-    static File file;
+	private static final String SHEET_NAME = "Zlecenia";
+	
+	private static final int DATE_COLUMN = 2;
+	
+    private static Sheet sheet;
     
-    public static void putFile(File _file){
-        file=_file;
-    }
-    //przekazanie dzisiejszej daty
-    public static void date(ArrayList<String> done) throws IOException{
-         final Sheet sheet = SpreadSheet.createFromFile(file).getSheet("Zlecenia");
-         int d=0;
-         if(done.size()>0)
-             d=Integer.parseInt(done.get(0));
-         else
-             return;
-         int n=0;
-         Date date = new Date();
-         while(n<done.size()){
-             if(sheet.getValueAt(1, d).toString().equals(done.get(n))){
-                 sheet.setValueAt(date, 2, d);
-                 n++;
-             }
-             d++;
-         }
-         sheet.getSpreadSheet().saveAs(file);
+    private static File file;
+    
+    public static void calibrationDate() {
+    	try {
+			setCalibrationDate();
+		} catch (IOException e) {
+			System.out.println("calibration file error");
+			e.printStackTrace();
+		}
     }
     
+    private static void setCalibrationDate() throws IOException {
+    	setSheet();
+		setDate();
+		safeFile();
+	}
+
+	private static void setSheet() throws IOException {
+		file = CalibrationData.sheet;
+		sheet = SpreadSheet.createFromFile(file).getSheet(SHEET_NAME);
+	}
+
+	private static void setDate() {
+		Date date = new Date();
+		for(String number: CalibrationData.done) {
+			setDate(number, date);
+		}
+	}
+
+	private static void setDate(String number, Date date) {
+		int calibrationNumber = Integer.parseInt(number);
+		sheet.setValueAt(date, DATE_COLUMN, calibrationNumber);
+	}
+	
+    private static void safeFile() throws FileNotFoundException, IOException {
+    	sheet.getSpreadSheet().saveAs(file);		
+	}   
 }

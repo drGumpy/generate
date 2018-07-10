@@ -24,6 +24,8 @@ public class CalibrationData {
 	
 	public static List<CalibrationPoint> point;
 	
+	public static List<String> done;
+	
 	public static DataProbe[] probe;
 	
 	public static Measurements patern;
