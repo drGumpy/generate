@@ -39,14 +39,16 @@ import certyficate.dataContainer.*;
 
 @SuppressWarnings("serial")
 public class Console extends JFrame {
+	private static final int WIDTH = 800;
+	private static final int HEIGHT = 600;
 	
-	private static EnvironmentPanel environment = new EnvironmentPanel();
-    private static PathFinder certificateFinder =
-    		new PathFinder(PathType.CERTIFICATES);
-    private static PathFinder sheetFinder =
-    		new PathFinder(PathType.SHEET);
-    private static PathFinder notesFinder =
-    		new PathFinder(PathType.NOTES);
+	private static final String TITLE = "wydawanie świadectw";
+	
+	private static EnvironmentPanel environment;
+	private static PathFinder sheetFinder;
+    private static PathFinder notesFinder;
+    private static PathFinder certificateFinder;
+    
     static ChamberSettings settings = new ChamberSettings();
     
 	//dane na temat wzorcowania
@@ -65,15 +67,91 @@ public class Console extends JFrame {
     private static boolean Rh = false;
     private static int points=3;
     
-    //pozycja arkusza, zapisu świadectw i zapisek wzorcowania
-    
-    
     private static AbstractButton t, rh;
     
     private static JComboBox<Integer> pointsBox = new JComboBox<Integer>();   
+    
+    private static GridBagConstraints constrain;
    
-    //rodzaj wykonywanego wzorcowania
-     private void close(){
+    public static void main(String[] args) {
+        run();    
+    }
+    
+    private static void run(){
+        SwingUtilities.invokeLater(new Runnable(){
+            Console console = new Console();
+            public void run(){
+                console.setTitle(TITLE);
+                console.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                console.setSize(WIDTH, HEIGHT);
+            }
+        });
+    }
+    
+    public Console(){
+    	setPanelSettings();
+    	addEnvironmentPanel();
+    	addSheetPanel();
+    	addNotesPanel();
+    	addCertificatePanel();
+    	addTabbetPane();
+    }
+    
+	private void setPanelSettings() {
+    	setLayout(new GridBagLayout());
+    	constrain = new GridBagConstraints();
+    	constrain.fill= GridBagConstraints.VERTICAL;
+    	constrain.anchor =GridBagConstraints.PAGE_START;
+	}
+
+	private void addEnvironmentPanel() {
+		EnvironmentPanel environment = new EnvironmentPanel();
+		constrain.weighty = 0.2;
+    	constrain.gridy = 0;
+    	add(environment, constrain);
+	}
+
+	private void addSheetPanel() {
+		PathFinder sheetFinder = new PathFinder(PathType.SHEET);
+		constrain.weighty = 0.1;
+    	constrain.gridy = 1;
+    	add(sheetFinder, constrain);
+	}
+
+	private void addNotesPanel() {
+		PathFinder notesFinder = new PathFinder(PathType.NOTES);
+		constrain.gridy = 2;
+    	add(notesFinder, constrain);
+	}
+	
+	private void addCertificatePanel() {
+		PathFinder certificateFinder = new PathFinder(PathType.CERTIFICATES);
+		constrain.gridy = 3;
+    	add(certificateFinder, constrain);		
+	}
+
+	private void addTabbetPane() {
+    	JTabbedPane tabbedPane = setTabbedPane();
+    	tabbedPane.addTab("komora klimatyczna", _climateChamber());
+    	tabbedPane.addTab("pirometry", new InfraredPanel(this));
+    	tabbedPane.setMaximumSize(new Dimension(700, 10));
+    	constrain.weighty=0.2;
+    	constrain.gridy=4;
+    	add(tabbedPane, constrain);
+		
+	}
+
+    private JTabbedPane setTabbedPane() {
+    	JTabbedPane tabbedPane = new JTabbedPane();
+    	int width = 700;
+    	int height = 10;
+    	tabbedPane.addTab("komora klimatyczna", _climateChamber());
+    	tabbedPane.addTab("pirometry", new InfraredPanel(this));
+    	tabbedPane.setMaximumSize(new Dimension(width, height));
+		return tabbedPane;
+	}
+
+	public void close(){
 		super.dispose();
 	}
     
@@ -205,56 +283,5 @@ public class Console extends JFrame {
         c.gridx = 2;
         jp.add(generation, c);
         return jp;
-    }
-
-    public Console(){
-    	//JPanel jp = new JPanel();
-    	setLayout(new GridBagLayout());
-    	GridBagConstraints c = new GridBagConstraints();
-    	
-    	c.fill= GridBagConstraints.VERTICAL;
-    	c.anchor =GridBagConstraints.PAGE_START;
-    	c.weighty=0.2;
-    	c.gridy=0;
-    	add(environment, c);
-    	
-    	c.weighty=0.1;
-    	c.weightx=1;
-    	c.gridy=1;
-    	add(sheetFinder, c);
-    	
-    	c.gridy=2;
-    	add(notesFinder, c);
-    	
-    	c.gridy=3;
-    	add(certificateFinder, c);
-    	
-    	JTabbedPane tabbedPane = new JTabbedPane();
-    	tabbedPane.addTab("komora klimatyczna", _climateChamber());
-    	tabbedPane.addTab("pirometry", new InfraredPanel(this));
-    	tabbedPane.setMaximumSize(new Dimension(700, 10));
-
-    	c.weighty=0.2;
-    	c.weightx=1;
-    	c.gridy=4;
-    	c.ipady= 200;
-    	add(tabbedPane, c);
-    }
-       
-    //uruchomienie programu
-    public static void run(){
-        SwingUtilities.invokeLater(new Runnable(){
-            Console f = new Console();
-            public void run(){
-                f.setTitle("wydawanie świadectw");
-                f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                f.setSize(800,600);
-                f.setVisible(true);
-            }
-        });
-    }
-    
-    public static void main(String[] args) {
-        run();    
     }
 }

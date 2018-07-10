@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -16,6 +17,7 @@ import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 import certyficate.generate.*;
+import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 import certyficate.calculation.*;
 import certyficate.dataContainer.*;
@@ -24,20 +26,68 @@ import certyficate.sheetHandlers.*;
 import certyficate.sheetHandlers.search.*;
     
 public class PutData {
-        
-    //parametry wzorcowania i plik docelowy
-    static boolean Rh = true;                            //wzorcowanie wilgotności
-    static int points = 5;                                 //liczba punktów wzorcowania
-    static File file= new File(DisplayedText.sheet);
+	private static Sheet sheet;    
+	
+    private static boolean Rh;                          
+    private static int numberOfPoints;
+    private static File file;
     
     //zmienne z danymi o wzorcowaniu
-    static ArrayList<CalibrationPoint> loggers = new ArrayList<CalibrationPoint>();     //wzorcowanie rejejestraotory
-    static ArrayList<CalibrationPoint> punkt = new ArrayList<CalibrationPoint>();     //informacje o punktach wzorcowania
+    static List<Data> loggers = new ArrayList<Data>();     //wzorcowanie rejejestraotory
+    static List<CalibrationPoint> points = new ArrayList<CalibrationPoint>();     //informacje o punktach wzorcowania
         
-    //sortowanie punktów na podstawie daty i godzinny
-    private static void _sort(CalibrationPoint[] punkty){
-        double[] arr = new double[points];
-        for(int i=0; i<points;i++){
+    public static void insertReferenceAndLoggersData() {
+    	try {
+			setData();
+		} catch (IOException e) {
+			System.out.println("Calibration sheet error ");
+			e.printStackTrace();
+		}
+    }
+    
+    
+    private static void setData() throws IOException {
+    	updateSettings();
+		findCalibrationPoints();
+	}
+
+	private static void updateSettings() throws IOException {
+		numberOfPoints = CalibrationData.calibrationPoints;
+		file = CalibrationData.sheet;
+		Rh = SheetData.Rh;
+		setSheet();
+	}
+
+	private static void setSheet() throws IOException {
+		sheet = SpreadSheet.createFromFile(file).addSheet(SheetData.sheetName);
+	}
+	
+	private static void findCalibrationPoints() {
+		for (int i=0; i< numberOfPoints; i++){
+			addPoint(i);
+		}
+	}
+
+	private static void addPoint(int index) {
+		int line = 6 + SheetData.pointGap * index;
+		CalibrationPoint point = findPoint(line);
+		point.number = index;
+		point.setDate();
+		points.add(point);
+	}
+
+
+	private static CalibrationPoint findPoint(int line) {
+		CalibrationPoint point = new CalibrationPoint();
+		point.time = DataCalculation.parseTime(sheet.getValueAt(SheetData.timeColumn, line).toString());
+        point.date = DataCalculation.parseDate(sheet.getValueAt(SheetData.dateColumn, line).toString());
+		return point;
+	}
+
+
+	private static void _sort(CalibrationPoint[] punkty){
+        double[] arr = new double[numberOfPoints];
+        for(int i=0; i<numberOfPoints;i++){
             String[] date = punkty[i].date.split("\\.");
             String[] time = punkty[i].time.split(":");
             if(date.length>=3 && time.length>=2){
@@ -47,9 +97,9 @@ public class PutData {
             }
         }
         Arrays.sort(arr);
-        for(int i=0; i<points;i++){
+        for(int i=0; i<numberOfPoints;i++){
             int d =(int)Math.round((arr[i]*100)%100);
-            punkt.add(i,punkty[d]);
+            points.add(i,punkty[d]);
         }
     }
         
@@ -67,7 +117,7 @@ public class PutData {
         
     //wprowadzanie danych z wzorca        
     private static void _putProbeData(){
-            Pattern probe = Pattern.compile(SheetData.PROBE_SERIAL_NUMBER, Pattern.CASE_INSENSITIVE);
+            Pattern probe = Pattern.compile(SheetData.probeSerialNumber, Pattern.CASE_INSENSITIVE);
             //punkt pomiarowy
             int num=0;          
             //folder z plikami
@@ -78,10 +128,10 @@ public class PutData {
             Arrays.sort(list, String.CASE_INSENSITIVE_ORDER);
             try{
                 final Sheet sheet = SheetData.SPREAD_SHEET.
-                		getSheet(SheetData.SHEET_NAME);
-                for(; num<points; num++){
+                		getSheet(SheetData.sheetName);
+                for(; num<numberOfPoints; num++){
                     //data wzorcowania punktów
-                    String[] date = punkt.get(num).date.split("\\.");
+                    String[] date = points.get(num).date.split("\\.");
                     String findDate = date[2]+date[1]+date[0];
                     Pattern patternDate = Pattern.compile(findDate, Pattern.CASE_INSENSITIVE);
                     int fileNum=2;
@@ -109,34 +159,34 @@ public class PutData {
                         CalibrationPoint d = new CalibrationPoint(Rh);
                         d = _divide(line);
                         //wprowadzanie danych z punktu pomiarowego 10 pomiarów dla punktu
-                        if(d.time.equals(punkt.get(num).time)){
+                        if(d.time.equals(points.get(num).time)){
                             boolean two= false;
-                            System.out.println("punkt pomiarowy "+(punkt.get(num).num+1)+" godzina: "+punkt.get(num).time);
-                            if(num<punkt.size()-1){
-                                two= punkt.get(num).time.equals(punkt.get(num+1).time);
+                            System.out.println("punkt pomiarowy "+(points.get(num).num+1)+" godzina: "+points.get(num).time);
+                            if(num<points.size()-1){
+                                two= points.get(num).time.equals(points.get(num+1).time);
                                 }
                             int count=0;
                             do{
-                                int col= SheetData.TIME_COLUMN+3*count;
-                                int line1 = SheetData.START_ROW-SheetData.NUMBER_OF_PARAMETERS+
-                                		SheetData.POINT_GAP*punkt.get(num).num;
+                                int col= SheetData.timeColumn+3*count;
+                                int line1 = SheetData.startRow-SheetData.numberOfParametrs+
+                                		SheetData.pointGap*points.get(num).num;
                                 String[] temp = d.temp.split(",");
                                 String[] hum = d.hum.split(",");
                                 sheet.setValueAt(temp[0], col, line1);
                                 if(temp.length>1)
                                     sheet.setValueAt(temp[1], col+2, line1);
-                                if(SheetData.RH){
+                                if(SheetData.Rh){
                                     sheet.setValueAt(hum[0], col, line1+1);
                                     if(hum.length>1)
                                         sheet.setValueAt(hum[1], col+2, line1+1);
                                     }
                                 if(two){
-                                    line1 = SheetData.START_ROW-SheetData.NUMBER_OF_PARAMETERS+
-                                    		SheetData.POINT_GAP*punkt.get(num+1).num;
+                                    line1 = SheetData.startRow-SheetData.numberOfParametrs+
+                                    		SheetData.pointGap*points.get(num+1).num;
                                     sheet.setValueAt(temp[0], col, line1);
                                     if(temp.length>1)
                                         sheet.setValueAt(temp[1], col+2, line1);
-                                    if(SheetData.RH){
+                                    if(SheetData.Rh){
                                         sheet.setValueAt(hum[0], col, line1+1);
                                         if(hum.length>1)
                                             sheet.setValueAt(hum[1], col+2, line1+1);
@@ -150,10 +200,10 @@ public class PutData {
                             }while(count<10);
                             if(two) {
                                 num++;
-                                System.out.println("punkt pomiarowy "+(punkt.get(num).num+1)+" godzina: "+punkt.get(num).time);
+                                System.out.println("punkt pomiarowy "+(points.get(num).num+1)+" godzina: "+points.get(num).time);
                             }
-                            if(num+1<points){
-                                if(punkt.get(num).date.equals(punkt.get(num+1).date)){
+                            if(num+1<numberOfPoints){
+                                if(points.get(num).date.equals(points.get(num+1).date)){
                                     num++;
                                     continue;}
                             }
@@ -164,11 +214,11 @@ public class PutData {
                     in.close();
                     }else{
                         fileNum=2;
-                        System.out.println("brak pasującego pliku z dnia: "+punkt.get(num).date);
+                        System.out.println("brak pasującego pliku z dnia: "+points.get(num).date);
                     }
                 }
                 //zapis pliku
-                sheet.getSpreadSheet().saveAs(SheetData.FILE);
+                sheet.getSpreadSheet().saveAs(SheetData.file);
             }catch(IOException e){
                 e.printStackTrace();
             }
@@ -176,7 +226,7 @@ public class PutData {
  
     //szukanie dostępnych plików z wynikami z rejestratorów i dane o punktach pomiarowych        
     static private void _putLoggerData(){
-        final Sheet sheet = SheetData.SPREAD_SHEET.getSheet(SheetData.SHEET_NAME);
+        final Sheet sheet = SheetData.SPREAD_SHEET.getSheet(SheetData.sheetName);
 		//ścieżka do danych z rejestratorów + ich rozszerzenie
 		String[] path = {
 		        "C:\\Users\\Franek\\Documents\\rejestratory\\Hobo\\",
@@ -188,14 +238,14 @@ public class PutData {
 		        };
 		String[] kon = {".txt",".csv",".csv",".txt",".txt",".csv"};
 		//szukanie danych rejestratorów uwzględnionych w zapisce
-		for(int i=0; i<SheetData.NUMBER_OF_DEVICES; i++){
-		    String name = sheet.getValueAt(1,SheetData.START_ROW +
-		    		SheetData.NUMBER_OF_PARAMETERS*i).toString();
+		for(int i=0; i<SheetData.numberOfDevices; i++){
+		    String name = sheet.getValueAt(1,SheetData.startRow +
+		    		SheetData.numberOfParametrs*i).toString();
 		    for(int j=0; j<path.length; j++){
 		        String filelocation = path[j] + name + kon[j];
 		        File f = new File(filelocation);
 		        if(f.exists()){
-		            CalibrationPoint das;
+		            Data das;
 		            switch(j){
 		                case 0:{
 		                    das = new Onset(Rh);
@@ -230,23 +280,23 @@ public class PutData {
     public static ArrayList<CalibrationPoint> getPoints() throws IOException{
     //	SheetData.setChamberData(Rh);
     	SheetData.FilesSet(file);
-        final Sheet sheet = SheetData.SPREAD_SHEET.getSheet(SheetData.SHEET_NAME);
-        CalibrationPoint[] punkty = new CalibrationPoint[points];
-        for (int i=0; i< points; i++){
+        final Sheet sheet = SheetData.SPREAD_SHEET.getSheet(SheetData.sheetName);
+        CalibrationPoint[] punkty = new CalibrationPoint[numberOfPoints];
+        for (int i=0; i< numberOfPoints; i++){
             CalibrationPoint pr = new CalibrationPoint(Rh);
-            pr.time = DataCalculation.parseTime(sheet.getValueAt(SheetData.TIME_COLUMN,6+SheetData.POINT_GAP*i).toString());
-            pr.date = DataCalculation.parseDate(sheet.getValueAt(SheetData.DATE_COLUMN,6+SheetData.POINT_GAP*i).toString());
+            pr.time = DataCalculation.parseTime(sheet.getValueAt(SheetData.timeColumn,6+SheetData.pointGap*i).toString());
+            pr.date = DataCalculation.parseDate(sheet.getValueAt(SheetData.dateColumn,6+SheetData.pointGap*i).toString());
             pr.num=i;
             if(Rh){
-                pr.temp=sheet.getValueAt(0,6+SheetData.POINT_GAP*i).toString();
-                pr.hum=sheet.getValueAt(1,6+SheetData.POINT_GAP*i).toString();
+                pr.temp=sheet.getValueAt(0,6+SheetData.pointGap*i).toString();
+                pr.hum=sheet.getValueAt(1,6+SheetData.pointGap*i).toString();
             }else{
-                pr.temp=sheet.getValueAt(1,6+SheetData.POINT_GAP*i).toString();
+                pr.temp=sheet.getValueAt(1,6+SheetData.pointGap*i).toString();
             }
             punkty[i]= pr;
         }
         _sort(punkty);
-        return punkt;
+        return points;
     }
    
     public static void clean(){
@@ -256,7 +306,7 @@ public class PutData {
     public static void set(boolean Rh_, File file_, int points_){
         Rh=Rh_;
         file=file_;
-        points=points_;
+        numberOfPoints=points_;
     }
     
     public static void run(){
@@ -264,7 +314,7 @@ public class PutData {
             //zebranie danych z arkusza
             _putLoggerData();
             _putProbeData();
-            final Sheet sheet = SheetData.SPREAD_SHEET.getSheet(SheetData.SHEET_NAME);
+            final Sheet sheet = SheetData.SPREAD_SHEET.getSheet(SheetData.sheetName);
             //dane z rejestratorów
             if(loggers.size()==0) System.out.println("brak danych z rejestratorów do wprowadzenia");
             else for(int i=0; i<loggers.size();i++){
@@ -283,19 +333,19 @@ public class PutData {
                     if(dd.equals(""));
                         CalibrationPoint d= loggers.get(i).divide(dd);
                     //wprowadzanie danych dla punktu
-                    if(d.time.equals(punkt.get(j).time) && d.date.equals(punkt.get(j).date)){
-                        System.out.println("pobieranie danych dla punktu: "+ (punkt.get(j).num+1));
+                    if(d.time.equals(points.get(j).time) && d.date.equals(points.get(j).date)){
+                        System.out.println("pobieranie danych dla punktu: "+ (points.get(j).num+1));
                         int count=0;
                         do{
-                            int col= SheetData.TIME_COLUMN+3*count;
-                            int line = SheetData.START_ROW+SheetData.NUMBER_OF_PARAMETERS*g+SheetData.POINT_GAP*punkt.get(j).num;
+                            int col= SheetData.timeColumn+3*count;
+                            int line = SheetData.startRow+SheetData.numberOfParametrs*g+SheetData.pointGap*points.get(j).num;
                             String[] temp = d.temp.split(",");
                             sheet.setValueAt(temp[0], col, line);
                             if(temp.length>1)
                                 sheet.setValueAt(temp[1], col+2, line);
                             else
                                 sheet.setValueAt("0", col+2, line);
-                            if(SheetData.RH){
+                            if(SheetData.Rh){
                                 String[] hum = d.hum.split(",");
                                 sheet.setValueAt(hum[0], col, line+1);
                                 if(hum.length>1)
@@ -313,12 +363,12 @@ public class PutData {
                             count++;
                         }while(count<10);
                         j++;
-                        if(j==points) break;
+                        if(j==numberOfPoints) break;
                     }
                     if(!sc.hasNextLine()){
-                        System.out.println("brak danych dla punktu: "+(punkt.get(j).num+1));
+                        System.out.println("brak danych dla punktu: "+(points.get(j).num+1));
                         j++;
-                        if(j==points) break;
+                        if(j==numberOfPoints) break;
                         sc= new Scanner(loggers.get(i).file);
                         for(int k=0; k<loggers.get(i).getN(); k++){
                             sc.nextLine();
@@ -326,7 +376,7 @@ public class PutData {
                     }
                 }
                 sc.close();
-                sheet.getSpreadSheet().saveAs(SheetData.FILE);
+                sheet.getSpreadSheet().saveAs(SheetData.file);
             }
         }catch(IOException e){
                e.printStackTrace();
@@ -336,7 +386,7 @@ public class PutData {
     
     public static void main(String[] args){
         try {
-            punkt= getPoints();
+            points= getPoints();
         }catch (IOException e) {
             e.printStackTrace();
         }

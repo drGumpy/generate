@@ -16,13 +16,13 @@ import certyficate.equipment.EquipmentType;
 import certyficate.generate.IRGenerate;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
-import certyficate.sheetHandlers.SheetBulider;
+import certyficate.sheetHandlers.insert.PutDate;
 import certyficate.sheetHandlers.search.CertificateData;
 import certyficate.sheetHandlers.search.MeasurementsData;
 
 @SuppressWarnings("serial")
 public class InfraredPanel extends JPanel {
-	public static final String BUTTON_LABEL = "generuj";
+	public static final String BUTTON_LABEL = "generuj świadetwa";
 	
 	public static final int WIDTH = 200;
 	public static final int HIGHT = 23;
@@ -57,6 +57,8 @@ public class InfraredPanel extends JPanel {
 			SheetData.setInfrared();
 			getFilesData();
 			generateCalibrationDocuments();
+			PutDate.calibrationDate();
+			console.close();
 		}
 
 		private void getFilesData()  {
@@ -74,21 +76,16 @@ public class InfraredPanel extends JPanel {
 		}
 
 		private void findMeasurmentsData() throws IOException {
-			bulidSheet();
 			getCalibrationData();
 			findMeasurementsData();
 			new InfraredParametrs(console);
-		}
-
-		private void bulidSheet() throws IOException  {
-			SheetBulider.setSpreadSheet();
 		}
 		
 		private void getCalibrationData() {
 			CertificateData.findOrdersData();
 		}
 		
-		private void findMeasurementsData() {
+		private void findMeasurementsData() throws IOException {
 			CalibrationData.calibrationPoints 
 				= MAXIMUM_CALIBRATION_POINTS;
 			MeasurementsData.findMeasurementsData();

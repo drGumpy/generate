@@ -2,15 +2,11 @@ package certyficate.GUI.path;
 
 import java.io.File;
 
-public class PathSettings {
-	String panelName;
-	String currentPath;
+public abstract class PathSettings {
+	protected String panelName;
+	protected String currentPath;
 	
 	protected File file;
-	
-	void updateFile(File file) {
-		this.file = file;
-	}	
 	
 	public File getFile() {
 		return file;
@@ -30,5 +26,23 @@ public class PathSettings {
 			break;	
 		}
 		return settings;
+	}
+	
+	public String getPanelName() {
+		return panelName;
+	}
+	
+	public String getCurrentPath() {
+		return currentPath;
+	}
+	
+	protected abstract void updateFile(File file) ;	
+	
+	protected void setPanelName(String name) {
+		panelName = name;
+	}
+	
+	protected void setCurrentPath(String name) {
+		panelName = name;
 	}
 }

@@ -21,6 +21,8 @@ public class EnvironmentPanel extends JPanel {
 	
 	protected static final int PARAMETS_NUMBER = 4;
 	
+	private static final String NUMBER_FORMAT = "#0.000";
+	
 	protected String[] LABEL_TEXT  = {"t min","t max","Rh min","Rh max"};
 	
 	private String PANEL_TITLE = "Warunki środowiskowe";
@@ -57,7 +59,7 @@ public class EnvironmentPanel extends JPanel {
 	}
 
 	private void setNumbersFormat() {
-		numbersFormat = new DecimalFormat("#0.000");;
+		numbersFormat = new DecimalFormat(NUMBER_FORMAT);;
 		numbersFormat.setMinimumFractionDigits(3);
 	}
 	

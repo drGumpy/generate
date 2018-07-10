@@ -6,15 +6,18 @@ import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 
 public class SheetSettings extends PathSettings {
-
+	private static final String PANEL_NAME =
+			"Arkusz z danymi";
+	
 	SheetSettings(){
-		currentPath = PathCreator.sheetPath();
-		panelName = "Arkusz z danymi";
+		setCurrentPath(PathCreator.sheetPath());
+		setPanelName(PANEL_NAME);
 		file = new File(currentPath);
 		updateFile(file);
 	}
+	
 	@Override
-	void updateFile(File file) {
+	protected void updateFile(File file) {
 		this.file = file;
 		CalibrationData.sheet = file;
 	}

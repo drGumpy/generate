@@ -1,8 +1,11 @@
 package certyficate.sheetHandlers.search;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
  
 import org.jopendocument.dom.spreadsheet.Sheet;
+import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 import certyficate.dataContainer.*;
 import certyficate.property.CalibrationData;
@@ -18,44 +21,45 @@ public class MeasurementsData {
 		= CalibrationData.calibrationPoints;
 
     public static void findProbeData() {
-    	int line = SheetData.START_ROW - SheetData.NUMBER_OF_PARAMETERS;
+    	int line = SheetData.startRow - CalibrationData.numberOfParameters;
     	Measurements reference = MeasurementResults.findDeviceResults(line);
     	CalibrationData.patern = reference;
 	}
 	
-	public static void findMeasurementsData() {
+	public static void findMeasurementsData() throws IOException {
 		setSheet();
 		getCalibtationPoints();
 		MeasurementResults.findMeasurmentData();
 	}
 	
-	private static void setSheet() {
-		sheet = SheetData.SPREAD_SHEET.getSheet(SheetData.SHEET_NAME);
+	private static void setSheet() throws IOException {
+		File file = CalibrationData.sheet;
+		sheet = SpreadSheet.createFromFile(file).getSheet(SheetData.sheetName);
 	}
 	
 	private static void getCalibtationPoints() {
 		int line = 6;
 		for(int i = 0; i < calibrationPoints; i++){
 			addCalibrationPoint(line);
-			line += SheetData.POINT_GAP;
+			line += SheetData.pointGap;
 		}
 	}
 
 	private static void addCalibrationPoint(int line) {
 		CalibrationPoint point = new CalibrationPoint();
-		point.time = sheet.getValueAt(SheetData.TIME_COLUMN, line)
+		point.time = sheet.getValueAt(SheetData.timeColumn, line)
 				.toString();
-		point.date = sheet.getValueAt(SheetData.DATE_COLUMN, line)
+		point.date = sheet.getValueAt(SheetData.dateColumn, line)
 				.toString();
 		point.number = points.size();
 		point.point = getPoint(line);
 		points.add(point);
 	}
 
-	private static int[] getPoint(int line) {
-		int[] point = new int[CalibrationData.numberOfParameters];
+	private static double[] getPoint(int line) {
+		double[] point = new double[CalibrationData.numberOfParameters];
 		for(int i = 0; i < CalibrationData.numberOfParameters; i++) 
-			point[i] = Integer.parseInt(sheet.getValueAt(1 - i, line)
+			point[i] = Double.parseDouble(sheet.getValueAt(1 - i, line)
 					.toString());
 		return point;
 	}

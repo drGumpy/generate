@@ -6,15 +6,18 @@ import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 
 public class NotesSettings extends PathSettings {
-
+	private static final String PANEL_NAME =
+			"Folder zapisu zapisek z wzorcowania";
+	
 	NotesSettings() {
-		currentPath = PathCreator.notePath();
-		panelName = "Folder zapisu zapisek z wzorcowania";
+		setCurrentPath(PathCreator.notePath());
+		setPanelName(PANEL_NAME);
 		file = new File(currentPath);
 		updateFile(file);
 	}
+	
 	@Override
-	void updateFile(File file) {
+	protected void updateFile(File file) {
 		CalibrationData.notes = file;
 	}
 

@@ -14,14 +14,19 @@ import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 public class PathFinder  extends JPanel {
-	private final Dimension SIZE = new Dimension(650, 50);
-	private final String BUTTON_TEXT = "Zmień";
+	private static final int WIDTH = 650;
+	private static final int HEIGHT = 50;
+	private static final int FIELD_SIZE = 50;
+
+	private static final String BUTTON_TEXT = "Zmień";
 	
 	private File file;
-	private PathType pathType;
-	private JTextField PathTextField = new JTextField(48);
 	
-	private PathSettings setting = new PathSettings();
+	private PathType pathType;
+	
+	private JTextField PathTextField;
+	
+	private PathSettings setting;
 	
 	public File getFile() {
 		return file;
@@ -41,7 +46,8 @@ public class PathFinder  extends JPanel {
 
 	private void setPanelSettings() {
 		String panelName = setting.panelName;
-		this.setPreferredSize(SIZE);
+		Dimension size = new Dimension(WIDTH, HEIGHT);
+		this.setPreferredSize(size);
 		this.setLayout(new FlowLayout());
 		this.setBorder(new TitledBorder(panelName));
 	}
@@ -69,6 +75,7 @@ public class PathFinder  extends JPanel {
 
 	private void setTextField() {
 		String currentPath = file.toString();
+		PathTextField = new JTextField(FIELD_SIZE);
 		PathTextField.setText(currentPath);
 		PathTextField.setEditable(false);
 	}

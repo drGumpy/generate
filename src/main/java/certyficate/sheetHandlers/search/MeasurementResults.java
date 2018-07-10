@@ -33,11 +33,11 @@ public class MeasurementResults {
 	}
 
 	private static void findDevicesData() {
-		int line = SheetData.START_ROW;
+		int line = SheetData.startRow;
 		devices = new ArrayList<Measurements>();
-		for(int i = 0; i <= SheetData.NUMBER_OF_DEVICES; i++){
+		for(int i = 0; i <= SheetData.numberOfDevices; i++){
 			checkAndAddDevice(line);
-            line += SheetData.NUMBER_OF_PARAMETERS;
+            line += CalibrationData.numberOfParameters;
         }
 	}
 
@@ -55,7 +55,7 @@ public class MeasurementResults {
         		new Measurements(calibrationPoints);
         for(int i = 0; i < calibrationPoints; i++){
         	device.measurmets[i] = findPoint(line);
-        	line+=SheetData.POINT_GAP;
+        	line+=SheetData.pointGap;
         }            
         return device;
 	}
@@ -84,7 +84,7 @@ public class MeasurementResults {
 	private static double[] getMeasurmentData(int line)
 			throws NumberFormatException {
 		double[] mesurmentData = new double[MEASUREMENTS_POINTS];
-		int column = SheetData.TIME_COLUMN;
+		int column = SheetData.timeColumn;
 		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
 			mesurmentData[i] = getData(column, line);
 			column += 3;
