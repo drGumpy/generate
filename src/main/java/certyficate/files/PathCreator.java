@@ -7,12 +7,15 @@ public class PathCreator {
 	private static String SHEETNAME = "Laboratorium.ods";
 	
 	private static StringBuilder pathToDescop() {
-		StringBuilder path = new StringBuilder(System.getProperty("user.home"));
-		path.append(File.separator);
+		StringBuilder path = userPath();
 		path.append(withSeparator("Descop"));
 		return path;
 	}
 	
+	private static StringBuilder userPath() {
+		return withSeparator(System.getProperty("user.home"));
+	}
+
 	private static StringBuilder withSeparator(String expression) {
 		StringBuilder path = new StringBuilder(expression);
 		path.append(File.separator);
@@ -67,6 +70,19 @@ public class PathCreator {
 		StringBuilder path = new StringBuilder(PATH_TO_DESCOP);
 		path.append(SHEETNAME);
 		return path.toString();
+	}
+
+	public static String setLoggerPath(String loggerType) {
+		StringBuilder path = loggerPath();
+		path.append(withSeparator(loggerType));;
+		return path.toString();
+	}
+	
+	private static StringBuilder loggerPath() {
+		StringBuilder path = userPath();
+		path.append(withSeparator("Documents"));
+		path.append(withSeparator("rejestratory"));
+		return path;
 	}
 	
 }

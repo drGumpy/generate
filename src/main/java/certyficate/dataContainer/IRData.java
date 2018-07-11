@@ -9,7 +9,7 @@ public class IRData {
 	
 	public double emissivity;
 	
-	public int[][] point;
+	public double[][] point;
 	
 	public int distance;
 	

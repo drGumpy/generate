@@ -51,14 +51,14 @@ public abstract class ReferenceProbe extends Equipment {
 		return range;
 	} 
 	
-	public DataProbe getPointData(int[] point) {
+	public DataProbe getPointData(double[] point) {
 		DataProbe pointData = findInStandardPoints(point);
 		if(pointData == null)
 			pointData = checkInRanges(point);
 		return pointData;
 	}
 
-	protected DataProbe findInStandardPoints(int[] point) {
+	protected DataProbe findInStandardPoints(double[] point) {
 		DataProbe pointData = null;
 		for(int i = 0; i < numberOfStandardPoint; i++)
 			if(equalPoint(point, i)) {
@@ -68,9 +68,9 @@ public abstract class ReferenceProbe extends Equipment {
 		return pointData;
 	}
 
-	protected abstract boolean equalPoint(int[] point, int index);
+	protected abstract boolean equalPoint(double[] point, int index);
 
-	protected DataProbe checkInRanges(int[] point) {
+	protected DataProbe checkInRanges(double[] point) {
 		DataProbe pointData = new DataProbe(false);
 		for(int i = 0; i < numberOfRanges; i++)
 			if(inRange(point, ranges[i])) {
@@ -80,9 +80,9 @@ public abstract class ReferenceProbe extends Equipment {
 		return pointData;
 	}
 	
-	protected abstract boolean inRange(int[] point, int[] range);
+	protected abstract boolean inRange(double[] point, int[] range);
 	
-	protected DataProbe findInRange(int[] point, int[] range) {
+	protected DataProbe findInRange(double[] point, int[] range) {
 		DataProbe[] pointsInRange = findPointsInRange(range);
 		DataProbe data = caluculate(pointsInRange, point);
 		return data;
@@ -91,5 +91,5 @@ public abstract class ReferenceProbe extends Equipment {
 	protected abstract DataProbe[] findPointsInRange(int[] range);
 
 	protected abstract DataProbe caluculate(DataProbe[] pointsInRange,
-			int[] point);
+			double[] point);
 }

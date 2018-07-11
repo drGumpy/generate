@@ -28,18 +28,21 @@ public class Environment extends RhProbe {
 		return data;
 	}
 	
+	@Override
 	public DataProbe getPointData(double[] point) {
 		DataProbe pointData = findInRange(point, ranges[0]);
 		return pointData;
 	}
 
+	@Override
 	protected DataProbe findInRange(double[] point, int[] range) {
 		DataProbe[] pointsInRange = findPointsInRange(range);
 		DataProbe data = caluculate(pointsInRange, point);
 		return data;
 	}
 
-	private DataProbe caluculate(DataProbe[] pointsInRange, double[] point) {
+	@Override
+	protected DataProbe caluculate(DataProbe[] pointsInRange, double[] point) {
 		return calculate.findPoint(pointsInRange, point);
 	}
 }

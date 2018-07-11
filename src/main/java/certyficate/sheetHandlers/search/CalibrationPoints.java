@@ -5,10 +5,10 @@ import certyficate.entitys.Certificate;
 import certyficate.property.CalibrationData;
 
 public class CalibrationPoints {
-	private final static int[][] TEMPERATURE_STANDARD_POINT = new int[][] {{-25},{0},{25}}; 
-	private final static int[][] HUMINIDITY_STANDARD_POINT 
-		 = new int[][] {{15, 50}, {25, 30}, {25, 50}, {25, 70}, {35, 50}};
-	private final static int[][] INFRARED_STANDARD_POINT = new int[][] {{25},{90},{180}};
+	private final static double[][] TEMPERATURE_STANDARD_POINT = new double[][] {{-25},{0},{25}}; 
+	private final static double[][] HUMINIDITY_STANDARD_POINT 
+		 = new double[][] {{15, 50}, {25, 30}, {25, 50}, {25, 70}, {35, 50}};
+	private final static double[][] INFRARED_STANDARD_POINT = new double[][] {{25},{90},{180}};
 	
 	private final static char START_POINT = '(';
 	private final static char END_POINT = ')';
@@ -17,8 +17,8 @@ public class CalibrationPoints {
 	
 	private final static String POINT_SEPARATOR = ", ";
 
-	static int[][] point(){
-		int[][] point;
+	static double[][] point(){
+		double[][] point;
 		switch (CalibrationData.calibrationType) {
 		case HUMINIDITY:
 			point = HUMINIDITY_STANDARD_POINT;
@@ -38,7 +38,7 @@ public class CalibrationPoints {
 		order.point = findPoints(code);
 	}
 
-	private static int[][] findPoints(String code) {
+	private static double[][] findPoints(String code) {
 		String[] points = getPoints(code);
 		return setPointsArray(points);
 	}
@@ -54,16 +54,16 @@ public class CalibrationPoints {
 		return code.substring(start, end);
 	}
 
-	private static int[][] setPointsArray(String[] points) {
+	private static double[][] setPointsArray(String[] points) {
 		int numberOfPoints = points.length;
-		int[][] point = new int[numberOfPoints][];
+		double[][] point = new double[numberOfPoints][];
 		for(int i = 0; i < numberOfPoints; i++) 
 			point[i] = getPoint(points[i]);
 		return point;
 	}
 
-	private static int[] getPoint(String point) {
-		int[] pointArray;
+	private static double[] getPoint(String point) {
+		double[] pointArray;
 		if(CalibrationData.calibrationType == CalibrationType.HUMINIDITY)
 			pointArray = findRhPoint(point);
 		else
@@ -71,8 +71,8 @@ public class CalibrationPoints {
 		return pointArray;
 	}
 
-	private static int[] findRhPoint(String point) {
-		int[] pointArray;
+	private static double[] findRhPoint(String point) {
+		double[] pointArray;
 		int start = point.indexOf(START_HUMINIDITY_POINT);
 		int end = point.indexOf(END_HUMINIDITY_POINT);
 		if(start != -1) {
@@ -83,16 +83,16 @@ public class CalibrationPoints {
 		return pointArray;
 	}
 
-	private static int[] setRhPoint(String point) {
-		int[] pointArray = new int[2];
+	private static double[] setRhPoint(String point) {
+		double[] pointArray = new double[2];
 		String[] points = point.split(POINT_SEPARATOR);
 		for(int i = 0; i < 2; i++)
 			pointArray[i] = findValue(points[i]);
 		return pointArray;
 	}
 
-	private static int[] findPoint(String point) {
-		int[] pointArray = new int[2];
+	private static double[] findPoint(String point) {
+		double[] pointArray = new double[2];
 		pointArray[0] = findValue(point);
 		return pointArray;
 	}

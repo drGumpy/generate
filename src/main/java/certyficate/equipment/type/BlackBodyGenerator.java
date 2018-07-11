@@ -11,7 +11,7 @@ public class BlackBodyGenerator extends TProbe {
 		calculate = new EquipmentCalculate();
 	}
 	
-	public double getUncertainty(int[] point) {
+	public double getUncertainty(double[] point) {
 		DataProbe data = getPointData(point);
 		return data.uncertainty;
 	}

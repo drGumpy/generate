@@ -1,6 +1,6 @@
 package certyficate.dataContainer.datalogger;
 
-public class EBI extends Data{
+public class EBI extends Logger{
     public EBI(boolean RH) {
         super(RH);
     }
@@ -9,11 +9,11 @@ public class EBI extends Data{
         return 10;
     }
  
-    public Data divide(String line){
+    public Logger divide(String line){
         String[] Data = line.split(",");
         String[] when =Data[0].split(" ");
         
-        Data d= new Data(RH);
+        Logger d= new Logger(RH);
         
         String[] linedate = when[0].split("-");
         if(linedate.length<2)

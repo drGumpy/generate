@@ -59,15 +59,15 @@ public class PointPanel extends JPanel {
 	}
 
 	private void addPoint(int index) {
-		int point = certificate.point[index][0];
+		double point = certificate.point[index][0];
 		addLabel(point);
 		setComboBox(index);
 		setTextField(index);
 	}
 
-	private void addLabel(int point) {
+	private void addLabel(double point) {
 		JLabel pointLabel = new JLabel();
-		String label = new StringBuilder(point).toString();
+		String label = new StringBuilder((int) point).toString();
 		pointLabel.setText(label);
 		constrain.gridx = 0;
 		add(pointLabel, constrain);

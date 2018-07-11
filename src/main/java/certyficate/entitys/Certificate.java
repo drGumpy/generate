@@ -4,7 +4,7 @@ import certyficate.dataContainer.IRData;
 import certyficate.dataContainer.Point;
 
 public class Certificate{
-	public int[][] point;
+	public double[][] point;
 	
 	public int channelNumber;
 	

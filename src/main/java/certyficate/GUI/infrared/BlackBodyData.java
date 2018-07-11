@@ -39,10 +39,10 @@ public class BlackBodyData {
 		blackBodyData.put(blackBody, generator);
 	}
 
-	public static JComboBox<String> setComboBox(int pointValue, int index) {
+	public static JComboBox<String> setComboBox(double point, int index) {
 		JComboBox<String> comboBox = new JComboBox<String>();
 		setBlackBodyName(comboBox);
-		if(pointValue == RADIATOR_VALUE) {
+		if(point == RADIATOR_VALUE) {
 			comboBox.addItem(RADIATOR);
 			comboBox.setSelectedItem(RADIATOR);
 		} else {
@@ -58,7 +58,7 @@ public class BlackBodyData {
 		}
 	}
 
-	public static double getBlackBodyError(String blackBodyName, int[] pointValue) {
+	public static double getBlackBodyError(String blackBodyName, double[] pointValue) {
 		BlackBodyGenerator generator = blackBodyData.get(blackBodyName);
 		return generator.getUncertainty(pointValue);
 	}

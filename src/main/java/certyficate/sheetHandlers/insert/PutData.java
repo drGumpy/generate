@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -28,13 +29,16 @@ import certyficate.sheetHandlers.search.*;
 public class PutData {
 	private static Sheet sheet;    
 	
-    private static boolean Rh;                          
+    private static boolean Rh;    
+    
     private static int numberOfPoints;
+    
     private static File file;
     
-    //zmienne z danymi o wzorcowaniu
-    static List<Data> loggers = new ArrayList<Data>();     //wzorcowanie rejejestraotory
-    static List<CalibrationPoint> points = new ArrayList<CalibrationPoint>();     //informacje o punktach wzorcowania
+    private static LoggerData loggerData;
+    
+    static List<Logger> loggers;
+    static List<CalibrationPoint> points;
         
     public static void insertReferenceAndLoggersData() {
     	try {
@@ -45,10 +49,10 @@ public class PutData {
 		}
     }
     
-    
     private static void setData() throws IOException {
     	updateSettings();
 		findCalibrationPoints();
+		setLoggerData();
 	}
 
 	private static void updateSettings() throws IOException {
@@ -63,27 +67,47 @@ public class PutData {
 	}
 	
 	private static void findCalibrationPoints() {
+		points = new ArrayList<CalibrationPoint>();
 		for (int i=0; i< numberOfPoints; i++){
 			addPoint(i);
 		}
+		Collections.sort(points, CalibrationPoint.comparator);
 	}
 
 	private static void addPoint(int index) {
 		int line = 6 + SheetData.pointGap * index;
 		CalibrationPoint point = findPoint(line);
 		point.number = index;
-		point.setDate();
 		points.add(point);
 	}
 
 
 	private static CalibrationPoint findPoint(int line) {
 		CalibrationPoint point = new CalibrationPoint();
-		point.time = DataCalculation.parseTime(sheet.getValueAt(SheetData.timeColumn, line).toString());
-        point.date = DataCalculation.parseDate(sheet.getValueAt(SheetData.dateColumn, line).toString());
+		point.setDate(sheet.getValueAt(SheetData.dateColumn, line).toString());
+		point.setTime(sheet.getValueAt(SheetData.timeColumn, line).toString());
 		return point;
 	}
 
+	private static void setLoggerData() {
+		loggerData = new LoggerData(points);
+		findLoggers();
+		insertLoggersData();
+	}
+
+	private static void findLoggers() {
+		loggers = LoggersFinder.findLoggersFile(sheet);
+	}
+	
+	private static void insertLoggersData() {
+		for(Logger logger: loggers) {
+			insertLoggerData(logger);
+		}
+	}
+
+	private static void insertLoggerData(Logger logger) {
+		Point[] data = loggerData.getData(logger);
+	}
 
 	private static void _sort(CalibrationPoint[] punkty){
         double[] arr = new double[numberOfPoints];
@@ -245,7 +269,7 @@ public class PutData {
 		        String filelocation = path[j] + name + kon[j];
 		        File f = new File(filelocation);
 		        if(f.exists()){
-		            Data das;
+		            Logger das;
 		            switch(j){
 		                case 0:{
 		                    das = new Onset(Rh);

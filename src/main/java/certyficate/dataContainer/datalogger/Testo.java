@@ -1,6 +1,6 @@
 package certyficate.dataContainer.datalogger;
 
-public class Testo extends Data{
+public class Testo extends Logger{
     public Testo(boolean RH) {
         super(RH);
     }
@@ -9,12 +9,12 @@ public class Testo extends Data{
         return 2;
     }
  
-    public Data divide(String line){
+    public Logger divide(String line){
         String[] Data = line.split(";");
         String[] when =Data[1].split(" ");
         
-        Data d= new Data(RH);
-        d.num =Integer.parseInt(Data[0]);
+        Logger d= new Logger(RH);
+        d.deviceNumber =Integer.parseInt(Data[0]);
         
         String[] linedate = when[0].split("\\.");
         d.date = linedate[0]+"."+linedate[1]+"."+linedate[2];

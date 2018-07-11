@@ -38,13 +38,13 @@ public class RhProbe extends ReferenceProbe {
 	}
 
 	@Override
-	protected boolean equalPoint(int[] point, int index) {
+	protected boolean equalPoint(double[] point, int index) {
 		DataProbe data = standardPoints[index];
 		return (point[0] == data.value) && (point[1] == data.valueRh);
 	}
 
 	@Override
-	protected boolean inRange(int[] point, int[] range) {
+	protected boolean inRange(double[] point, int[] range) {
 		return (point[0] >= range[0]) && (point[0] <= range[1]) 
 				&& (point[1] >= range[2]) && (point[1] <= range[3]);
 	}
@@ -54,15 +54,15 @@ public class RhProbe extends ReferenceProbe {
 		DataProbe[] pointsInRange = new DataProbe[rangeSize];
 		for(int i = 0; i < 2; i++) {
 			pointsInRange[i] = findInStandardPoints(
-					new int[]{range[i], range[i+2]});
+					new double[]{range[i], range[i+2]});
 			pointsInRange[i+2] = findInStandardPoints(
-					new int[]{range[i+1], range[i+2]});
+					new double[]{range[i+1], range[i+2]});
 		}
 		return pointsInRange;
 	}
 
 	@Override
-	protected DataProbe caluculate(DataProbe[] pointsInRange, int[] point) {
+	protected DataProbe caluculate(DataProbe[] pointsInRange, double[] point) {
 		return calculate.findPoint(pointsInRange, point);
 	}
 }

@@ -9,7 +9,8 @@ import certyficate.entitys.*;
 import certyficate.property.CalibrationData;
 
 public class CertificateData {
-    final private static String ORDERS_LABEL = "Zlecenia";
+    private static final String ORDERS_LABEL = "Zlecenia";
+    private static final String EMPTY_CELL = "";
 	public static int calibration;
     static Sheet sheet;
     
@@ -37,8 +38,8 @@ public class CertificateData {
     private static void setSheetAndfindOrders()  {
         sheet = CalibrationData.spreadSheet.getSheet(ORDERS_LABEL);
         int line = findFirstOrder();   
-        while(sheet.getValueAt(5,line)!="") {
-            if(sheet.getValueAt(2,line)=="")
+        while(sheet.getValueAt(5,line) != EMPTY_CELL) {
+            if(sheet.getValueAt(2,line) == EMPTY_CELL)
             	checkAndAddOrderData(line);
             line++;
         }
@@ -50,7 +51,7 @@ public class CertificateData {
     	do {
     		line++;
     		element = (String) sheet.getValueAt(2,line);
-    	} while(!"".equals(element));
+    	} while(!EMPTY_CELL.equals(element));
 		return line;
 	}
 	
@@ -76,10 +77,10 @@ public class CertificateData {
 	}
 
 	private static void setProbe(Certificate order, String probe) {
-		String[] probeSerialArray = {""};
+		String[] probeSerialArray = {EMPTY_CELL};
 		order.probeSerialNumber = probe;
         if(!probe.equals(",")) {
-            probe = probe.replaceAll("\\s+", "");
+            probe = probe.replaceAll("\\s+", EMPTY_CELL);
             probeSerialArray = probe.split(",");
         }
 		order.probeSerial = probeSerialArray;

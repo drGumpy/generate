@@ -1,6 +1,8 @@
 package certyficate.dataContainer.datalogger;
 
-public class CEM extends Data{
+import certyficate.dataContainer.PointData;
+
+public class CEM extends Logger{
     public CEM(boolean RH) {
         super(RH);
     }
@@ -9,10 +11,10 @@ public class CEM extends Data{
         return 11;
     }
  
-    public Data divide(String line){
+    public PointData divide(String line){
         String[] Data = line.split("\t");
         String[] when =Data[5].split("/");
-        Data d= new Data(RH);
+        PointData d= new PointData();
       //  d.num =Integer.parseInt(Data[0]);
         
          String[] linedate = when[0].split("-");
@@ -28,7 +30,7 @@ public class CEM extends Data{
          else
              d.temp =tempDatafin[0]+",0";
          
-         if(RH){
+         if(Rh){
              String[] humData = Data[3].split(" ");
              String[] humDatafin = humData[3].split("\\.");
              if(humDatafin.length>1)

@@ -1,6 +1,6 @@
 package certyficate.dataContainer.datalogger;
 
-public class Onset extends Data{
+public class Onset extends Logger{
     public Onset(boolean RH) {
         super(RH);
     }
@@ -9,12 +9,12 @@ public class Onset extends Data{
         return 3;
     }
     
-    public Data divide(String line){
+    public Logger divide(String line){
         String[] Data = line.split(";");
         String[] when =Data[1].split(" ");
         
-        Data d= new Data(RH);
-        d.num =Integer.parseInt(Data[0]);
+        Logger d= new Logger(RH);
+        d.deviceNumber =Integer.parseInt(Data[0]);
         
         String[] linedate = when[0].split("\\.");
         
