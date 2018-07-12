@@ -82,7 +82,7 @@ public class PutData {
 	
 	private static void setProbeData() {
 		Logger reference = new Rotronic(SheetData.Rh);
-		insert.putLoggerData(reference);		
+		insertLoggerData(reference);	
 	}
 
 	private static void setLoggerData() {

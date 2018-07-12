@@ -24,8 +24,9 @@ public class EquipmentParameters {
 	private static void findData() {
 		int size = points.size();
 		equipmentData = new DataProbe[size];
-		for(int i = 0; i < size; i++)
+		for(int i = 0; i < size; i++) {
 			setPoint(i);
+		}
 	}
 
 	private static void setPoint(int i) {

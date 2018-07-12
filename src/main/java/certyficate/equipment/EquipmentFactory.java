@@ -2,10 +2,12 @@ package certyficate.equipment;
 
 import java.io.IOException;
 
+import certyficate.equipment.type.BlackBodyGenerator;
 import certyficate.equipment.type.Equipment;
 import certyficate.equipment.type.RhProbe;
 import certyficate.equipment.type.TProbe;
 import certyficate.files.PathCreator;
+import certyficate.property.CalibrationData;
 
 public class EquipmentFactory {
 	private static Equipment equipment;
@@ -13,6 +15,11 @@ public class EquipmentFactory {
 	public static Equipment getEquipment(EquipmentType equipmentType)
 			throws IOException {
 		findAndGetEquipment (equipmentType);
+		return equipment;
+	}
+	
+	public static Equipment getChamberData() throws IOException {
+		Equipment equipment = GetChamberData ();
 		return equipment;
 	}
 
@@ -55,19 +62,31 @@ public class EquipmentFactory {
 		equipment = new TProbe(path);
 	}
 	
-	private static void setChamberTemperature() throws IOException {
-		String path = PathCreator.filePath("");
-		//TODO chamber method
-	}
-	
-	private static void setChamberHumidity() throws IOException {
-		String path = PathCreator.filePath("");
-		//TODO chamber method
-	}
-
 	private static void setEnvironment() throws IOException {
 		String path = PathCreator.filePath("w-srod.txt");
 		equipment = new RhProbe(path);
 	}
-
+	
+	private static Equipment GetChamberData() throws IOException {
+		Equipment equipment;
+		switch(CalibrationData.calibrationType) {
+		case HUMINIDITY:
+			equipment = setChamberHumidity();
+			break;
+		default:
+			equipment = setChamberTemperature();
+			break;
+		}
+		return equipment;
+	}
+	
+	private static Equipment setChamberTemperature() throws IOException {
+		String path = PathCreator.filePath("12-03914 t.txt");
+		return null; //TODO t chamber
+	}
+	
+	private static Equipment setChamberHumidity() throws IOException {
+		String path = PathCreator.filePath("12-03914 Rh.txt");
+		return null; //TODO t/Rh chamber
+	}
 }

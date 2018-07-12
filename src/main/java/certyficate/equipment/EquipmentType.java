@@ -12,12 +12,22 @@ public enum EquipmentType {
 	BLACK_BODY_GENERATOR,
 	ENVIRONMENT;
 	
-	public static EquipmentType setEquipmentType() {
+	public static EquipmentType setReferenceType() {
 		EquipmentType equipment;
 		if(CalibrationData.calibrationType == CalibrationType.HUMINIDITY) {
 			equipment = HUMIDITY_REFERENCE;
 		} else {
 			equipment = TEMPERATURE_REFERENCE;
+		}
+		return equipment;
+	}
+
+	public static EquipmentType setChamber() {
+		EquipmentType equipment;
+		if(CalibrationData.calibrationType == CalibrationType.HUMINIDITY) {
+			equipment = CHAMBER_HUMIDITY;
+		} else {
+			equipment = CHAMBER_TEMPERATURE;
 		}
 		return equipment;
 	}

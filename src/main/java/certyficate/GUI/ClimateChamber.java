@@ -139,13 +139,13 @@ public class ClimateChamber extends JPanel {
 		}
 		
 		private void findReferenceData() throws IOException {
-			CalibrationData.probe
-				= EquipmentParameters.find(EquipmentType.setEquipmentType());
+			EquipmentType probe = EquipmentType.setReferenceType();
+			CalibrationData.probe = EquipmentParameters.find(probe);
 		}
 		
-		private void findChamberData() {
-			// TODO Auto-generated method stub
-			
+		private void findChamberData() throws IOException {
+			EquipmentType chamber = EquipmentType.setChamber();
+			CalibrationData.chamber = EquipmentParameters.find(chamber);
 		}
 
 		private void generateCalibrationDocuments() {
