@@ -1,7 +1,7 @@
 package certyficate.dataContainer;
 
 public class Point {
-	final private int MEASUREMENTS_POINTS = 10;
+	private static final int MEASUREMENTS_POINTS = 10;
 	public int numberOfParamters;
 	
 	public double[][] data;

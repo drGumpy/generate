@@ -3,7 +3,8 @@ package certyficate.sheetHandlers.search;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
- 
+import java.util.List;
+
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
@@ -12,13 +13,9 @@ import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 
 public class MeasurementsData {
-	private static ArrayList<CalibrationPoint> points 
-		= new ArrayList<CalibrationPoint>();
+	private static List<CalibrationPoint> points;
     
 	static Sheet sheet;
-    
-	private static int calibrationPoints 
-		= CalibrationData.calibrationPoints;
 
     public static void findProbeData() {
     	int line = SheetData.startRow - CalibrationData.numberOfParameters;
@@ -38,20 +35,22 @@ public class MeasurementsData {
 	}
 	
 	private static void getCalibtationPoints() {
+		points = new ArrayList<CalibrationPoint>();
 		int line = 6;
-		for(int i = 0; i < calibrationPoints; i++){
+		for(int i = 0; i < CalibrationData.calibrationPoints; i++){
 			addCalibrationPoint(line);
 			line += SheetData.pointGap;
 		}
+		CalibrationData.point = points;
 	}
 
 	private static void addCalibrationPoint(int line) {
 		CalibrationPoint point = new CalibrationPoint();
-		point.time = sheet.getValueAt(SheetData.timeColumn, line)
-				.toString();
-		point.date = sheet.getValueAt(SheetData.dateColumn, line)
-				.toString();
-		point.number = points.size();
+		point.setTime(sheet.getValueAt(SheetData.timeColumn, line)
+				.toString());
+		point.setDate(sheet.getValueAt(SheetData.dateColumn, line)
+				.toString());
+		point.set(points.size());
 		point.point = getPoint(line);
 		points.add(point);
 	}

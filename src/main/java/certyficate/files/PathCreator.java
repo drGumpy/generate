@@ -84,5 +84,12 @@ public class PathCreator {
 		path.append(withSeparator("rejestratory"));
 		return path;
 	}
+
+	public static String probeDataPath() {
+		StringBuilder path = new StringBuilder(withSeparator("P:"));
+		path.append(withSeparator("Laboratorium"));
+		path.append(withSeparator("Wyniki z wzorca"));
+		return path.toString();
+	}
 	
 }

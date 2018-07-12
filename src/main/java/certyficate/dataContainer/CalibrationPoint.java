@@ -19,8 +19,8 @@ public class CalibrationPoint{
 	
 	public int number;
 	
-	public String date = "";
-	public String time = "";
+	private String date;
+	private String time;
 	
 	private Date pointDate;
 	
@@ -28,15 +28,30 @@ public class CalibrationPoint{
 		point = new double[CalibrationData.numberOfParameters];
 	}
 	
+	public Date getPointDate() {
+		return pointDate;
+	}
+	
+	public String getDate() {
+		return date;
+	}
+	
 	public void set(int number){
 		this.number= number;
+	}	
+	
+	public boolean equalDate(CalibrationPoint point) {
+		return pointDate.equals(point.getPointDate());
+	}
+	
+	public boolean equalDay(CalibrationPoint point) {
+		return date.equals(point.getDate());
 	}
 
 	public void setDate(String dateString) {
 		pointDate = getDate(dateString);
 		date = new SimpleDateFormat(DATE_FORMAT).format(pointDate);
 	}
-	
 
 	private Date getDate(String dateString) {
 		Date date;

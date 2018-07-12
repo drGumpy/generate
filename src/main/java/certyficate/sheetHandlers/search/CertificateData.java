@@ -37,13 +37,17 @@ public class CertificateData {
     //Wyszukiwanie nie wsytawionych świadectw - brak daty wzorcowania
     private static void setSheetAndfindOrders()  {
         sheet = CalibrationData.spreadSheet.getSheet(ORDERS_LABEL);
-        int line = findFirstOrder();   
+        findOrders();
+    }
+
+	private static void findOrders() {
+		int line = findFirstOrder();   
         while(sheet.getValueAt(5,line) != EMPTY_CELL) {
             if(sheet.getValueAt(2,line) == EMPTY_CELL)
             	checkAndAddOrderData(line);
             line++;
         }
-    }
+	}
 
 	private static int findFirstOrder() {
     	int line = 0;

@@ -369,4 +369,9 @@ public class Generate {
     public ArrayList<String> getDone() {
         return done;
     }
+
+	public static void generateDocuments() {
+		// TODO Auto-generated method stub
+		
+	}
 }

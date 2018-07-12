@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jopendocument.dom.spreadsheet.Sheet;
 
-import certyficate.dataContainer.datalogger.*;
+import certyficate.datalogger.*;
 import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;

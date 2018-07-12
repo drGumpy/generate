@@ -11,13 +11,18 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import certyficate.GUI.infrared.InfraredParametrs;
+import certyficate.calculation.EnvironmentData;
 import certyficate.dataContainer.Chamber;
+import certyficate.equipment.EquipmentParameters;
+import certyficate.equipment.EquipmentType;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.equipment.type.Equipment;
 import certyficate.equipment.type.RhProbe;
 import certyficate.equipment.type.TProbe;
 import certyficate.generate.DisplayedText;
 import certyficate.generate.Generate;
+import certyficate.generate.IRGenerate;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 import certyficate.sheetHandlers.insert.PutData;
@@ -34,9 +39,6 @@ public class ClimateChamber extends JPanel {
 	public static final int HIGHT = 23;
 	
 	static ChamberSettings settings;
-	
-	private JButton generate;
-	private JButton dataLogger;
 	
 	private Console console;
 	
@@ -64,7 +66,7 @@ public class ClimateChamber extends JPanel {
 
 
 	private void setChamberSettings() {
-		settings = new ChamberSettings();
+		ChamberSettings settings = new ChamberSettings();
 		constrain.gridwidth = 2;
         add(settings, constrain);
 	}
@@ -80,31 +82,76 @@ public class ClimateChamber extends JPanel {
 	}
 	
 	private class DataLoggerListener implements ActionListener {
-
 		public void actionPerformed(ActionEvent e) {
-			SheetData.setChamberData(CalibrationData.calibrationType);
-            File file = sheetFinder.getFile();
-            PutData.set(Rh, file , points);
-            try {
-                calPoint=PutData.getPoints();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            PutData.run();
-            PutData.clean();
-            settings.setEnabled(false);
+			setSheetData();
+			PutData.insertReferenceAndLoggersData();
 		}
-		
 	}
-
-
+	
+	private void setSheetData() {
+		SheetData.setChamberData(CalibrationData.calibrationType);
+	}
+	
 	private void setGenerationButton() {
 		JButton generate= new JButton(GENERATION_BUTTON);
 		generate.setMinimumSize(new Dimension(WIDTH, HIGHT));
+		generate.addActionListener(new GenerateListener());
 		constrain.gridx = 1;
         add(generate, constrain);
 	}
 
+	private class GenerateListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			setSheetData();
+			getFilesData();
+			generateCalibrationDocuments();
+			PutDate.calibrationDate();
+			console.close();
+		}
+		
+		private void getFilesData()  {
+			try {
+				findCalibrationData();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		private void findCalibrationData() throws IOException {
+			findMeasurmentsData();
+			findReferenceData();
+			findChamberData();
+			EnvironmentData.setEnvirometsData();
+		}
+
+		private void findMeasurmentsData() throws IOException {
+			getCalibrationData();
+			findMeasurementsData();
+		}
+		
+		private void getCalibrationData() {
+			CertificateData.findOrdersData();
+		}
+		
+		private void findMeasurementsData() throws IOException {
+			MeasurementsData.findMeasurementsData();
+			MeasurementsData.findProbeData();
+		}
+		
+		private void findReferenceData() throws IOException {
+			CalibrationData.probe
+				= EquipmentParameters.find(EquipmentType.setEquipmentType());
+		}
+		
+		private void findChamberData() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		private void generateCalibrationDocuments() {
+			Generate.generateDocuments();
+		}
+	}
 
 	private JPanel _climateChamber(){
 	    	JPanel jp = new JPanel();
