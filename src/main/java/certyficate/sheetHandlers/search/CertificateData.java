@@ -14,7 +14,7 @@ public class CertificateData {
 	public static int calibration;
     static Sheet sheet;
     
-    private static ArrayList<Certificate> orders = new ArrayList<Certificate>();
+    private static ArrayList<Order> orders = new ArrayList<Order>();
 
     private static HashMap<String, Client> clientsData =new HashMap<String, Client>();
     
@@ -60,13 +60,13 @@ public class CertificateData {
 	}
 	
 	private static void checkAndAddOrderData(int line) {
-		Certificate order = new Certificate();
+		Order order = new Order();
 		order.calibrationCode = sheet.getValueAt(9,line).toString();
 		if(verification.checkCalibrationCode(order))
 			addOrder(line, order);
 	}
 	
-	private static void addOrder(int line, Certificate order) {
+	private static void addOrder(int line, Order order) {
 		String probe = sheet.getValueAt(8,line).toString();
         order.numberOfCalibration = sheet.getValueAt(1,line).toString();
         order.declarant.name = sheet.getValueAt(3,line).toString();
@@ -80,7 +80,7 @@ public class CertificateData {
         addToContainers(order);
 	}
 
-	private static void setProbe(Certificate order, String probe) {
+	private static void setProbe(Order order, String probe) {
 		String[] probeSerialArray = {EMPTY_CELL};
 		order.probeSerialNumber = probe;
         if(!probe.equals(",")) {
@@ -90,7 +90,7 @@ public class CertificateData {
 		order.probeSerial = probeSerialArray;
 	}
 
-	private static void addToContainers(Certificate order) {
+	private static void addToContainers(Order order) {
 		clientsData.put(order.declarant.name, order.declarant);
 		clientsData.put(order.user.name, order.user);
 		devicesData.put(order.device.model, order.device);
@@ -106,7 +106,7 @@ public class CertificateData {
        
     private static void completeCertyficationData(int index) {
     	completeCertyficationData(index);
-    	Certificate certyficate  = orders.get(index);
+    	Order certyficate  = orders.get(index);
         certyficate.declarant = clientsData.get(orders.get(index).declarant.name);
         certyficate.user = clientsData.get(orders.get(index).user.name);
         certyficate.device = devicesData.get(orders.get(index).device.model);
@@ -114,7 +114,7 @@ public class CertificateData {
         orders.set(index, certyficate);
 	}
 
-	private static void checkProbe(Certificate certyficate, int index) {
+	private static void checkProbe(Order certyficate, int index) {
 		if(probesData.containsKey(orders.get(index).probe.model)) {
 			certyficate.probe = probesData.get(orders.get(index).probe.model);
 		} else {

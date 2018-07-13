@@ -10,13 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import certyficate.dataContainer.IRData;
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 
 @SuppressWarnings("serial")
 public class PointPanel extends JPanel {
 	private int numberOfParametrs;
 	
-	private Certificate certificate;
+	private Order certificate;
 	
 	private JComboBox<String>[] blackBodyChoose;
 	
@@ -31,7 +31,7 @@ public class PointPanel extends JPanel {
 		}
 	}
 	
-	PointPanel(Certificate certificate) {
+	PointPanel(Order certificate) {
 		this.certificate = certificate;
 		setPanelData();
 		addPoints();

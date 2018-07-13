@@ -3,7 +3,7 @@ package certyficate.entitys;
 import certyficate.dataContainer.IRData;
 import certyficate.dataContainer.Point;
 
-public class Certificate{
+public class Order{
 	public double[][] point;
 	
 	public int channelNumber;

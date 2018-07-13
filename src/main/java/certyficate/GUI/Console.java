@@ -52,7 +52,7 @@ public class Console extends JFrame {
     static ChamberSettings settings = new ChamberSettings();
     
 	//dane na temat wzorcowania
-    static ArrayList<Certificate> data = new ArrayList<Certificate>();
+    static ArrayList<Order> data = new ArrayList<Order>();
     static ArrayList<CalibrationPoint> calPoint = new ArrayList<CalibrationPoint>();
     
     private static DataProbe[] dataProbe;

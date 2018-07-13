@@ -22,7 +22,7 @@ import certyficate.equipment.type.RhProbe;
 import certyficate.equipment.type.TProbe;
 import certyficate.generate.DisplayedText;
 import certyficate.generate.Generate;
-import certyficate.generate.IRGenerate;
+import certyficate.generate.Generate;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 import certyficate.sheetHandlers.insert.PutData;

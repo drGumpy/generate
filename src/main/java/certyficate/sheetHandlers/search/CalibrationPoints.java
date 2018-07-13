@@ -1,7 +1,7 @@
 package certyficate.sheetHandlers.search;
 
 import certyficate.dataContainer.CalibrationType;
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 import certyficate.property.CalibrationData;
 
 public class CalibrationPoints {
@@ -33,7 +33,7 @@ public class CalibrationPoints {
 		return point;
 	}
 
-	public static void setPoint(Certificate order) {
+	public static void setPoint(Order order) {
 		String code = order.calibrationCode;
 		order.point = findPoints(code);
 	}

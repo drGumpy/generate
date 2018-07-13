@@ -1,6 +1,6 @@
 package certyficate.dataContainer;
 
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 import certyficate.generate.*;
 
 public class IRData {
@@ -25,7 +25,7 @@ public class IRData {
 		blackBodyName = new String[numberOfParametrs];
 	}
 
-	public boolean checkPoint(Certificate certificate) {
+	public boolean checkPoint(Order certificate) {
 		boolean answer;
 		if(point != null && point.equals(certificate.point));
 			answer = true;

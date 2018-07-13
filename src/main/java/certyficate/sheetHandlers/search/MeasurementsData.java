@@ -9,6 +9,7 @@ import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 import certyficate.dataContainer.*;
+import certyficate.entitys.Order;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 
@@ -16,6 +17,8 @@ public class MeasurementsData {
 	private static List<CalibrationPoint> points;
     
 	static Sheet sheet;
+	
+	private static List<Measurements> devices;
 
     public static void findProbeData() {
     	int line = SheetData.startRow - CalibrationData.numberOfParameters;
@@ -26,9 +29,14 @@ public class MeasurementsData {
 	public static void findMeasurementsData() throws IOException {
 		setSheet();
 		getCalibtationPoints();
-		MeasurementResults.findMeasurmentData();
+		findMeasurments();
 	}
 	
+	private static void findMeasurments() {
+		devices = MeasurementResults.findMeasurmentData();
+		addMeasurmentsToOrders();
+	}
+
 	private static void setSheet() throws IOException {
 		File file = CalibrationData.sheet;
 		sheet = SpreadSheet.createFromFile(file).getSheet(SheetData.sheetName);
@@ -61,6 +69,31 @@ public class MeasurementsData {
 			point[i] = Double.parseDouble(sheet.getValueAt(1 - i, line)
 					.toString());
 		return point;
+	}
+	
+	private static void addMeasurmentsToOrders() {
+		for(Order order: CalibrationData.orders) {
+			findAndAddMeasurmentsData(order);
+			checkMeasurmentsData(order);
+		}
+	}
+
+	private static void findAndAddMeasurmentsData(Order order) {
+		for(Measurements device: devices) {
+			check(device, order);
+		}
+	}
+
+	private static void check(Measurements device, Order order) {
+		if(device.match(order)) {
+			order.measurmets = device.measurmets;
+		}
+	}
+	
+	private static void checkMeasurmentsData(Order order) {
+		if(order.measurmets == null) {
+			CalibrationData.orders.remove(order);
+		}
 	}
 }
  

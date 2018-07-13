@@ -2,7 +2,7 @@ package certyficate.sheetHandlers.search;
 
 import java.util.HashSet;
 
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 import certyficate.property.CalibrationData;
 
 public class CodeVerification {
@@ -24,12 +24,12 @@ public class CodeVerification {
 		}
 	}
 	
-	public boolean checkCalibrationCode(Certificate order) {
+	public boolean checkCalibrationCode(Order order) {
 		String code = findCodeAndPoints(order);
 		return VerificationCriteria.contains(code);
 	}
 	
-	private String findCodeAndPoints(Certificate order) {
+	private String findCodeAndPoints(Order order) {
 		String code = order.calibrationCode;
 		int indexOfSeparator = code.indexOf("-");
 		if(indexOfSeparator != -1) {

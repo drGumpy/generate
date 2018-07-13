@@ -1,6 +1,6 @@
 package certyficate.dataContainer;
 
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 
 public class Measurements{
 	public int num;
@@ -11,7 +11,7 @@ public class Measurements{
 		measurmets = new Point[numberOfPoint];
 	}
 
-	public boolean match(Certificate certificate) {
+	public boolean match(Order certificate) {
 		boolean answer = false;
 		if(name != null && name.equals(certificate.deviceSerialNumber)) {
 			answer = true;

@@ -30,7 +30,7 @@ public class InfraredParametrs extends JDialog {
 	
 	private PyrometerPanel[] pyrometers;
 	
-	private List<Certificate> data;
+	private List<Order> data;
 	
 	private int devicesPerWindow = 2 * DEVICES_PER_LINE;
 	private int numberOfOrders;
@@ -59,7 +59,7 @@ public class InfraredParametrs extends JDialog {
 
 	private int findMaxCalibrationPoints() {
 		int max = 0;
-		for(Certificate calibration: data) {
+		for(Order calibration: data) {
 			int calibrationPoints = calibration.point.length;
 			max = Math.max(max, calibrationPoints);
 		}
@@ -120,7 +120,7 @@ public class InfraredParametrs extends JDialog {
 	}
 
 	private void setPyrometrPanel(JPanel panel, int index) {
-		Certificate certificate = data.get(index);
+		Order certificate = data.get(index);
 		pyrometers[index] = new PyrometerPanel(certificate, this);
 		constrain.gridy = index / DEVICES_PER_LINE;
 		constrain.gridx = index % DEVICES_PER_LINE;

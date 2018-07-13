@@ -1,7 +1,7 @@
 package certyficate.generate;
 
 import certyficate.dataContainer.IRData;
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 import certyficate.entitys.Client;
 import certyficate.property.CalibrationData;
 
@@ -45,7 +45,7 @@ public class CertificateText {
 		return builder.toString();
 	}
 
-	public static String setDescription(Certificate certificate) {
+	public static String setDescription(Order certificate) {
 		StringBuilder builder = new StringBuilder(certificate.device.type);
 		builder.append(", model:"); 
 		builder.append(certificate.device.model);
@@ -60,7 +60,7 @@ public class CertificateText {
 		return builder.toString();
 	}
 
-	private static StringBuilder setProbe(Certificate certificate) {
+	private static StringBuilder setProbe(Order certificate) {
 		StringBuilder builder;
 		if(certificate.probe.type.equals("")) {
 			builder = probeWithoutModel(certificate);
@@ -70,7 +70,7 @@ public class CertificateText {
 		return builder;
 	}
 
-	private static StringBuilder probeWithoutModel(Certificate certificate) {
+	private static StringBuilder probeWithoutModel(Order certificate) {
 		StringBuilder builder = new StringBuilder(", z");
 		builder.append(certificate.probe.model);
 		builder.append(", nr seryjny: ");
@@ -78,7 +78,7 @@ public class CertificateText {
 		return builder;
 	}
 
-	private static StringBuilder probeWithModel(Certificate certificate) {
+	private static StringBuilder probeWithModel(Order certificate) {
 		StringBuilder builder = new StringBuilder(", z");
 		builder.append(certificate.probe.type);
 		builder.append(" model ");

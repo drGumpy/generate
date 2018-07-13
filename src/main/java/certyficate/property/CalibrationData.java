@@ -8,7 +8,7 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import certyficate.dataContainer.CalibrationPoint;
 import certyficate.dataContainer.CalibrationType;
 import certyficate.dataContainer.Measurements;
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 import certyficate.equipment.calculation.DataProbe;
 
 public class CalibrationData {
@@ -18,7 +18,7 @@ public class CalibrationData {
 	
 	public static String referenceSerial;
 	
-	public static List<Certificate> orders;
+	public static List<Order> orders;
 	
 	public static List<Measurements> devices;
 	

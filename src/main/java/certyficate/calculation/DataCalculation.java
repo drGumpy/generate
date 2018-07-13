@@ -64,8 +64,8 @@ public class DataCalculation {
     public static double uncertainty(double[] number){
         double sum= 0;
         for(int i=0; i<number.length; i++)
-            sum+= Math.pow(number[i], 2.0);
-        sum= Math.sqrt(sum);
+            sum += Math.pow(number[i], 2.0);
+        sum = Math.sqrt(sum);
         return sum;
     }
     

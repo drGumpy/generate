@@ -13,7 +13,7 @@ import certyficate.calculation.EnvironmentData;
 import certyficate.dataContainer.CalibrationType;
 import certyficate.equipment.EquipmentParameters;
 import certyficate.equipment.EquipmentType;
-import certyficate.generate.IRGenerate;
+import certyficate.generate.Generate;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 import certyficate.sheetHandlers.insert.PutDate;
@@ -97,7 +97,7 @@ public class InfraredPanel extends JPanel {
 		}	
 
 		private void generateCalibrationDocuments() {
-			IRGenerate.generateDocuments();
+			Generate.generateDocuments();
 		}
 	}
 }

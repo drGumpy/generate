@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import certyficate.dataContainer.IRData;
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 
 @SuppressWarnings("serial")
 public class PyrometerPanel extends JPanel {
@@ -38,7 +38,7 @@ public class PyrometerPanel extends JPanel {
 	
 	private PointPanel pointPanel;
 	
-	private Certificate certificate;
+	private Order certificate;
 	
 	private GridBagConstraints constrain;
 	
@@ -48,7 +48,7 @@ public class PyrometerPanel extends JPanel {
 		pointPanel.setEditability(active);
 	}
 	
-	public PyrometerPanel(Certificate certificate, InfraredParametrs infraredParametrs) {
+	public PyrometerPanel(Order certificate, InfraredParametrs infraredParametrs) {
 		owner = infraredParametrs;
 		this.certificate = certificate;
 		setBorder(new TitledBorder(certificate.declarant.name));

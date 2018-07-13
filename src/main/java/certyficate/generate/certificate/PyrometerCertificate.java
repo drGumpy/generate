@@ -1,4 +1,4 @@
-package certyficate.generate;
+package certyficate.generate.certificate;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,12 +10,13 @@ import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 import certyficate.dataContainer.CertificateValue;
-import certyficate.entitys.Certificate;
+import certyficate.entitys.Order;
 import certyficate.entitys.Client;
 import certyficate.files.PathCreator;
+import certyficate.generate.CertificateText;
 import certyficate.property.CalibrationData;
 
-public class PyrometerCertificate {
+public class PyrometerCertificate extends Certificate {
 	private static final String FILE_NAME = "sw_IR.ods";
 	private static final String SHEET_NAME = "Świadectwo wzorcowania";
 	
@@ -27,19 +28,19 @@ public class PyrometerCertificate {
 	
 	private static Sheet sheet;
 	
-	static Certificate certificate;
+	static Order certificate;
 	
 	static List<CertificateValue> pointData;
 	
 	static String[] environment;
 	
-	public static void setCertificate(Certificate certificateData,
+	public void setCertificate(Order certificateData,
 			List<CertificateValue> calibration) throws IOException {
 		setCalibrationData(certificateData, calibration);
 		setDataSheet();
 	}
 	
-	private static void setCalibrationData(Certificate certificateData,
+	private static void setCalibrationData(Order certificateData,
 			List<CertificateValue> calibration) {
 		certificate = certificateData;
 		pointData = calibration;

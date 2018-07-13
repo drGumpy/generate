@@ -8,23 +8,24 @@ import org.jopendocument.dom.spreadsheet.Sheet;
 import certyficate.calculation.PointCalculation;
 import certyficate.dataContainer.Measurements;
 import certyficate.dataContainer.Point;
-import certyficate.entitys.Certificate;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 
 public class MeasurementResults {
 	final private static int MEASUREMENTS_POINTS = 10;
+	final private static String NON_DATA = "-";
+	final private static String EMPTY_CELL = "";
+	
 	private static int calibrationPoints;
 	
 	private static List<Measurements> devices;
 	
 	private static Sheet sheet;
 	
-	static void findMeasurmentData() {
+	static List<Measurements> findMeasurmentData() {
 		setProperties();
 		findDevicesData();
-		addMeasurmentsToOrders();
-		CalibrationData.devices = devices;
+		return devices;
 	}	
 
 	private static void setProperties() {
@@ -43,7 +44,7 @@ public class MeasurementResults {
 
 	private static void checkAndAddDevice(int line) {
 		String name = sheet.getValueAt(1,line).toString();
-		if(!name.equals("")) {
+		if(!EMPTY_CELL.equals(name)) {
 			Measurements device = findDeviceResults(line);
 			device.name = name;
 			devices.add(device);
@@ -55,7 +56,7 @@ public class MeasurementResults {
         		new Measurements(calibrationPoints);
         for(int i = 0; i < calibrationPoints; i++){
         	device.measurmets[i] = findPoint(line);
-        	line+=SheetData.pointGap;
+        	line += SheetData.pointGap;
         }            
         return device;
 	}
@@ -96,8 +97,8 @@ public class MeasurementResults {
 			throws NumberFormatException {
 		double number;
 		String integer = sheet.getValueAt(column,line).toString();
-		if("-".equals(integer)) {
-			number = -1;
+		if(NON_DATA.equals(integer)) {
+			number = Double.NaN;
 		} else {
 			String decimal = sheet.getValueAt(column,line).toString();
 			number = createDouble(integer, decimal);
@@ -117,30 +118,5 @@ public class MeasurementResults {
 		bulider.append(".");
 		bulider.append(decimal);
 		return bulider.toString();
-	}
-	
-	private static void addMeasurmentsToOrders() {
-		for(Certificate order: CalibrationData.orders) {
-			findAndAddMeasurmentsData(order);
-			checkMeasurmentsData(order);
-		}
-	}
-
-	private static void findAndAddMeasurmentsData(Certificate order) {
-		for(Measurements device: devices) {
-			check(device, order);
-		}
-	}
-
-	private static void check(Measurements device, Certificate order) {
-		if(device.match(order)) {
-			order.measurmets = device.measurmets;
-		}
-	}
-	
-	private static void checkMeasurmentsData(Certificate order) {
-		if(order.measurmets == null) {
-			CalibrationData.orders.remove(order);
-		}
 	}
 }

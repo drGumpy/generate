@@ -28,8 +28,9 @@ public class PointCalculation {
 
 	private static double calculaleAverage(int index) {
 		double average = 0;
-		for(int i = 0; i < MEASUREMENTS_POINTS; i++)
+		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
 			average += point.data[index][i];
+		}
 		average /= MEASUREMENTS_POINTS;
 		return average;
 	}
@@ -37,8 +38,7 @@ public class PointCalculation {
 	private static double calculateStandardDeviation(int index) {
         double standardDeviation=0;
         for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
-        	double number = point.data[index][i] 
-        			- point.average[index];
+        	double number = point.data[index][i] - point.average[index];
         	standardDeviation += Math.pow(number, 2);
         }
         standardDeviation /= MEASUREMENTS_POINTS;
