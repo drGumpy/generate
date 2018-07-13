@@ -28,6 +28,11 @@ public class Generate {
     
     private String[] environment;
     
+	public static void generateDocuments() {
+		// TODO Auto-generated method stub
+		
+	}
+    
     // informacja odnośnie sond i kanałów urządzeń
     private String _find(String probeSerial, String chanel) {
         String val ="";  
@@ -369,9 +374,4 @@ public class Generate {
     public ArrayList<String> getDone() {
         return done;
     }
-
-	public static void generateDocuments() {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -8,7 +8,7 @@ import certyficate.equipment.calculation.DataProbe;
 import certyficate.files.ReaderCreator;
 
 public abstract class Equipment {
-	final protected String SEPARATOR = "/t";
+	protected static final String SEPARATOR = "/t";
 	
 	public Calculate calculate;
 	
@@ -41,13 +41,11 @@ public abstract class Equipment {
 	}
 	
 	protected int getInteger(String element) {
-		int data = Integer.parseInt(element);
-		return data;
+		return Integer.parseInt(element);
 	}
 	
 	protected double getDouble(String element) {
-		double data = Double.parseDouble(element);
-		return data;
+		return Double.parseDouble(element);
 	}
 	
 	private void getRangesData(BufferedReader reader) throws IOException {

@@ -2,7 +2,8 @@ package certyficate.equipment;
 
 import java.io.IOException;
 
-import certyficate.equipment.type.BlackBodyGenerator;
+import certyficate.equipment.type.ChamberRh;
+import certyficate.equipment.type.ChamberT;
 import certyficate.equipment.type.Equipment;
 import certyficate.equipment.type.RhProbe;
 import certyficate.equipment.type.TProbe;
@@ -34,12 +35,6 @@ public class EquipmentFactory {
 			break;
 		case INFRARED_REFERENCE:
 			setInfraredReference();
-			break;
-		case CHAMBER_TEMPERATURE:
-			setChamberTemperature();
-			break;
-		case CHAMBER_HUMIDITY:
-			setChamberHumidity();
 			break;
 		default:
 			setEnvironment();
@@ -82,11 +77,11 @@ public class EquipmentFactory {
 	
 	private static Equipment setChamberTemperature() throws IOException {
 		String path = PathCreator.filePath("12-03914 t.txt");
-		return null; //TODO t chamber
+		return new ChamberT(path);
 	}
 	
 	private static Equipment setChamberHumidity() throws IOException {
 		String path = PathCreator.filePath("12-03914 Rh.txt");
-		return null; //TODO t/Rh chamber
+		return new ChamberRh(path);
 	}
 }
