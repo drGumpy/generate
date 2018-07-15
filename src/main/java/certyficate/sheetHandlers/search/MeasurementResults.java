@@ -5,9 +5,6 @@ import java.util.List;
 
 import org.jopendocument.dom.spreadsheet.Sheet;
 
-import certyficate.calculation.PointCalculation;
-import certyficate.dataContainer.Measurements;
-import certyficate.dataContainer.Point;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 

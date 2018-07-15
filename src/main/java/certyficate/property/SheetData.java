@@ -1,7 +1,5 @@
 package certyficate.property;
 
-import certyficate.dataContainer.CalibrationType;
-
 public class SheetData {
 	public static String sheetName;
 	public static String probeSerialNumber;

@@ -1,4 +1,4 @@
-package certyficate.dataContainer;
+package certyficate.sheetHandlers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +14,8 @@ public class CalibrationPoint{
 	private static final String DATE_FORMAT = "dd.MM.yyyy";
 	private static final String SHEET_TIME_FORMAT = "'PT'HH'H'mm'M's'S'";
 	private static final String TIME_FORMAT = "HH:mm";
+	
+	private static final Locale LOCALE =  Locale.US;
 	
 	public double[] point;
 	
@@ -36,6 +38,10 @@ public class CalibrationPoint{
 		return date;
 	}
 	
+	public String getTime() {
+		return time;
+	}
+	
 	public void set(int number){
 		this.number= number;
 	}	
@@ -56,7 +62,7 @@ public class CalibrationPoint{
 	private Date getDate(String dateString) {
 		Date date;
     	try {
-			date = new SimpleDateFormat(SHEET_DATE_FORMAT, Locale.US).parse(dateString);
+			date = new SimpleDateFormat(SHEET_DATE_FORMAT, LOCALE).parse(dateString);
 		} catch (ParseException e) {
 			date = defaultDateFormat(dateString);
 		}
@@ -66,7 +72,7 @@ public class CalibrationPoint{
 	private Date defaultDateFormat(String dateString) {
 		Date date;
 		try {
-			date = new SimpleDateFormat(DATE_FORMAT, Locale.US).parse(dateString);
+			date = new SimpleDateFormat(DATE_FORMAT, LOCALE).parse(dateString);
 		} catch (ParseException e) {
 			date = null;
 			e.printStackTrace();
@@ -92,7 +98,7 @@ public class CalibrationPoint{
 	private Date defaultTimeFormat(String timeString) {
 		Date date;
 		try {
-			date = new SimpleDateFormat(TIME_FORMAT, Locale.US).parse(timeString);
+			date = new SimpleDateFormat(TIME_FORMAT, LOCALE).parse(timeString);
 		} catch (ParseException e) {
 			date = null;
 			e.printStackTrace();

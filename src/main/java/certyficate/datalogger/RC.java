@@ -1,7 +1,5 @@
 package certyficate.datalogger;
 
-import certyficate.dataContainer.PointData;
-
 public class RC extends Logger{
 	protected static final String LINE_DATA_SEPARATOR = "\t";
 	protected static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";

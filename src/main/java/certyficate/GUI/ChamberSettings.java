@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
-import certyficate.dataContainer.CalibrationType;
 import certyficate.property.CalibrationData;
+import certyficate.property.CalibrationType;
 
 @SuppressWarnings("serial")
 public class ChamberSettings extends JPanel {

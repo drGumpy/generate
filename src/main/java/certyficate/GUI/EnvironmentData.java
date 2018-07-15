@@ -1,11 +1,12 @@
-package certyficate.calculation;
+package certyficate.GUI;
 
 import java.io.IOException;
-import certyficate.GUI.EnvironmentPanel;
+
 import certyficate.equipment.EquipmentFactory;
 import certyficate.equipment.EquipmentType;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.equipment.type.Equipment;
+import certyficate.generate.DataCalculation;
 import certyficate.property.CalibrationData;
 
 public class EnvironmentData {
@@ -70,8 +71,8 @@ public class EnvironmentData {
 	
 	private static void roundNumbers() {
 		for(int i = 0; i < NUMBER_OF_PARAMETRS; i++) {
-			environmentData[i] = DataCalculation.round_(
+			environmentData[i] = DataCalculation.roundToPlace(
 					environmentData[i], ROUNDING_ACCURACY);
 		}	
-	}
+	} 
 }

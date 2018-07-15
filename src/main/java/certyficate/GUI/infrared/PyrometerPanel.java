@@ -15,7 +15,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import certyficate.dataContainer.IRData;
 import certyficate.entitys.Order;
 
 @SuppressWarnings("serial")

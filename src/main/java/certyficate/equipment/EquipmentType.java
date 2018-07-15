@@ -1,7 +1,7 @@
 package certyficate.equipment;
 
-import certyficate.dataContainer.CalibrationType;
 import certyficate.property.CalibrationData;
+import certyficate.property.CalibrationType;
 
 public enum EquipmentType {
 	TEMPERATURE_REFERENCE,

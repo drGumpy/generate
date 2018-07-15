@@ -1,4 +1,4 @@
-package certyficate.dataContainer;
+package certyficate.property;
 
 public enum CalibrationType {
 	TEMPERATURE,

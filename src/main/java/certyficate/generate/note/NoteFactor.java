@@ -1,16 +1,18 @@
 package certyficate.generate.note;
 
+import java.io.IOException;
+
 import certyficate.property.CalibrationData;
 
 public class NoteFactor {
-	public static Note setNote() {
+	public static Note setNote() throws IOException {
 		Note note;
 		switch(CalibrationData.calibrationType) {
 		case TEMPERATURE :
-			note = null;
+			note = new TemperatureNote();
 			break;
 		case HUMINIDITY :
-			note = null;
+			note = new HuminidityNote();
 			break;
 		default :
 			note = new PyrometerNote();

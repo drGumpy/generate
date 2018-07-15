@@ -10,7 +10,7 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
-import certyficate.dataContainer.*;
+import certyficate.sheetHandlers.CalibrationPoint;
 import certyficate.datalogger.*;
     
 public class PutData {

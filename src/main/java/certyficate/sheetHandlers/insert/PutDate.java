@@ -4,7 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
- 
+import java.util.List;
+
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
@@ -19,16 +20,23 @@ public class PutDate {
     
     private static File file;
     
-    public static void calibrationDate() {
+    private static List<String> done;
+    
+    public static void calibrationDate(List<String> doneOrder) {
+    	done = doneOrder;
+    	setDoneOrder();
+    }
+    
+    private static void setDoneOrder() {
     	try {
 			setCalibrationDate();
 		} catch (IOException e) {
 			System.out.println("calibration file error");
 			e.printStackTrace();
 		}
-    }
-    
-    private static void setCalibrationDate() throws IOException {
+	}
+
+	private static void setCalibrationDate() throws IOException {
     	setSheet();
 		setDate();
 		safeFile();
@@ -41,7 +49,7 @@ public class PutDate {
 
 	private static void setDate() {
 		Date date = new Date();
-		for(String number: CalibrationData.done) {
+		for(String number: done) {
 			setDate(number, date);
 		}
 	}

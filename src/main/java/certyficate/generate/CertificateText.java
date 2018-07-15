@@ -1,7 +1,7 @@
 package certyficate.generate;
 
-import certyficate.dataContainer.IRData;
 import certyficate.entitys.Order;
+import certyficate.GUI.infrared.IRData;
 import certyficate.entitys.Client;
 import certyficate.property.CalibrationData;
 

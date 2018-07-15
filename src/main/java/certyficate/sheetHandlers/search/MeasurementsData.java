@@ -8,10 +8,10 @@ import java.util.List;
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
-import certyficate.dataContainer.*;
 import certyficate.entitys.Order;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
+import certyficate.sheetHandlers.CalibrationPoint;
 
 public class MeasurementsData {
 	private static List<CalibrationPoint> points;

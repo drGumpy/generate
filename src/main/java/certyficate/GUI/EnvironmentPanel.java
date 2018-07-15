@@ -32,8 +32,6 @@ public class EnvironmentPanel extends JPanel {
 	private NumberFormat numbersFormat;
 	
 	private GridBagConstraints constrain;
-	
-	private EnvironmentListener listener;
 
 	EnvironmentPanel(){
 		setPanelSettings();
@@ -65,7 +63,6 @@ public class EnvironmentPanel extends JPanel {
 	
 	private void setEviromentsTextField() {
 		environment = new JFormattedTextField[PARAMETS_NUMBER];
-		listener = new EnvironmentListener(this);
 		for(int i = 0; i < PARAMETS_NUMBER ; i++) {
 			setEvironmetField(i);
 		}
@@ -80,7 +77,7 @@ public class EnvironmentPanel extends JPanel {
 			environment[index].setValue(new Double(DEFAULT_HUMINIDITY));
 		}
 		environment[index].setColumns(5);
-		environment[index].addPropertyChangeListener(listener);
+		environment[index].addPropertyChangeListener(new EnvironmentListener());
 	}
 
 	private void addFields() {
@@ -101,7 +98,7 @@ public class EnvironmentPanel extends JPanel {
 
 	private void addListener() {
 		for(int i = 0; i < PARAMETS_NUMBER ; i++) {
-	    	environment[i].addPropertyChangeListener(listener);
+	    	environment[i].addPropertyChangeListener(new EnvironmentListener());
 		}	
 	}
 	

@@ -12,15 +12,21 @@ import certyficate.sheetHandlers.insert.PutDate;
 
 public class Generate {
     private static List<String> done = new ArrayList<String>();
+    
+    private static Note note;
 
-    public static void generateDocuments() {
+    public static void generateDocuments() throws IOException {
     	done = new ArrayList<String>();
+    	setNote();
     	findCertificateData();
-    	CalibrationData.done = done;
-    	PutDate.calibrationDate();
+    	PutDate.calibrationDate(done);
     }
     
-    private static void findCertificateData() {
+    private static void setNote() throws IOException {
+    	note = NoteFactor.setNote();
+	}
+
+	private static void findCertificateData() {
 		for(Order certificate: CalibrationData.orders) {
 			generateCalibrationDocuments(certificate);
 		}
@@ -37,7 +43,6 @@ public class Generate {
 
 	private static void generateNoteAndCertificate(Order certificate)
 			throws IOException {
-		Note note = NoteFactor.setNote();
 		note.setNoteAndCertificate(certificate);
 		markAsDone(certificate);
 	}

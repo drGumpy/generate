@@ -1,4 +1,4 @@
-package certyficate.dataContainer;
+package certyficate.generate;
 
 public class CertificateValue {
 	public String probeT;

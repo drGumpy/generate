@@ -5,11 +5,10 @@ import java.util.List;
 
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
-import certyficate.dataContainer.CalibrationPoint;
-import certyficate.dataContainer.CalibrationType;
-import certyficate.dataContainer.Measurements;
 import certyficate.entitys.Order;
 import certyficate.equipment.calculation.DataProbe;
+import certyficate.sheetHandlers.CalibrationPoint;
+import certyficate.sheetHandlers.search.Measurements;
 
 public class CalibrationData {
 	final public static int MEASUREMENTS_POINTS = 10;
@@ -23,8 +22,6 @@ public class CalibrationData {
 	public static List<Measurements> devices;
 	
 	public static List<CalibrationPoint> point;
-	
-	public static List<String> done;
 	
 	public static DataProbe[] probe;
 	public static DataProbe[] chamber;

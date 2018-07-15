@@ -9,7 +9,6 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import certyficate.dataContainer.IRData;
 import certyficate.entitys.Order;
 
 @SuppressWarnings("serial")

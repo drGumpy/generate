@@ -1,8 +1,8 @@
 package certyficate.sheetHandlers.search;
 
-import certyficate.dataContainer.CalibrationType;
 import certyficate.entitys.Order;
 import certyficate.property.CalibrationData;
+import certyficate.property.CalibrationType;
 
 public class CalibrationPoints {
 	private final static double[][] TEMPERATURE_STANDARD_POINT = new double[][] {{-25},{0},{25}}; 

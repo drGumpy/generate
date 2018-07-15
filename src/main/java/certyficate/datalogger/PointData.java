@@ -1,4 +1,4 @@
-package certyficate.dataContainer;
+package certyficate.datalogger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -6,8 +6,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import certyficate.sheetHandlers.CalibrationPoint;
+
 public class PointData {
 	private static final int dataLength = 2;
+	
+	private static final String ZERO = "0";
 	
 	private String[] temperature;
 	private String[] humidity;
@@ -24,6 +28,7 @@ public class PointData {
 	
 	@SuppressWarnings("deprecation")
 	public void setDate(String dateData, String dateFormat) {
+		
 		try {
 			date = new SimpleDateFormat(dateFormat, Locale.US).parse(dateData);
 			date.setSeconds(0);
@@ -52,7 +57,7 @@ public class PointData {
 
 	private String[] addZero(String[] array) {
 		array = Arrays.copyOf(array, dataLength);
-		array[1] = "0";
+		array[1] = ZERO;
 		return array;
 	}
 

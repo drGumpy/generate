@@ -1,4 +1,4 @@
-package certyficate.dataContainer;
+package certyficate.GUI.infrared;
 
 import certyficate.entitys.Order;
 import certyficate.generate.*;

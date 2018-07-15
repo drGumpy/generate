@@ -13,7 +13,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import certyficate.dataContainer.IRData;
 import certyficate.entitys.*;
 import certyficate.property.CalibrationData;
 

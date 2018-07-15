@@ -9,14 +9,14 @@ import java.util.List;
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
-import certyficate.calculation.DataCalculation;
-import certyficate.dataContainer.CertificateValue;
 import certyficate.entitys.Order;
 import certyficate.entitys.Probe;
 import certyficate.entitys.Device;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.files.PathCreator;
 import certyficate.generate.CertificateText;
+import certyficate.generate.CertificateValue;
+import certyficate.generate.DataCalculation;
 import certyficate.generate.certificate.Certificate;
 import certyficate.property.CalibrationData;
 
@@ -27,7 +27,7 @@ public abstract class Note {
 	
 	private static final int POINT_GAP = 32;
 	
-	private static String noteFile;
+	protected String noteFile;
 	
 	protected static Sheet sheet;
 	
@@ -45,29 +45,36 @@ public abstract class Note {
 	
 	private static String[] environment;
 	
+	public Note() {
+		setCalibrationData();
+		setCertificate();
+	}
+	
+	private void setCalibrationData() {
+		environment = CertificateText.getEnviromentData();
+		setEquipmentData();
+	}
+	
+	private static void setEquipmentData() {
+		reference = CalibrationData.probe;		
+	}
+
 	public void setNoteAndCertificate(Order orderData) throws IOException {
 		setCalibrationData(orderData);
-		createSheet();
-		setCertificate();
+		createNote();
 		certificate.setCertificate(order, calibrationData);
 	}
 
 	private static void setCalibrationData(Order orderData) {
 		order = orderData;
-		environment = CertificateText.getEnviromentData();
-		setEquipmentData();
 	}
 
-	private static void setEquipmentData() {
-		reference = CalibrationData.probe;		
-	}
-
-	private void createSheet() throws FileNotFoundException, IOException {
+	private void createNote() throws FileNotFoundException, IOException {
 		setSheet();
 		setSheetData();
 		safeFile();
 	}
-
+	
 	private void setSheet() throws IOException {
 		String pathToNote = PathCreator.filePath(noteFile);
 		File noteFile = new File(pathToNote);
@@ -96,7 +103,7 @@ public abstract class Note {
 		int line = calibrationPointCount * POINT_GAP + 3;
 		CertificateValue pointValue;
 		setConstantValue(line);
-		setMeasurmentValue(line, index);
+		setMeasurmentValue(line + 17, index);
 		pointValue = setCalibrationBudget(line, index);
 		setPointValue(line, pointValue);
 		calibrationPointCount++;
@@ -145,9 +152,22 @@ public abstract class Note {
 		//TODO set numbers of Probe
 	}
 
-	protected abstract void setMeasurmentValue(int line, int index);
+	private void setMeasurmentValue(int line, int index) {
+		for(int i = 0; i < CalibrationData.MEASUREMENTS_POINTS; i++) {
+			setValue(line + i, index, i);
+		}
+	}
 	
+	protected abstract void setValue(int line, int index, int i);
+
 	protected abstract CertificateValue setCalibrationBudget(int line, int index);
+	
+	protected double findUncerinityAndRound(double[] uncerinities) {
+		double uncerinity =DataCalculation.uncertainty(uncerinities);
+		round = DataCalculation.findRound(2*uncerinity, 
+				Double.parseDouble(order.device.resolution[0]));
+		return uncerinity;
+	}
 	
 	protected String setNumber(double number) {
 		String rounded = DataCalculation.round(number, round);
@@ -155,10 +175,10 @@ public abstract class Note {
 	}
 
 	protected void setPointValue(int line, CertificateValue pointValue) {
-		sheet.setValueAt(pointValue.probeT, 5, line+17);
-		sheet.setValueAt(pointValue.deviceT, 7, line+17);
-		sheet.setValueAt(pointValue.errorT, 9, line+17);
-		sheet.setValueAt(pointValue.uncertaintyT, 13, line+17);
+		sheet.setValueAt(pointValue.probeT, 5, line + 17);
+		sheet.setValueAt(pointValue.deviceT, 7, line + 17);
+		sheet.setValueAt(pointValue.errorT, 9, line + 17);
+		sheet.setValueAt(pointValue.uncertaintyT, 13, line + 17);
 		addPointValue(pointValue);
 	}
 	

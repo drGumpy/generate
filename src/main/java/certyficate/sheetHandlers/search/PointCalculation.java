@@ -1,6 +1,4 @@
-package certyficate.calculation;
-
-import certyficate.dataContainer.Point;
+package certyficate.sheetHandlers.search;
 
 public class PointCalculation {
 	final private static int MEASUREMENTS_POINTS = 10;

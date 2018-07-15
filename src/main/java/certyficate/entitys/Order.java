@@ -1,14 +1,14 @@
 package certyficate.entitys;
 
-import certyficate.dataContainer.IRData;
-import certyficate.dataContainer.Point;
+import certyficate.GUI.infrared.IRData;
+import certyficate.sheetHandlers.search.Point;
 
 public class Order{
 	public double[][] point;
 	
 	public int channelNumber;
 	
-	public String[] probeSerial =null;
+	public String[] probeSerial;
 	
 	public String probeSerialNumber;
 	public String calibrationDate;
@@ -16,12 +16,12 @@ public class Order{
 	public String numberOfCalibration;
 	public String deviceSerialNumber;
 	
-	public Client user= new Client();
-	public Client declarant= new Client();
+	public Client user;
+	public Client declarant;
 	
-	public Device device = new Device();
+	public Device device;
 	
-	public Probe probe= new Probe();
+	public Probe probe;
 	
 	public Point[] measurmets; 
 	

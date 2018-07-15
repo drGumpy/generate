@@ -9,14 +9,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import certyficate.GUI.Console;
-import certyficate.calculation.EnvironmentData;
-import certyficate.dataContainer.CalibrationType;
+import certyficate.GUI.EnvironmentData;
 import certyficate.equipment.EquipmentParameters;
 import certyficate.equipment.EquipmentType;
 import certyficate.generate.Generate;
 import certyficate.property.CalibrationData;
+import certyficate.property.CalibrationType;
 import certyficate.property.SheetData;
-import certyficate.sheetHandlers.insert.PutDate;
 import certyficate.sheetHandlers.search.CertificateData;
 import certyficate.sheetHandlers.search.MeasurementsData;
 
@@ -57,7 +56,6 @@ public class InfraredPanel extends JPanel {
 			SheetData.setInfrared();
 			getFilesData();
 			generateCalibrationDocuments();
-			PutDate.calibrationDate();
 			console.close();
 		}
 
@@ -97,7 +95,12 @@ public class InfraredPanel extends JPanel {
 		}	
 
 		private void generateCalibrationDocuments() {
-			Generate.generateDocuments();
+			try {
+				Generate.generateDocuments();
+			} catch (IOException e) {
+				System.out.println("Generate file error");
+				e.printStackTrace();
+			}
 		}
 	}
 }

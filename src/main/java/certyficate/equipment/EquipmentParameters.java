@@ -3,10 +3,10 @@ package certyficate.equipment;
 import java.io.IOException;
 import java.util.List;
 
-import certyficate.dataContainer.CalibrationPoint;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.equipment.type.Equipment;
 import certyficate.property.CalibrationData;
+import certyficate.sheetHandlers.CalibrationPoint;
 
 public class EquipmentParameters {
 	private static Equipment equipment;

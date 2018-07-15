@@ -1,7 +1,5 @@
 package certyficate.datalogger;
 
-import certyficate.dataContainer.PointData;
-
 public class Testo extends Logger{
 	protected static final String LINE_DATA_SEPARATOR = ";";
 	protected static final String DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";

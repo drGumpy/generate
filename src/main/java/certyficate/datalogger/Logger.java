@@ -5,9 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import certyficate.dataContainer.CalibrationPoint;
-import certyficate.dataContainer.PointData;
 import certyficate.files.ReaderCreator;
+import certyficate.sheetHandlers.CalibrationPoint;
 
 public abstract class Logger {
 	private static final int MEASUREMENTS_POINTS = 10;

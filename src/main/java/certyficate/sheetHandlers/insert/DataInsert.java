@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.jopendocument.dom.spreadsheet.Sheet;
 
-import certyficate.dataContainer.CalibrationPoint;
-import certyficate.dataContainer.PointData;
 import certyficate.datalogger.Logger;
+import certyficate.datalogger.PointData;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
+import certyficate.sheetHandlers.CalibrationPoint;
 
 public class DataInsert {
 	private static final int MEASUREMENTS_POINTS = 10;
