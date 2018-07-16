@@ -13,6 +13,10 @@ import certyficate.entitys.Order;
 
 @SuppressWarnings("serial")
 public class PointPanel extends JPanel {
+	private static final String NUMBER_FORMAT = "#0.0";
+	
+	private static final int WIDTH = 300;
+	
 	private int numberOfParametrs;
 	
 	private Order certificate;
@@ -46,9 +50,8 @@ public class PointPanel extends JPanel {
 	}
 
 	private void setSize() {
-		int WIDTH = 300;
-		int HIGHT = 400;
-		setSize 
+		int height = numberOfParametrs * 20;
+		this.setSize(WIDTH, height);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -74,9 +77,8 @@ public class PointPanel extends JPanel {
 	}
 
 	private void addLabel(int point) {
-		JLabel pointLabel = new JLabel();
 		String label = Integer.toString(point);
-		pointLabel.setText(label);
+		JLabel pointLabel = new JLabel(label);
 		constrain.gridx = 0;
 		add(pointLabel, constrain);
 	}
@@ -101,7 +103,7 @@ public class PointPanel extends JPanel {
 
 	private JFormattedTextField createTextField(int index) {
 		JFormattedTextField textField = new JFormattedTextField(
-				new DecimalFormat("#0.0"));
+				new DecimalFormat(NUMBER_FORMAT));
 		textField.setValue(certificate.point[index][0]);
 		return textField;
 	}
@@ -109,9 +111,13 @@ public class PointPanel extends JPanel {
 	public void findPointsData(IRData data) {
 		data.setNumberOfParametrs(numberOfParametrs);
 		for(int i = 0; i < numberOfParametrs; i++) {
-			data.blackBodyName[i] = getBlackBodyName(i);
-			data.reference[i] = getReferenceValue(i);
+			getPointData(data, i);
 		}
+	}
+
+	private void getPointData(IRData data, int point) {
+		data.blackBodyName[point] = getBlackBodyName(point);
+		data.reference[point] = getReferenceValue(point);
 	}
 
 	private String getBlackBodyName(int index) {
@@ -141,8 +147,8 @@ public class PointPanel extends JPanel {
 	public void setBlackBodyError(IRData data) {
 		double[] blackBodyError = new double[numberOfParametrs];
 		for(int i = 0; i < numberOfParametrs; i++) {
-			blackBodyError[i] = 
-					BlackBodyData.getBlackBodyError(getBlackBodyName(i), certificate.point[i]);
+			blackBodyError[i] = BlackBodyData.getBlackBodyError(
+					getBlackBodyName(i), certificate.point[i]);
 		}
 		data.blackBodyError = blackBodyError;
 	}
