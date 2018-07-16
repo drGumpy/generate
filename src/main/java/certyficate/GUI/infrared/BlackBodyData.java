@@ -11,7 +11,9 @@ import certyficate.files.PathCreator;
 
 public class BlackBodyData {
 	private static final int RADIATOR_VALUE = 25;
+	
 	private static final String RADIATOR = "radiator";
+	private static final String ERROR = "non blackBody file: ";
 	
 	private static String[] blackBodys = {"10000236", "10000220"};
 
@@ -28,9 +30,15 @@ public class BlackBodyData {
 		try {
 			setBlackBody(blackBody);
 		} catch (IOException e) {
-			System.out.println("non blackBody file: " + blackBody);
+			System.out.println(getErrorMesage(blackBody));
 			e.printStackTrace();
 		}
+	}
+
+	private static StringBuilder getErrorMesage(String blackBody) {
+		StringBuilder build = new StringBuilder(ERROR);
+		build.append(blackBody);
+		return build;
 	}
 
 	private static void setBlackBody(String blackBody) throws IOException {

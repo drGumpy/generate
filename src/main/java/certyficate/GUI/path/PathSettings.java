@@ -28,21 +28,13 @@ public abstract class PathSettings {
 		return settings;
 	}
 	
-	public String getPanelName() {
-		return panelName;
-	}
-	
-	public String getCurrentPath() {
-		return currentPath;
-	}
-	
-	protected abstract void updateFile(File file) ;	
+	protected abstract void updateFile(File file);	
 	
 	protected void setPanelName(String name) {
 		panelName = name;
 	}
 	
 	protected void setCurrentPath(String name) {
-		panelName = name;
+		currentPath = name;
 	}
 }

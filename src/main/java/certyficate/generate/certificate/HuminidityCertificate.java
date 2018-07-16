@@ -3,19 +3,20 @@ package certyficate.generate.certificate;
 import certyficate.generate.CertificateValue;
 
 public class HuminidityCertificate extends Certificate {
+	private static final int MEASURMENT_LINE = 84;
+	
 	protected static int dateColumn = 9;
 	protected static int numberColumn = 24;
 	protected static int informactionColumn = 13;
 	protected static int numberOfData = 5;
 	
-	@Override
-	protected void setTemplateData() {
-		templateName = "sw_Rh.ods";		
+	public HuminidityCertificate() {
+		super();
 	}
 	
 	@Override
 	protected void setMeasurmentData() {
-		setMeasurmentData(84);		
+		setMeasurmentData(MEASURMENT_LINE);		
 	}
 	
 	@Override

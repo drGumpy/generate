@@ -30,7 +30,7 @@ public class EquipmentParameters {
 	}
 
 	private static void setPoint(int i) {
-		double[] point = points.get(i).point;
+		double[] point = points.get(i).getPointData();
 		equipmentData[i] = equipment.getPointData(point);
 	}
 }

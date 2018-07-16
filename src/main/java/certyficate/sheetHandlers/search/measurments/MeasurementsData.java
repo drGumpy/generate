@@ -1,4 +1,4 @@
-package certyficate.sheetHandlers.search;
+package certyficate.sheetHandlers.search.measurments;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,12 +44,16 @@ public class MeasurementsData {
 	
 	private static void getCalibtationPoints() {
 		points = new ArrayList<CalibrationPoint>();
+		setPoints();
+		CalibrationData.point = points;
+	}
+
+	private static void setPoints() {
 		int line = 6;
-		for(int i = 0; i < CalibrationData.calibrationPoints; i++){
+		for(int i = 0; i < CalibrationData.calibrationPoints; i++) {
 			addCalibrationPoint(line);
 			line += SheetData.pointGap;
 		}
-		CalibrationData.point = points;
 	}
 
 	private static void addCalibrationPoint(int line) {
@@ -58,19 +62,23 @@ public class MeasurementsData {
 				.toString());
 		point.setDate(sheet.getValueAt(SheetData.dateColumn, line)
 				.toString());
-		point.set(points.size());
-		point.point = getPoint(line);
+		point.setPointNumber(points.size());
+		point.setPointData(getPoints(line));
 		points.add(point);
 	}
 
-	private static double[] getPoint(int line) {
+	private static double[] getPoints(int line) {
 		double[] point = new double[CalibrationData.numberOfParameters];
-		for(int i = 0; i < CalibrationData.numberOfParameters; i++) 
-			point[i] = Double.parseDouble(sheet.getValueAt(1 - i, line)
-					.toString());
+		for(int i = 0; i < CalibrationData.numberOfParameters; i++) {
+			point[i] = getPoint(line, i);
+		}
 		return point;
 	}
 	
+	private static double getPoint(int line, int index) {
+		return Double.parseDouble(sheet.getValueAt(1 - index, line).toString());
+	}
+
 	private static void addMeasurmentsToOrders() {
 		for(Order order: CalibrationData.orders) {
 			findAndAddMeasurmentsData(order);

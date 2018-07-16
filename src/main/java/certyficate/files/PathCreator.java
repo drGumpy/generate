@@ -3,17 +3,29 @@ package certyficate.files;
 import java.io.File;
 
 public class PathCreator {
-	private static StringBuilder PATH_TO_DESCOP = pathToDescop();
-	private static String SHEETNAME = "Laboratorium.ods";
+	private static final StringBuilder PATH_TO_DESCOP = pathToDescop();
+	
+	private static final String PROPERTY_KEY = "user.home";
+	private static final String SHEETNAME = "Laboratorium.ods";
+	private static final String DESCOP = "Descop";
+	private static final String CERTIFICATE = "Świadectwa wzorcowania";
+	private static final String NOTE = "Zapiski";
+	private static final String ARCHIVES = "Wyniki wzorcowań";
+	private static final String DESCOP_FILE = "Laboratorium";
+	private static final String FILE_EXTENSION = ".txt";
+	private static final String TEMPLATE_FILE = "generacja";
+	private static final String REFERENCE_FILES = "Wyniki z wzorca";
+	private static final String DOCUMENTS = "Documents";
+	private static final String DATALOGERS = "rejestratory";
 	
 	private static StringBuilder pathToDescop() {
 		StringBuilder path = userPath();
-		path.append(withSeparator("Descop"));
+		path.append(withSeparator(DESCOP));
 		return path;
 	}
 	
 	private static StringBuilder userPath() {
-		return withSeparator(System.getProperty("user.home"));
+		return withSeparator(System.getProperty(PROPERTY_KEY));
 	}
 
 	private static StringBuilder withSeparator(String expression) {
@@ -24,27 +36,27 @@ public class PathCreator {
 	
 	public static String certificatesPath() {
 		StringBuilder path = new StringBuilder();
-		path.append(archiwumPath());
-		path.append(withSeparator("Świadectwa wzorcowania"));
+		path.append(archivesPath());
+		path.append(withSeparator(CERTIFICATE));
 		return path.toString();
 	}
 
 	public static String notePath() {
 		StringBuilder path = new StringBuilder();
-		path.append(archiwumPath());
-		path.append(withSeparator("Zapiski"));
+		path.append(archivesPath());
+		path.append(withSeparator(NOTE));
 		return path.toString();
 	}
 	
-	private static StringBuilder archiwumPath(){
+	private static StringBuilder archivesPath(){
 		StringBuilder path = new StringBuilder(folderPath());
-		path.append(withSeparator("Wyniki wzorcowań"));
+		path.append(withSeparator(ARCHIVES));
 		return path;
 	}
 	
 	private static StringBuilder folderPath(){
 		StringBuilder path = new StringBuilder(PATH_TO_DESCOP);
-		path.append(withSeparator("Laboratorium"));
+		path.append(withSeparator(DESCOP_FILE));
 		return path;
 	}
 	
@@ -56,13 +68,13 @@ public class PathCreator {
 	
 	public static String txtFilePath(String fileName) {
 		StringBuilder path = new StringBuilder(filePath(fileName));
-		path.append(".txt");
+		path.append(FILE_EXTENSION);
 		return path.toString();
 	}
 	
 	public static StringBuilder filePath() {
 		StringBuilder path = new StringBuilder(folderPath());
-		path.append(withSeparator("generacja"));
+		path.append(withSeparator(TEMPLATE_FILE));
 		return path;
 	}
 		
@@ -80,15 +92,15 @@ public class PathCreator {
 	
 	private static StringBuilder loggerPath() {
 		StringBuilder path = userPath();
-		path.append(withSeparator("Documents"));
-		path.append(withSeparator("rejestratory"));
+		path.append(withSeparator(DOCUMENTS));
+		path.append(withSeparator(DATALOGERS));
 		return path;
 	}
 
 	public static String probeDataPath() {
 		StringBuilder path = new StringBuilder(withSeparator("P:"));
-		path.append(withSeparator("Laboratorium"));
-		path.append(withSeparator("Wyniki z wzorca"));
+		path.append(withSeparator(DESCOP_FILE));
+		path.append(withSeparator(REFERENCE_FILES));
 		return path.toString();
 	}
 	

@@ -12,8 +12,11 @@ import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 import certyficate.sheetHandlers.CalibrationPoint;
 import certyficate.datalogger.*;
+import certyficate.datalogger.type.Rotronic;
     
 public class PutData {
+	private static final String ERROR = "Calibration sheet error";
+	
 	private static Sheet sheet;    
     
     private static int numberOfPoints;
@@ -29,7 +32,7 @@ public class PutData {
     	try {
 			setData();
 		} catch (IOException e) {
-			System.out.println("Calibration sheet error ");
+			System.out.println(ERROR);
 			e.printStackTrace();
 		}
     }
@@ -43,13 +46,13 @@ public class PutData {
 
 	private static void updateSettings() throws IOException {
 		numberOfPoints = CalibrationData.calibrationPoints;
-		file = CalibrationData.sheet;
-		insert = new DataInsert(sheet); 
+		file = CalibrationData.sheet; 
 		setSheet();
 	}
 
 	private static void setSheet() throws IOException {
 		sheet = SpreadSheet.createFromFile(file).addSheet(SheetData.sheetName);
+		insert = new DataInsert(sheet);
 	}
 	
 	private static void setCalibrationPoints() {
@@ -68,7 +71,7 @@ public class PutData {
 	private static void addPoint(int index) {
 		int line = 6 + SheetData.pointGap * index;
 		CalibrationPoint point = findPoint(line);
-		point.number = index;
+		point.setPointNumber(index);
 		points.add(point);
 	}
 

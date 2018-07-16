@@ -6,10 +6,12 @@ import certyficate.generate.CertificateValue;
 import certyficate.generate.DataCalculation;
 import certyficate.generate.certificate.TemperatureCertificate;
 import certyficate.property.CalibrationData;
-import certyficate.sheetHandlers.search.Measurements;
+import certyficate.sheetHandlers.search.measurments.Measurements;
 
 public class TemperatureNote extends Note {
 	protected String noteFile = "z_T.ods";
+	
+	protected static int numberOfData = 3;
 	
 	protected Measurements referenceValue;
 	
@@ -40,21 +42,21 @@ public class TemperatureNote extends Note {
 		sheet.setValueAt(order.measurmets[index].data[point][0], 
 				3, line);
 	}
-
+	
 	@Override
-	protected CertificateValue setCalibrationBudget(int line, int index) {
+	protected CertificateValue findPointValue(int line, int index) {
 		double[] uncerinity = findUncerinity(index, 0);
 		setUncerinity(uncerinity, line);
-		sheet.setValueAt(order.measurmets[index].average[0], 7 , line + 5);
-        sheet.setValueAt(referenceValue.measurmets[index].average[0],
+		return setCertificateValue(index, uncerinity);
+	}
+
+	@Override
+	protected void setCalibrationBudget(int line, int index) {
+		super.setCalibrationBudget(line, index);
+		sheet.setValueAt(referenceValue.measurmets[index].average[1],
         		7 , line + 7);
-        sheet.setValueAt(reference[index].correction, 7 , line +  9);
-        sheet.setValueAt(order.device.resolution[0], 9 , line + 6);
-        sheet.setValueAt(reference[index].uncertainty, 9, line + 9);
-        sheet.setValueAt(reference[index].drift, 9, line + 10);
         sheet.setValueAt(chamber[index].correction, 9, line + 11);
-        sheet.setValueAt(chamber[index].uncertainty, 9, line + 11);
-        return setCertificateValue(index, uncerinity);
+        sheet.setValueAt(chamber[index].uncertainty, 9, line + 12);
 	}
 
 	protected double[] findUncerinity(int index, int parametrIndex) {

@@ -76,7 +76,7 @@ public class DataInsert {
 	private int setLine(int index) {
 		int line = SheetData.startRow;
 		line += CalibrationData.numberOfParameters * devicePosition;
-		line += SheetData.pointGap * points.get(index).number;
+		line += SheetData.pointGap * points.get(index).getPointNumber();
 		return line;
 	}
 }

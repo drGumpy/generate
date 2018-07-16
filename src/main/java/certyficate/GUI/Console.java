@@ -14,8 +14,11 @@ import certyficate.GUI.path.PathType;
 
 @SuppressWarnings("serial")
 public class Console extends JFrame {
-	private static final int WIDTH = 800;
-	private static final int HEIGHT = 600;
+	private static final String CLIMATE_CHAMBER = "komora klimatyczna";
+	private static final String INFRARED = "pirometry";
+	
+	private static final int WIDTH = 750;
+	private static final int HEIGHT = 400;
 	
 	private static final String TITLE = "wydawanie świadectw";
 
@@ -32,6 +35,7 @@ public class Console extends JFrame {
                 console.setTitle(TITLE);
                 console.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 console.setSize(WIDTH, HEIGHT);
+                console.setVisible(true);
             }
         });
     }
@@ -48,8 +52,8 @@ public class Console extends JFrame {
 	private void setPanelSettings() {
     	setLayout(new GridBagLayout());
     	constrain = new GridBagConstraints();
-    	constrain.fill= GridBagConstraints.VERTICAL;
-    	constrain.anchor =GridBagConstraints.PAGE_START;
+    	constrain.fill = GridBagConstraints.VERTICAL;
+    	constrain.anchor = GridBagConstraints.PAGE_START;
 	}
 
 	private void addEnvironmentPanel() {
@@ -90,8 +94,8 @@ public class Console extends JFrame {
     	JTabbedPane tabbedPane = new JTabbedPane();
     	int width = 700;
     	int height = 10;
-    	tabbedPane.addTab("komora klimatyczna", new ClimateChamber(this));
-    	tabbedPane.addTab("pirometry", new InfraredPanel(this));
+    	tabbedPane.addTab(CLIMATE_CHAMBER, new ClimateChamber(this));
+    	tabbedPane.addTab(INFRARED, new InfraredPanel(this));
     	tabbedPane.setMaximumSize(new Dimension(width, height));
 		return tabbedPane;
 	}

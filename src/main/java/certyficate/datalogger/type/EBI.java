@@ -1,4 +1,7 @@
-package certyficate.datalogger;
+package certyficate.datalogger.type;
+
+import certyficate.datalogger.Logger;
+import certyficate.datalogger.PointData;
 
 public class EBI extends Logger {
 	protected static final String LINE_DATA_SEPARATOR = ",";

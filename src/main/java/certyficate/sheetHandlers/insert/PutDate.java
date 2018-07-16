@@ -13,6 +13,7 @@ import certyficate.property.CalibrationData;
  
 public class PutDate {
 	private static final String SHEET_NAME = "Zlecenia";
+	private static final String ERROR = "calibration file error";
 	
 	private static final int DATE_COLUMN = 2;
 	
@@ -31,7 +32,7 @@ public class PutDate {
     	try {
 			setCalibrationDate();
 		} catch (IOException e) {
-			System.out.println("calibration file error");
+			System.out.println(ERROR);
 			e.printStackTrace();
 		}
 	}

@@ -8,7 +8,6 @@ import java.util.Locale;
 
 import certyficate.property.CalibrationData;
 
-//przechowywanie danych o wzorcowanych puntkach
 public class CalibrationPoint{
 	private static final String SHEET_DATE_FORMAT = "EEE MMM dd hh:mm:ss z yyyy";
 	private static final String DATE_FORMAT = "dd.MM.yyyy";
@@ -17,9 +16,9 @@ public class CalibrationPoint{
 	
 	private static final Locale LOCALE =  Locale.US;
 	
-	public double[] point;
+	private double[] point;
 	
-	public int number;
+	private int number;
 	
 	private String date;
 	private String time;
@@ -34,6 +33,10 @@ public class CalibrationPoint{
 		return pointDate;
 	}
 	
+	public double[] getPointData() {
+		return point;
+	}
+	
 	public String getDate() {
 		return date;
 	}
@@ -42,9 +45,17 @@ public class CalibrationPoint{
 		return time;
 	}
 	
-	public void set(int number){
+	public int getPointNumber() {
+		return number;
+	}
+	
+	public void setPointNumber(int number){
 		this.number= number;
 	}	
+	
+	public void setPointData(double[] point) {
+		this.point = point;
+	}
 	
 	public boolean equalDate(CalibrationPoint point) {
 		return pointDate.equals(point.getPointDate());

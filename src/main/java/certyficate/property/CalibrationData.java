@@ -8,7 +8,7 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import certyficate.entitys.Order;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.sheetHandlers.CalibrationPoint;
-import certyficate.sheetHandlers.search.Measurements;
+import certyficate.sheetHandlers.search.measurments.Measurements;
 
 public class CalibrationData {
 	final public static int MEASUREMENTS_POINTS = 10;

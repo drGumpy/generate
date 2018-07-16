@@ -1,9 +1,9 @@
-package certyficate.sheetHandlers.search;
+package certyficate.sheetHandlers.search.measurments;
 
 public class PointCalculation {
 	final private static int MEASUREMENTS_POINTS = 10;
 	
-	static Point point;
+	private static Point point;
 	
 	public static Point setFalse() {
 		Point point = new Point(1);
@@ -18,14 +18,20 @@ public class PointCalculation {
 
 	private static void calculateResults() {
 		for(int i = 0; i < point.numberOfParamters; i++) {
+			setResults(i);
 			point.average[i] = calculaleAverage(i);
 			point.standardDeviation[i] 
 					= calculateStandardDeviation(i);
 		}
 	}
 
+	private static void setResults(int index) {
+		point.average[index] = calculaleAverage(index);
+		point.standardDeviation[index] = calculateStandardDeviation(index);
+	}
+
 	private static double calculaleAverage(int index) {
-		double average = 0;
+		double average = calculaleSum(index);
 		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
 			average += point.data[index][i];
 		}
@@ -33,14 +39,31 @@ public class PointCalculation {
 		return average;
 	}
 	
+	private static double calculaleSum(int index) {
+		double sum = 0;
+		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
+			sum += point.data[index][i];
+		}
+		return sum;
+	}
+
 	private static double calculateStandardDeviation(int index) {
-        double standardDeviation=0;
-        for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
-        	double number = point.data[index][i] - point.average[index];
-        	standardDeviation += Math.pow(number, 2);
-        }
+        double standardDeviation = sumOfSquares(index);
         standardDeviation /= MEASUREMENTS_POINTS;
         standardDeviation /= (MEASUREMENTS_POINTS - 1);
         return Math.sqrt(standardDeviation);
+	}
+
+	private static double sumOfSquares(int index) {
+		double sum = sumOfSquares(index);
+		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
+			sum += square(index, i);
+		}
+		return sum;
+	}
+
+	private static double square(int index, int i) {
+		double number = point.data[index][i] - point.average[index];
+		return Math.pow(number, 2);
 	}
 }

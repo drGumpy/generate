@@ -1,4 +1,4 @@
-package certyficate.sheetHandlers.insert;
+package certyficate.datalogger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jopendocument.dom.spreadsheet.Sheet;
 
-import certyficate.datalogger.*;
+import certyficate.datalogger.type.*;
 import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;

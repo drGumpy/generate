@@ -10,7 +10,7 @@ import certyficate.equipment.type.TProbe;
 import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 
-public class EquipmentFactory {
+public class EquipmentFactory {	
 	private static Equipment equipment;
 	
 	public static Equipment getEquipment(EquipmentType equipmentType)
@@ -43,22 +43,22 @@ public class EquipmentFactory {
 	}
 
 	private static void setTemperatureReference() throws IOException {
-		String path = PathCreator.filePath("13.026.txt");
+		String path = PathCreator.filePath(EquipmentFiles.getTemperatureFileName());
 		equipment = new TProbe(path);
 	}
 	
 	private static void setHumidityReference() throws IOException {
-		String path = PathCreator.filePath("61602551.txt");
+		String path = PathCreator.filePath(EquipmentFiles.getHumidityFileName());
 		equipment = new RhProbe(path);
 	}
 	
 	private static void setInfraredReference() throws IOException {
-		String path = PathCreator.filePath("12030011.txt");
+		String path = PathCreator.filePath(EquipmentFiles.getInfraredFileName());
 		equipment = new TProbe(path);
 	}
 	
 	private static void setEnvironment() throws IOException {
-		String path = PathCreator.filePath("w-srod.txt");
+		String path = PathCreator.filePath(EquipmentFiles.getEnvironmentFileName());
 		equipment = new RhProbe(path);
 	}
 	
@@ -76,12 +76,14 @@ public class EquipmentFactory {
 	}
 	
 	private static Equipment setChamberTemperature() throws IOException {
-		String path = PathCreator.filePath("12-03914 t.txt");
+		String path = PathCreator.filePath(
+				EquipmentFiles.getChamberTemperatureFileName());
 		return new ChamberT(path);
 	}
 	
 	private static Equipment setChamberHumidity() throws IOException {
-		String path = PathCreator.filePath("12-03914 Rh.txt");
+		String path = PathCreator.filePath(
+				EquipmentFiles.getChamberTemperatureFileName());
 		return new ChamberRh(path);
 	}
 }

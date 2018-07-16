@@ -1,7 +1,7 @@
 package certyficate.entitys;
 
 import certyficate.GUI.infrared.IRData;
-import certyficate.sheetHandlers.search.Point;
+import certyficate.sheetHandlers.search.measurments.Point;
 
 public class Order{
 	public double[][] point;

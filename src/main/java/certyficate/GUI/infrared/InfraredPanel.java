@@ -1,23 +1,11 @@
 package certyficate.GUI.infrared;
 
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import certyficate.GUI.Console;
-import certyficate.GUI.EnvironmentData;
-import certyficate.equipment.EquipmentParameters;
-import certyficate.equipment.EquipmentType;
-import certyficate.generate.Generate;
-import certyficate.property.CalibrationData;
-import certyficate.property.CalibrationType;
-import certyficate.property.SheetData;
-import certyficate.sheetHandlers.search.CertificateData;
-import certyficate.sheetHandlers.search.MeasurementsData;
+import certyficate.GUI.listeners.IRGenerateListener;
 
 @SuppressWarnings("serial")
 public class InfraredPanel extends JPanel {
@@ -34,7 +22,15 @@ public class InfraredPanel extends JPanel {
 		this.console = console;
 		setButtons();
 	}
+	
+	public Console getConsole() {
+		return console;
+	}
 
+	public void close() {
+		console.close();
+	}
+	
 	private void setButtons() {
 		setCalibrationDataButton();
 		add(generate);
@@ -42,65 +38,8 @@ public class InfraredPanel extends JPanel {
 
 	private void setCalibrationDataButton() {
 		Dimension size = new Dimension(WIDTH, HIGHT);
-		setSize(size);
 		generate = new JButton(BUTTON_LABEL);
 		generate.setMinimumSize(size);
-		generate.addActionListener(new IRGenerateListener());
-	}
-	
-	private class IRGenerateListener implements ActionListener {
-		final private static int MAXIMUM_CALIBRATION_POINTS = 6;
-		
-		public void actionPerformed(ActionEvent e) {
-			CalibrationData.calibrationType = CalibrationType.INFRARED;
-			SheetData.setInfrared();
-			getFilesData();
-			generateCalibrationDocuments();
-			console.close();
-		}
-
-		private void getFilesData()  {
-			try {
-				findCalibrationData();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		}
-		
-		private void findCalibrationData() throws IOException {
-			findMeasurmentsData();
-			findReferenceData();
-			EnvironmentData.setEnvirometsData();
-		}
-
-		private void findMeasurmentsData() throws IOException {
-			getCalibrationData();
-			findMeasurementsData();
-			new InfraredParametrs(console);
-		}
-		
-		private void getCalibrationData() {
-			CertificateData.findOrdersData();
-		}
-		
-		private void findMeasurementsData() throws IOException {
-			CalibrationData.calibrationPoints 
-				= MAXIMUM_CALIBRATION_POINTS;
-			MeasurementsData.findMeasurementsData();
-		}
-		
-		private void findReferenceData() throws IOException {
-			CalibrationData.probe 
-				= EquipmentParameters.find(EquipmentType.INFRARED_REFERENCE);
-		}	
-
-		private void generateCalibrationDocuments() {
-			try {
-				Generate.generateDocuments();
-			} catch (IOException e) {
-				System.out.println("Generate file error");
-				e.printStackTrace();
-			}
-		}
+		generate.addActionListener(new IRGenerateListener(this));
 	}
 }

@@ -21,7 +21,7 @@ public class PointPanel extends JPanel {
 	
 	private JFormattedTextField[] referenceValue;
 	
-	private GridBagConstraints constrain = new GridBagConstraints();
+	private GridBagConstraints constrain;
 	
 	public void setEditability(boolean active) {
 		for(int i = 0; i < numberOfParametrs; i++) {
@@ -39,6 +39,7 @@ public class PointPanel extends JPanel {
 	private void setPanelData() {
 		setLayout(new GridBagLayout());
 		setPanelElements();
+		constrain = new GridBagConstraints();
 		constrain.anchor = GridBagConstraints.PAGE_START;
 		constrain.fill = GridBagConstraints.HORIZONTAL;
 	}

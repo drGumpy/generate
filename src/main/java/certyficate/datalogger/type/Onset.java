@@ -1,14 +1,17 @@
-package certyficate.datalogger;
+package certyficate.datalogger.type;
 
-public class Testo extends Logger{
+import certyficate.datalogger.Logger;
+import certyficate.datalogger.PointData;
+
+public class Onset extends Logger{
 	protected static final String LINE_DATA_SEPARATOR = ";";
-	protected static final String DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";
+	protected static final String DATE_FORMAT = "MM.dd.yyyy HH:mm:ss";
 	protected static final String NUMBER_SEPARATOR = ",";
 	
-	protected int nonDataLine = 2;
+	protected int nonDataLine = 3;
 	
-    public Testo(boolean RH) {
-        super(RH);
+    public Onset(boolean Rh) {
+        super(Rh);
     }
     
     @Override

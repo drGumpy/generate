@@ -4,14 +4,19 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalTime;
 
-//metody stowane w programie
 public class DataCalculation {
     public static double uncertainty(double[] number){
         double sum= 0;
         for(int i=0; i<number.length; i++)
-            sum += Math.pow(number[i], 2.0);
+            sum += Math.pow(number[i], 2);
         sum = Math.sqrt(sum);
         return sum;
+    }
+    
+	public static String time (String time, int d){
+        LocalTime newTime= LocalTime.parse(time);
+        newTime=newTime.plusMinutes(d);
+        return newTime.toString();
     }
     
     //TODO find better method
@@ -98,16 +103,7 @@ public class DataCalculation {
     	if(roundText != null) {
     		roundText = setRoundText(value, round);
     	}
-        double d= Math.log10(round);
-        int places;
-        if(d%1!=0)
-            places=-1*(int)d+1;
-        else
-            places=-1*(int)d;
-        double s=Math.round(value/round);
-        s=s*round;
-        String format = "%."+places+"f";
-        return String.format(format, s);
+        return roundText;
     }
 
 	private static String checkNumber(double value, double round) {
@@ -121,22 +117,22 @@ public class DataCalculation {
     private static String setRoundText(double value, double round) {
     	double roundLogarithm = Math.log10(round);
     	double rounded = Math.round(value/round) * round;
+    	int places = checkRoundedLogarithm(roundLogarithm);
+		return setString(rounded, places);
+	}
+
+    
+    private static int checkRoundedLogarithm(double roundLogarithm) {
     	int places = -1 * (int)roundLogarithm;
     	if((roundLogarithm % 1) != 0) {
     		places++;
     	}
-		return setString(rounded, places);
+		return places;
 	}
-
+    
 	private static String setString(double rounded, int places) {
 		NumberFormat format = new DecimalFormat();
 		format.setMaximumFractionDigits(places);
         return format.format(rounded);
 	}
-
-	public static String time (String time, int d){
-        LocalTime newTime= LocalTime.parse(time);
-        newTime=newTime.plusMinutes(d);
-        return newTime.toString();
-    }
 }

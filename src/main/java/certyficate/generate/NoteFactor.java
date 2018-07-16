@@ -1,7 +1,11 @@
-package certyficate.generate.note;
+package certyficate.generate;
 
 import java.io.IOException;
 
+import certyficate.generate.note.HuminidityNote;
+import certyficate.generate.note.Note;
+import certyficate.generate.note.PyrometerNote;
+import certyficate.generate.note.TemperatureNote;
 import certyficate.property.CalibrationData;
 
 public class NoteFactor {

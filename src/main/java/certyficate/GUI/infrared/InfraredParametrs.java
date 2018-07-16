@@ -20,8 +20,9 @@ import certyficate.property.CalibrationData;
 public class InfraredParametrs extends JDialog {
 	public static final String PANEL_NAME = "dane o badanych pirometrach";
 	public static final String BUTTON_LABEL = "zatwierdź";
+	public static final String NUMBER_SEPARATOR = " ÷ ";
 	
-	public static final int WIDTH= 700;
+	public static final int WIDTH = 700;
 	public static final int HIGHT = 600;
 	public static final int DEVICES_PER_LINE = 3;
 	
@@ -31,7 +32,7 @@ public class InfraredParametrs extends JDialog {
 	
 	private List<Order> data;
 	
-	private int devicesPerWindow = 2 * DEVICES_PER_LINE;
+	private int devicesPerWindow;
 	private int numberOfOrders;
 	
 	private GridBagConstraints constrain;
@@ -41,6 +42,12 @@ public class InfraredParametrs extends JDialog {
 		findPanelData();
 		setPanelSettings();
 		setWindow();
+	}
+	
+	public void setIRData(IRData pyrometerData) {
+		for(PyrometerPanel pyrometer: pyrometers) {
+			pyrometer.checkData(pyrometerData);
+		}
 	}
 
 	private void findPanelData() {
@@ -53,6 +60,8 @@ public class InfraredParametrs extends JDialog {
 		int max = findMaxCalibrationPoints();
 		if(max > 3) {
 			devicesPerWindow = DEVICES_PER_LINE;
+		} else {
+			devicesPerWindow = 2 * DEVICES_PER_LINE;
 		}
 	}
 
@@ -69,61 +78,9 @@ public class InfraredParametrs extends JDialog {
 		Dimension size = new Dimension(WIDTH, HIGHT);
 		pyrometers = new PyrometerPanel[data.size()];
 		accept = getAcceptButton();
+		constrain = new GridBagConstraints();
 		setSize(size);
 		setTitle(PANEL_NAME);
-	}
-	
-	private void setWindow() {
-		if(numberOfOrders > devicesPerWindow) {
-			setTabbedPane();
-		} else {
-			setFirstPanel();
-		}
-	}
-
-	private void setTabbedPane() {
-		JTabbedPane tabbedPane = new JTabbedPane();
-		for(int i = 0; i < numberOfOrders; i += devicesPerWindow){
-			String TabName = setName(i);
-			tabbedPane.addTab(TabName, getPanel(i));
-		}
-		add(tabbedPane);
-	}
-
-	private String setName(int index) {
-		StringBuilder bulid = new StringBuilder();
-		int endOfName = Math.min(index + devicesPerWindow, numberOfOrders);
-		bulid.append(index + 1);
-		bulid.append(" ÷ ");
-		bulid.append(endOfName);
-		return bulid.toString();
-	}
-
-	private void setFirstPanel() {
-		add(getPanel(0));		
-	}
-
-	private JPanel getPanel(int index) {
-		int lastObjectInPanel = Math.min(index + devicesPerWindow, numberOfOrders);
-		JPanel panel = new JPanel();
-		constrain = new GridBagConstraints();
-		panel.setLayout(new GridBagLayout());
-		for(int i = index; i < lastObjectInPanel; i++){
-			setPyrometrPanel(panel, i);
-		}
-		constrain.gridy++;
-		constrain.gridx = 0;
-		constrain.gridwidth = 3;
-		panel.add(accept, constrain);
-		return panel;
-	}
-
-	private void setPyrometrPanel(JPanel panel, int index) {
-		Order certificate = data.get(index);
-		pyrometers[index] = new PyrometerPanel(certificate, this);
-		constrain.gridy = index / DEVICES_PER_LINE;
-		constrain.gridx = index % DEVICES_PER_LINE;
-		panel.add(pyrometers[index], constrain);
 	}
 	
 	private JButton getAcceptButton() {
@@ -146,11 +103,65 @@ public class InfraredParametrs extends JDialog {
 	private void close(){
 		this.dispose();
 	}
-
-	public void setIRData(IRData pyrometerData) {
-		for(PyrometerPanel pyrometer: pyrometers) {
-			pyrometer.checkData(pyrometerData);
+	
+	private void setWindow() {
+		if(numberOfOrders > devicesPerWindow) {
+			setTabbedPane();
+		} else {
+			setFirstPanel();
 		}
+	}
+
+	private void setTabbedPane() {
+		JTabbedPane tabbedPane = new JTabbedPane();
+		for(int i = 0; i < numberOfOrders; i += devicesPerWindow){
+			String TabName = setName(i);
+			tabbedPane.addTab(TabName, getPanel(i));
+		}
+		add(tabbedPane);
+	}
+
+	private String setName(int index) {
+		int startOfName = index + 1;
+		int endOfName = findMinimum(index);
+		StringBuilder bulid = new StringBuilder(startOfName);
+		bulid.append(NUMBER_SEPARATOR);
+		bulid.append(endOfName);
+		return bulid.toString();
+	}
+
+	private int findMinimum(int index) {
+		return Math.min(index + devicesPerWindow, numberOfOrders);
+	}
+
+	private void setFirstPanel() {
+		add(getPanel(0));		
+	}
+
+	private JPanel getPanel(int index) {
+		int lastObjectInPanel = findMinimum(index);;
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		for(int i = index; i < lastObjectInPanel; i++){
+			setPyrometrPanel(panel, i);
+		}
+		addAcceptButton(panel);
+		return panel;
+	}
+
+	private void setPyrometrPanel(JPanel panel, int index) {
+		Order certificate = data.get(index);
+		pyrometers[index] = new PyrometerPanel(certificate, this);
+		constrain.gridy = index / DEVICES_PER_LINE;
+		constrain.gridx = index % DEVICES_PER_LINE;
+		panel.add(pyrometers[index], constrain);
+	}
+	
+	private void addAcceptButton(JPanel panel) {
+		constrain.gridy++;
+		constrain.gridx = 0;
+		constrain.gridwidth = 3;
+		panel.add(accept, constrain);
 	}
 }
 

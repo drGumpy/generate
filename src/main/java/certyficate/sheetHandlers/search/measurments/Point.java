@@ -1,4 +1,4 @@
-package certyficate.sheetHandlers.search;
+package certyficate.sheetHandlers.search.measurments;
 
 public class Point {
 	private static final int MEASUREMENTS_POINTS = 10;

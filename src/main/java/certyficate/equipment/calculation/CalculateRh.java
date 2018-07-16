@@ -3,7 +3,6 @@ package certyficate.equipment.calculation;
 import java.util.Arrays;
 
 public class CalculateRh extends Calculate {
-	
 	protected double[] findCorrection() {
 		double[] correction = checkPoint();
 		if(correction == null)

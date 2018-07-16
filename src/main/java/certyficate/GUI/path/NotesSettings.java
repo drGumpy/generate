@@ -6,8 +6,7 @@ import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 
 public class NotesSettings extends PathSettings {
-	private static final String PANEL_NAME =
-			"Folder zapisu zapisek z wzorcowania";
+	private static final String PANEL_NAME = "Folder zapisu zapisek z wzorcowania";
 	
 	NotesSettings() {
 		setCurrentPath(PathCreator.notePath());

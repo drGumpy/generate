@@ -5,15 +5,17 @@ import certyficate.generate.DataCalculation;
 import certyficate.generate.certificate.PyrometerCertificate;
 
 public class PyrometerNote extends Note {
+	protected static String noteFile = "z_T.ods";
+	
+	protected static int numberOfData = 5;
+
 	public PyrometerNote() {
 		super();
 	}
-
-	protected static String noteFile = "z_T.ods";
 	
 	@Override
 	protected void setResolution(String[] resolution, int line) {
-		sheet.setValueAt(resolution[0], 3, line);
+		sheet.setValueAt(resolution[0], DEVICE_COLUMN, line);
 	}
 
 	@Override
@@ -22,21 +24,21 @@ public class PyrometerNote extends Note {
 		sheet.setValueAt(referenceValue, 1, line);
 		sheet.setValueAt(order.measurmets[index].data[point][0], 3, line);
 	}
-	
+
 	@Override
-	protected CertificateValue setCalibrationBudget(int line, int index) {
+	protected CertificateValue findPointValue(int line, int index) {
 		double[] uncerinity = findUncerinity(index, 0);
 		setUncerinity(uncerinity, line);
-		sheet.setValueAt(order.measurmets[index].average[0], 7 , line + 5);
-        sheet.setValueAt(order.pyrometr.reference[calibrationPointCount],
+		return setCertificateValue(index, uncerinity);
+	}
+	
+	@Override
+	protected void setCalibrationBudget(int line, int index) {
+		super.setCalibrationBudget(line, index);
+		sheet.setValueAt(order.pyrometr.reference[calibrationPointCount],
         		7 , line + 7);
-        sheet.setValueAt(reference[index].correction, 7 , line + 9);
-        sheet.setValueAt(order.device.resolution[0], 9 , line + 6);
-        sheet.setValueAt(reference[index].uncertainty, 9, line + 9);
-        sheet.setValueAt(reference[index].drift, 9, line + 10);
         sheet.setValueAt(order.pyrometr.blackBodyError[calibrationPointCount],
         		9, line+11);
-        return setCertificateValue(index, uncerinity);
 	}
 
 	private double[] findUncerinity(int index, int parametrIndex) {

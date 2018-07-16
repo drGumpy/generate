@@ -34,38 +34,57 @@ public class ChamberSettings extends JPanel {
 	static CalibrationType calibrationType;
 	
 	public ChamberSettings() {
+		setPanelSettings();
 		setChamberPanel();
 	}
 
+	private void setPanelSettings() {
+		points = 3;
+		calibrationType = CalibrationType.TEMPERATURE;
+		setBorder(new TitledBorder(PANEL_TITLE));
+	}
+
 	private void setChamberPanel() {
-		setButtonGroup();
 		setPointsBox();
-		setPanel();
+		setButtonGroup();
 		updateCalibrationData();		
 	}
-
-	private void setButtonGroup() {
-		setButtons();
-		ButtonGroup buttons = new ButtonGroup();
-		buttons.add(huminidity);
-		buttons.add(temperature);
+	
+	private void setPointsBox() {
+		pointsBox = new JComboBox<Integer>();
+		setCalibrationPoints();
+		addPointBoxListener();
+		add(pointsBox);
+	}
+	
+	private void setCalibrationPoints() {
+		for(int i = 1; i <= MAXIMUM_CALIBRATION_POINTS; i++) {
+			pointsBox.addItem(i);
+		}
+		pointsBox.setSelectedIndex(2);
 	}
 
-	private void setButtons() {
-		setHuminidityButton();
-		setTemperaturButton();
-	}
-
-	private void setHuminidityButton() {
-		huminidity = new JRadioButton(HUMINIDITY_LABEL);
-		huminidity.addActionListener(new ActionListener(){
+	private void addPointBoxListener() {
+		pointsBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				calibrationType = CalibrationType.HUMINIDITY;
-				setNewParametrs(CUSTOM_HUMINIDITY_POINT);
+				points = (Integer) pointsBox.getSelectedItem();
+				updateCalibrationData();
 			}
 		});
 	}
-	
+
+	private void setButtonGroup() {
+		ButtonGroup buttons = new ButtonGroup();
+		buttons.add(huminidity);
+		buttons.add(temperature);
+		setButtons();
+	}
+
+	private void setButtons() {
+		setTemperaturButton();
+		setHuminidityButton();
+	}
+
 	private void setTemperaturButton() {
 		temperature = new JRadioButton(TEMPERATURE_LABEL); 
 		temperature.addActionListener(new ActionListener(){
@@ -76,6 +95,19 @@ public class ChamberSettings extends JPanel {
 		});
 		calibrationType = CalibrationType.TEMPERATURE;
 		temperature.setSelected(true);
+		add(temperature);
+	}
+	
+
+	private void setHuminidityButton() {
+		huminidity = new JRadioButton(HUMINIDITY_LABEL);
+		huminidity.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				calibrationType = CalibrationType.HUMINIDITY;
+				setNewParametrs(CUSTOM_HUMINIDITY_POINT);
+			}
+		});
+		add(huminidity);
 	}
 	
 	private void setNewParametrs(int pointsNumber) {
@@ -83,31 +115,7 @@ public class ChamberSettings extends JPanel {
 		pointsBox.setSelectedIndex(pointsNumber - 1);
 		updateCalibrationData();
 	}
-	
-	private void setPointsBox() {
-		pointsBox = new JComboBox<Integer>();
-		for(int i = 1; i <= MAXIMUM_CALIBRATION_POINTS; i++)
-			pointsBox.addItem(i);
-		pointsBox.setSelectedIndex(2);
-		pointsBox.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				points = (Integer) pointsBox.getSelectedItem();
-				updateCalibrationData();
-			}
-		});
-	}
-	
-	private void setPanel() {
-		setBorder(new TitledBorder(PANEL_TITLE));
-		addElements();
-	}
-	
-	private void addElements() {
-		add(pointsBox);	
-		add(temperature);
-		add(huminidity);
-	}
-	
+
 	private void updateCalibrationData() {
 		CalibrationData.calibrationType = calibrationType;
 		CalibrationData.calibrationPoints = points;

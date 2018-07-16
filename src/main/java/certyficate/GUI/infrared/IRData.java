@@ -1,7 +1,6 @@
 package certyficate.GUI.infrared;
 
 import certyficate.entitys.Order;
-import certyficate.generate.*;
 
 public class IRData {
 	public double[] blackBodyError;
@@ -14,10 +13,6 @@ public class IRData {
 	public int distance;
 	
 	public String[] blackBodyName;
-	
-	public String toString(){
-		return String.format(DisplayedText.distanceIR, distance);
-	}
 
 	public void setNumberOfParametrs(int numberOfParametrs) {
 		blackBodyError = new double[numberOfParametrs];

@@ -1,4 +1,4 @@
-package certyficate.sheetHandlers.search;
+package certyficate.sheetHandlers.search.measurments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,11 @@ import certyficate.property.CalibrationData;
 import certyficate.property.SheetData;
 
 public class MeasurementResults {
-	final private static int MEASUREMENTS_POINTS = 10;
-	final private static String NON_DATA = "-";
-	final private static String EMPTY_CELL = "";
+	private static final int MEASUREMENTS_POINTS = 10;
+	private static final String NON_DATA = "-";
+	private static final String EMPTY_CELL = "";
+	
+	private static final char DOT = '.';
 	
 	private static int calibrationPoints;
 	
@@ -62,7 +64,6 @@ public class MeasurementResults {
 		Point point;
         try{
         	point = findPointData(line);
-        	PointCalculation.calculate(point);
         }catch(NumberFormatException e) {
         	point = Point.setFalse();;
         }
@@ -71,6 +72,12 @@ public class MeasurementResults {
 
 	private static Point findPointData(int line)
 			throws NumberFormatException {
+		Point point = getPointMeasurmentData(line);
+		PointCalculation.calculate(point);
+		return point;
+	}
+	
+	private static Point getPointMeasurmentData(int line) {
 		Point point = new Point(calibrationPoints);
 		for(int i = 0; i < calibrationPoints; i++) {
 			point.data[i] = getMeasurmentData(line);
@@ -78,7 +85,7 @@ public class MeasurementResults {
 		}
 		return point;
 	}
-	
+
 	private static double[] getMeasurmentData(int line)
 			throws NumberFormatException {
 		double[] mesurmentData = new double[MEASUREMENTS_POINTS];
@@ -112,7 +119,7 @@ public class MeasurementResults {
 
 	private static String createNumber(String integer, String decimal) {
 		StringBuilder bulider = new StringBuilder(integer);
-		bulider.append(".");
+		bulider.append(DOT);
 		bulider.append(decimal);
 		return bulider.toString();
 	}

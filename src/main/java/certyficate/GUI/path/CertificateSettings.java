@@ -6,8 +6,7 @@ import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 
 public class CertificateSettings extends PathSettings {
-	private static final String PANEL_NAME =
-			"Folder zapisu świadectw wzorcowania";
+	private static final String PANEL_NAME = "Folder zapisu świadectw wzorcowania";
 	
 	CertificateSettings() {
 		setCurrentPath(PathCreator.certificatesPath());

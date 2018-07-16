@@ -1,41 +1,35 @@
 package certyficate.generate.certificate;
 
-import certyficate.generate.CertificateValue;
+import certyficate.generate.CertificateText;
 
-public class TemperatureCertificate extends Certificate {
-	private static int numberOfChannel = 1;
+public class TemperatureCertificate extends PyrometerCertificate {
+	private static final int CHANNEL_LINE_CORECTION = 8;
 	
-	protected static int dateColumn = 8;
-	protected static int numberColumn = 22;
-	protected static int informactionColumn = 12;
-	protected static int numberOfData = 3;	
-	protected static int commentsLine = 95;
+	private int channelNumber;
 	
 	public TemperatureCertificate() {
 		super();
 	}
-	
-	@Override
-	protected void setTemplateData() {
-		templateName = "sw_T.ods";
-		// TODO template finder, comment set, channel set
-		
-	}
 
 	@Override
 	protected void setMeasurmentData() {
-		setMeasurmentData(84);
+		channelNumber = 0;
+		setMeasurment(MEASURMENT_LINE);
 		if(numberOfChannel > 1) {
-			setMeasurmentData(99);
+			int line = MEASURMENT_LINE + numberOfData * POINT_GAP + 9;
+			setMeasurment(line);
 		}
 	}
 
-	@Override
-	protected void setData(CertificateValue data, int line) {
-		sheet.setValueAt(data.probeT, 3, line);
-    	sheet.setValueAt(data.deviceT, 12, line);
-    	sheet.setValueAt(data.errorT, 21, line);
-    	sheet.setValueAt(data.uncertaintyT, 30, line);
+	private void setMeasurment(int measurmentLine) {
+		setChannel(measurmentLine);
+		setMeasurmentData(measurmentLine);
+		channelNumber++;
 	}
 
+	private void setChannel(int measurmentLine) {
+		int line = measurmentLine - CHANNEL_LINE_CORECTION;
+		String channelText = CertificateText.getChannelText(certificate, channelNumber);
+		sheet.setValueAt(channelText, 3, line);
+	}
 }

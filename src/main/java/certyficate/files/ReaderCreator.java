@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 
 public class ReaderCreator {
 	final private static String CODING = "UTF-8";
+	final private static String CODING_ERROR = "File coding error /n"; 
 	
 	public static BufferedReader getReader(File file) throws FileNotFoundException {
 		BufferedReader reader = newReader(file);
@@ -32,7 +33,7 @@ public class ReaderCreator {
 		try {
 			reader = new InputStreamReader(getStream(file), CODING);
 		} catch (UnsupportedEncodingException e) {
-			throw new FileNotFoundException("File coding error /n");
+			throw new FileNotFoundException(CODING_ERROR);
 		}
 		return reader;
 	}

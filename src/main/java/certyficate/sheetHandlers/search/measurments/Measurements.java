@@ -1,4 +1,4 @@
-package certyficate.sheetHandlers.search;
+package certyficate.sheetHandlers.search.measurments;
 
 import certyficate.entitys.Order;
 
@@ -12,10 +12,6 @@ public class Measurements{
 	}
 
 	public boolean match(Order certificate) {
-		boolean answer = false;
-		if(name != null && name.equals(certificate.deviceSerialNumber)) {
-			answer = true;
-		}
-		return answer;
+		return name != null && name.equals(certificate.deviceSerialNumber);
 	}
 }

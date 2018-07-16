@@ -8,6 +8,8 @@ import certyficate.generate.certificate.HuminidityCertificate;
 public class HuminidityNote extends TemperatureNote {
 	protected String noteFile = "z_Rh.ods";
 	
+	protected static int numberOfData = 5;
+	
 	public HuminidityNote() {
 		super();
 	}
@@ -26,10 +28,10 @@ public class HuminidityNote extends TemperatureNote {
 		sheet.setValueAt(order.measurmets[index].data[point][1], 
 				4, line);
 	}
-
+	
 	@Override
-	protected CertificateValue setCalibrationBudget(int line, int index) {
-		CertificateValue certificateValue = super.setCalibrationBudget(line, index);
+	protected CertificateValue findPointValue(int line, int index) {
+		CertificateValue certificateValue = super.findPointValue(line, index);
 		setCalibrationBudgetRh(certificateValue, line, index);
 		return certificateValue;
 	}
@@ -47,7 +49,7 @@ public class HuminidityNote extends TemperatureNote {
         sheet.setValueAt(reference[index].uncertaintyRh, 9, line + 9);
         sheet.setValueAt(reference[index].drift, 9, line + 10);
         sheet.setValueAt(chamber[index].correctionRh, 9, line + 11);
-        sheet.setValueAt(chamber[index].uncertaintyRh, 9, line + 11);
+        sheet.setValueAt(chamber[index].uncertaintyRh, 9, line + 12);
         setCertificateValueRh(certificateValue, index, uncerinity);
 	}
 

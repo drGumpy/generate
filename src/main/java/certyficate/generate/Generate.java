@@ -6,11 +6,12 @@ import java.util.List;
 
 import certyficate.entitys.*;
 import certyficate.generate.note.Note;
-import certyficate.generate.note.NoteFactor;
 import certyficate.property.CalibrationData;
 import certyficate.sheetHandlers.insert.PutDate;
 
 public class Generate {
+	private static final String GENERATR_ERROR = "Generate file error";
+	
     private static List<String> done = new ArrayList<String>();
     
     private static Note note;
@@ -36,7 +37,7 @@ public class Generate {
 		try {
 			generateNoteAndCertificate(certificate);
 		} catch (IOException e) {
-			System.out.println("Generate file error");
+			System.out.println(GENERATR_ERROR);
 			e.printStackTrace();
 		}
 	}

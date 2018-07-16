@@ -1,4 +1,4 @@
-package certyficate.sheetHandlers.search;
+package certyficate.sheetHandlers.search.order;
 
 import certyficate.entitys.Order;
 import certyficate.property.CalibrationData;
@@ -16,6 +16,9 @@ public class CalibrationPoints {
 	private final static char END_HUMINIDITY_POINT = ']';
 	
 	private final static String POINT_SEPARATOR = ", ";
+	private final static String NON_NUMBER = "[^\\d.]";
+	private final static String EMPTY_STRING = "";
+	
 
 	static double[][] point(){
 		double[][] point;
@@ -78,16 +81,18 @@ public class CalibrationPoints {
 		if(start != -1) {
 			point = point.substring(start, end);
 			pointArray = setRhPoint(point);
-		} else
+		} else {
 			pointArray = findPoint(point);
+		}
 		return pointArray;
 	}
 
 	private static double[] setRhPoint(String point) {
 		double[] pointArray = new double[2];
 		String[] points = point.split(POINT_SEPARATOR);
-		for(int i = 0; i < 2; i++)
+		for(int i = 0; i < 2; i++) {
 			pointArray[i] = findValue(points[i]);
+		}
 		return pointArray;
 	}
 
@@ -98,8 +103,7 @@ public class CalibrationPoints {
 	}
 	
 	private static int findValue(String point) {
-		String nonNumber = "[^\\d.]";
-		point = point.replaceAll(nonNumber, "");
+		point = point.replaceAll(NON_NUMBER, EMPTY_STRING);
 		return Integer.parseInt(point);
 	}
 }

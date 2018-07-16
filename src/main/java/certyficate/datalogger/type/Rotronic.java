@@ -1,6 +1,10 @@
-package certyficate.datalogger;
+package certyficate.datalogger.type;
 
 import java.io.File;
+
+import certyficate.datalogger.Logger;
+import certyficate.datalogger.PointData;
+import certyficate.datalogger.ReferenceFiles;
 
 public class Rotronic extends Logger {
 	protected static final String LINE_DATA_SEPARATOR = "\t";

@@ -6,8 +6,7 @@ import certyficate.files.PathCreator;
 import certyficate.property.CalibrationData;
 
 public class SheetSettings extends PathSettings {
-	private static final String PANEL_NAME =
-			"Arkusz z danymi";
+	private static final String PANEL_NAME = "Arkusz z danymi";
 	
 	SheetSettings(){
 		setCurrentPath(PathCreator.sheetPath());

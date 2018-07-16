@@ -23,6 +23,11 @@ public class PyrometerPanel extends JPanel {
 	private final static String DEFAULT_DISTANCE_VALLUE = "200";
 	private final static String ACTIVE = "aktywny";
 	private final static String APPLY_FOR_ALL = "zastosuj dla wszystkich";
+	private final static String MODEL = "model";
+	private final static String SERIAL_NUMBER = "numer seryjny";
+	private final static String EMISSIVITY = "emisyjność";
+	private final static String EMISSIVITY_FORMAT = "#0.00";
+	private final static String DISTANCE = "odlegległość";
 	
 	public static final int HIGHT = 250;
 	public static final int WIDTH = 200;
@@ -40,12 +45,6 @@ public class PyrometerPanel extends JPanel {
 	private Order certificate;
 	
 	private GridBagConstraints constrain;
-	
-	public void setElementsEditability(boolean active) {
-		emissivity.setEditable(active);
-		distance.setEditable(active);
-		pointPanel.setEditability(active);
-	}
 	
 	public PyrometerPanel(Order certificate, InfraredParametrs infraredParametrs) {
 		owner = infraredParametrs;
@@ -76,8 +75,6 @@ public class PyrometerPanel extends JPanel {
 	}
 
 	private void addActiveButton() {
-		constrain.gridx = 0;
-		constrain.gridy = 0;
 		constrain.gridwidth = 2;
 		active = new JRadioButton(ACTIVE);
 		add(active, constrain);
@@ -86,6 +83,12 @@ public class PyrometerPanel extends JPanel {
 				setElementsEditability(active.isSelected());
 			}
 		});
+	}
+	
+	private void setElementsEditability(boolean active) {
+		emissivity.setEditable(active);
+		distance.setEditable(active);
+		pointPanel.setEditability(active);
 	}
 
 	private void addCopyButton() {
@@ -101,10 +104,15 @@ public class PyrometerPanel extends JPanel {
 	
 	private void checkAndSetElements(boolean selected) {
 		if(selected) {
-			IRData data = findDataFormElements();
-			owner.setIRData(data);
-		} else 
+			setDataToPanels();
+		} else {
 			setElementsEditability(true);
+		}
+	}
+	
+	private void setDataToPanels() {
+		IRData data = findDataFormElements();
+		owner.setIRData(data);
 	}
 
 	private IRData findDataFormElements() {
@@ -115,10 +123,8 @@ public class PyrometerPanel extends JPanel {
 	
 	public IRData getPyrometerData() {
 		IRData data = new IRData();
-		data.emissivity = Double.parseDouble(
-				emissivity.getText());
-		data.distance = Integer.parseInt(
-				distance.getText());
+		data.emissivity = Double.parseDouble(emissivity.getText());
+		data.distance = Integer.parseInt(distance.getText());
 		pointPanel.findPointsData(data);
 		return data;
 	}
@@ -129,17 +135,17 @@ public class PyrometerPanel extends JPanel {
 	}
 	
 	private void addModelField() {
-		addLabel("model");
+		addLabel(MODEL);
 		addField(certificate.device.model);
 	}
 	
 	private void addSerialField() {
-		addLabel("numer seryjny");
+		addLabel(SERIAL_NUMBER);
 		addField(certificate.deviceSerialNumber);
 	}
 	
 	private void addLabel(String name) {
-		JLabel label = new JLabel("model");
+		JLabel label = new JLabel(name);
 		constrain.gridy++;
 		constrain.gridx = 0;
 		add(label, constrain);	
@@ -160,15 +166,15 @@ public class PyrometerPanel extends JPanel {
 	}
 	
 	private void addEmissivityField() {
-		addLabel("emisyjność");
-		emissivity = new JFormattedTextField(new DecimalFormat("#0.00"));
+		addLabel(EMISSIVITY);
+		emissivity = new JFormattedTextField(new DecimalFormat(EMISSIVITY_FORMAT));
 		emissivity.setValue(DEFAULT_EMISSIVITY_VALLUE);
 		constrain.gridx = 1;
 		add(emissivity, constrain);
 	}
 
 	private void addDistanceField() {
-		addLabel("emisyjność");
+		addLabel(DISTANCE);
 		distance = new JFormattedTextField(
 				NumberFormat.getIntegerInstance());
 		distance.setValue(DEFAULT_DISTANCE_VALLUE);

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import certyficate.datalogger.type.Rotronic;
 import certyficate.files.PathCreator;
 import certyficate.property.SheetData;
 
