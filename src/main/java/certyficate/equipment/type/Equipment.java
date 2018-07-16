@@ -8,7 +8,9 @@ import certyficate.equipment.calculation.DataProbe;
 import certyficate.files.ReaderCreator;
 
 public abstract class Equipment {
-	protected static final String SEPARATOR = "/t";
+	protected static final String SEPARATOR = "\t";
+	private static final String COMMA = ",";
+	private static final String DOT = ".";
 	
 	public Calculate calculate;
 	
@@ -45,6 +47,7 @@ public abstract class Equipment {
 	}
 	
 	protected double getDouble(String element) {
+		element = element.replaceAll(COMMA, DOT);
 		return Double.parseDouble(element);
 	}
 	

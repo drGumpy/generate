@@ -10,7 +10,7 @@ class StraightLine {
 		this.b = b;
 	}
 	
-	double findPointValue(int x) {
+	double findPointValue(double x) {
 		return a * x + b;
 	}
 }

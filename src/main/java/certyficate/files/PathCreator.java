@@ -7,11 +7,11 @@ public class PathCreator {
 	
 	private static final String PROPERTY_KEY = "user.home";
 	private static final String SHEETNAME = "Laboratorium.ods";
-	private static final String DESCOP = "Descop";
+	private static final String DESKTOP = "Desktop";
 	private static final String CERTIFICATE = "Świadectwa wzorcowania";
 	private static final String NOTE = "Zapiski";
 	private static final String ARCHIVES = "Wyniki wzorcowań";
-	private static final String DESCOP_FILE = "Laboratorium";
+	private static final String DESKTOP_FILE = "Laboratorium";
 	private static final String FILE_EXTENSION = ".txt";
 	private static final String TEMPLATE_FILE = "generacja";
 	private static final String REFERENCE_FILES = "Wyniki z wzorca";
@@ -20,7 +20,7 @@ public class PathCreator {
 	
 	private static StringBuilder pathToDescop() {
 		StringBuilder path = userPath();
-		path.append(withSeparator(DESCOP));
+		path.append(withSeparator(DESKTOP));
 		return path;
 	}
 	
@@ -56,13 +56,13 @@ public class PathCreator {
 	
 	private static StringBuilder folderPath(){
 		StringBuilder path = new StringBuilder(PATH_TO_DESCOP);
-		path.append(withSeparator(DESCOP_FILE));
+		path.append(withSeparator(DESKTOP_FILE));
 		return path;
 	}
 	
 	public static String filePath(String fileName) {
 		StringBuilder path = new StringBuilder(filePath());
-		path.append(withSeparator(fileName));
+		path.append(fileName);
 		return path.toString();
 	}
 	
@@ -99,7 +99,7 @@ public class PathCreator {
 
 	public static String probeDataPath() {
 		StringBuilder path = new StringBuilder(withSeparator("P:"));
-		path.append(withSeparator(DESCOP_FILE));
+		path.append(withSeparator(DESKTOP_FILE));
 		path.append(withSeparator(REFERENCE_FILES));
 		return path.toString();
 	}

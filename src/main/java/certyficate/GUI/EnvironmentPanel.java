@@ -15,21 +15,24 @@ import certyficate.GUI.listeners.EnvironmentListener;
 
 @SuppressWarnings("serial")
 public class EnvironmentPanel extends JPanel {
-	public static final double DEFAULT_TEMPERATURE = 22.000;
-	public static final double DEFAULT_HUMINIDITY = 45.000;
+	public static final double DEFAULT_TEMPERATURE = 22D;
+	public static final double DEFAULT_HUMINIDITY = 45D;
 	
-	public static final int WIDTH = 300;
-	public static final int HIGHT = 40;
 	public static final int PARAMETS_NUMBER = 4;
 	
-	public static final String[] LABEL_TEXT  = {"t min","t max","Rh min","Rh max"};
+	private static final int WIDTH = 300;
+	private static final int HIGHT = 50;
+	
+	private static int changeIndex;
+	
+	private static final String[] LABEL_TEXT  = {"t min","t max","Rh min","Rh max"};
 	
 	private static final String NUMBER_FORMAT = "#0.000";
 	private static final String PANEL_TITLE = "Warunki środowiskowe";
 	
-	public static double[] enviromentCondition;
+	private static double[] enviromentCondition;
 	
-	public static JFormattedTextField[] environment;
+	private static JFormattedTextField[] environment;
 	
 	private NumberFormat numbersFormat;
 	
@@ -52,10 +55,6 @@ public class EnvironmentPanel extends JPanel {
 		}
 	}
 	
-	private static double getParametr(int index) {
-		return Double.parseDouble(environment[index].getValue().toString());
-	}
-	
 	public static double getCondition(int index) {
 		return enviromentCondition[index];
 	}
@@ -65,8 +64,25 @@ public class EnvironmentPanel extends JPanel {
 	}
 	
 	public static void setCondition(double minTemperature, int index) {
+		changeIndex = index;
 		enviromentCondition[index] = minTemperature;
 		environment[index].setValue(minTemperature);
+	}
+	
+	public static boolean checkChange(JFormattedTextField field) {
+		boolean isChange = true;
+		if(changeIndex != -1) {
+			isChange = !field.equals(environment[changeIndex]);
+		}
+		return isChange;
+	}
+	
+	public static void resetIndex() {
+		changeIndex = -1;
+	}
+	
+	private static double getParametr(int index) {
+		return Double.parseDouble(environment[index].getValue().toString());
 	}
 
 	private void setSettings() {

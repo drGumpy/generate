@@ -19,8 +19,6 @@ import certyficate.entitys.Order;
 
 @SuppressWarnings("serial")
 public class PyrometerPanel extends JPanel {
-	private final static String DEFAULT_EMISSIVITY_VALLUE = "0,97";
-	private final static String DEFAULT_DISTANCE_VALLUE = "200";
 	private final static String ACTIVE = "aktywny";
 	private final static String APPLY_FOR_ALL = "zastosuj dla wszystkich";
 	private final static String MODEL = "model";
@@ -29,8 +27,11 @@ public class PyrometerPanel extends JPanel {
 	private final static String EMISSIVITY_FORMAT = "#0.00";
 	private final static String DISTANCE = "odlegległość";
 	
-	public static final int HIGHT = 250;
-	public static final int WIDTH = 200;
+	private final static double DEFAULT_EMISSIVITY_VALLUE = 0.97;
+	private final static double DEFAULT_DISTANCE_VALLUE = 200;
+	
+	private static final int WIDTH = 300;
+	private static final int HIGHT = 400;
 	
 	private JRadioButton active;
 	private JRadioButton copy;
@@ -55,7 +56,7 @@ public class PyrometerPanel extends JPanel {
 	}
 
 	private void setPanel() {
-		Dimension size = new Dimension(HIGHT, WIDTH);
+		Dimension size = new Dimension(WIDTH, HIGHT);
 		constrain = new GridBagConstraints();	
 		setMinimumSize(size);
 		setLayout(new GridBagLayout());
@@ -72,6 +73,7 @@ public class PyrometerPanel extends JPanel {
 	private void addButtons() {
 		addActiveButton();
 		addCopyButton();
+		constrain.gridwidth = 1;
 	}
 
 	private void addActiveButton() {
@@ -169,6 +171,7 @@ public class PyrometerPanel extends JPanel {
 		addLabel(EMISSIVITY);
 		emissivity = new JFormattedTextField(new DecimalFormat(EMISSIVITY_FORMAT));
 		emissivity.setValue(DEFAULT_EMISSIVITY_VALLUE);
+		emissivity.setColumns(10);
 		constrain.gridx = 1;
 		add(emissivity, constrain);
 	}
@@ -178,6 +181,7 @@ public class PyrometerPanel extends JPanel {
 		distance = new JFormattedTextField(
 				NumberFormat.getIntegerInstance());
 		distance.setValue(DEFAULT_DISTANCE_VALLUE);
+		distance.setColumns(10);
 		constrain.gridx = 1;
 		add(distance, constrain);
 	}

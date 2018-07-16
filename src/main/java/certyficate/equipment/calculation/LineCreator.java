@@ -20,33 +20,33 @@ class LineCreator {
 		RhCorrectionDifference = RhCorrection - data[1].correctionRh;		
 	}
 	
-	double[] findCorrection(int point) {
+	double[] findCorrection(double point) {
 		value = data[0].value;
 		valueDifference = value - data[1].value;
 		return getCorrections(point);
 	}
 	
-	double[] findCorrectionRh(int point) {
+	double[] findCorrectionRh(double point) {
 		value = data[0].valueRh;
 		valueDifference = value - data[1].valueRh;
 		return getCorrections(point);
 	}
 	
-	private double[] getCorrections(int point) {
+	private double[] getCorrections(double point) {
 		double[] correction = new double[2];
 		correction[0] = getCorrection(point);
 		correction[1] = getHumidityCorrection(point);
 		return correction;
 	}
 
-	private double getCorrection(int point) {
+	private double getCorrection(double point) {
 		double a = correctionDifference / valueDifference;
 		double b = correction - value * a;
 		StraightLine line = new StraightLine(a, b);
 		return line.findPointValue(point);
 	}
 
-	private double getHumidityCorrection(int point) {
+	private double getHumidityCorrection(double point) {
 		double a = RhCorrectionDifference / valueDifference;
 		double b = RhCorrection - value * a;
 		StraightLine line = new StraightLine(a, b);

@@ -24,9 +24,9 @@ public class ButtonListener implements ActionListener {
 	//TODO native system chooser
 	private JFileChooser getChooser() {
 		JFileChooser chooser = new JFileChooser(pathFinder.getFile());
-		if(pathFinder.getPathType() != PathType.SHEET)
-			chooser.setFileSelectionMode(
-					JFileChooser.DIRECTORIES_ONLY);
+		if(pathFinder.getPathType() != PathType.SHEET) {
+			chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		}
 		return chooser;
 	}
 

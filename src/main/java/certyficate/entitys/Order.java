@@ -26,5 +26,12 @@ public class Order{
 	public Point[] measurmets; 
 	
 	public IRData pyrometr;
+	
+	public Order() {
+		user = new Client();
+		declarant = new Client();
+		device = new Device();
+		probe = new Probe();
+	}
 }
 

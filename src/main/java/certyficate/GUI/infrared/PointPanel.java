@@ -42,11 +42,19 @@ public class PointPanel extends JPanel {
 		constrain = new GridBagConstraints();
 		constrain.anchor = GridBagConstraints.PAGE_START;
 		constrain.fill = GridBagConstraints.HORIZONTAL;
+		setSize();
+	}
+
+	private void setSize() {
+		int WIDTH = 300;
+		int HIGHT = 400;
+		setSize 
 	}
 
 	@SuppressWarnings("unchecked")
 	private void setPanelElements() {
 		numberOfParametrs = certificate.point.length;
+		System.out.println(numberOfParametrs);
 		blackBodyChoose = new JComboBox[numberOfParametrs];
 		referenceValue = new JFormattedTextField[numberOfParametrs];
 	}
@@ -54,20 +62,20 @@ public class PointPanel extends JPanel {
 	private void addPoints() {
 		for(int i = 0; i < numberOfParametrs; i++) {
 			addPoint(i);
-			constrain.gridy++;
+			constrain.gridy += 2;
 		}
 	}
 
 	private void addPoint(int index) {
 		double point = certificate.point[index][0];
-		addLabel(point);
+		addLabel((int) point);
 		setComboBox(index);
 		setTextField(index);
 	}
 
-	private void addLabel(double point) {
+	private void addLabel(int point) {
 		JLabel pointLabel = new JLabel();
-		String label = new StringBuilder((int) point).toString();
+		String label = Integer.toString(point);
 		pointLabel.setText(label);
 		constrain.gridx = 0;
 		add(pointLabel, constrain);

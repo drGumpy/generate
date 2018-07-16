@@ -14,6 +14,8 @@ import certyficate.property.SheetData;
 import certyficate.sheetHandlers.CalibrationPoint;
 
 public class MeasurementsData {
+	private static final String EMPTY_CELL = "";
+	
 	private static List<CalibrationPoint> points;
     
 	static Sheet sheet;
@@ -58,13 +60,19 @@ public class MeasurementsData {
 
 	private static void addCalibrationPoint(int line) {
 		CalibrationPoint point = new CalibrationPoint();
-		point.setTime(sheet.getValueAt(SheetData.timeColumn, line)
-				.toString());
 		point.setDate(sheet.getValueAt(SheetData.dateColumn, line)
 				.toString());
+		setTime(point, line);
 		point.setPointNumber(points.size());
 		point.setPointData(getPoints(line));
 		points.add(point);
+	}
+
+	private static void setTime(CalibrationPoint point, int line) {
+		String time = sheet.getValueAt(SheetData.timeColumn, line).toString();
+		if(!EMPTY_CELL.equals(time)) {
+			point.setTime(time);
+		}
 	}
 
 	private static double[] getPoints(int line) {
@@ -100,6 +108,7 @@ public class MeasurementsData {
 	
 	private static void checkMeasurmentsData(Order order) {
 		if(order.measurmets == null) {
+			System.out.println(order.deviceSerialNumber);
 			CalibrationData.orders.remove(order);
 		}
 	}

@@ -2,7 +2,7 @@ package certyficate.equipment.calculation;
 
 public class EquipmentCalculate extends Calculate {
 	@Override
-	protected DataProbe getDataPoint(int[] point) {
+	protected DataProbe getDataPoint(double[] point) {
     	DataProbe data  = setCorrections(point);
     	findUncertainty(data);
 		return data;

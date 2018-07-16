@@ -13,7 +13,7 @@ import certyficate.GUI.listeners.ButtonListener;
 
 @SuppressWarnings("serial")
 public class PathFinder  extends JPanel {
-	private static final int WIDTH = 700;
+	private static final int WIDTH = 650;
 	private static final int HEIGHT = 50;
 	private static final int FIELD_SIZE = 50;
 

@@ -87,22 +87,23 @@ public class CertificateData {
 	private static void checkAndAddOrderData(int line) {
 		Order order = new Order();
 		order.calibrationCode = sheet.getValueAt(9, line).toString();
-		if(verification.checkCalibrationCode(order))
+		if(verification.checkCalibrationCode(order)) {
 			addOrder(line, order);
+		}
 	}
 	
 	private static void addOrder(int line, Order order) {
 		String probe = sheet.getValueAt(8, line).toString();
-		setProbe(order, probe);
+		setProbeData(order, probe);
         order.numberOfCalibration = sheet.getValueAt(1, line).toString();
         order.deviceSerialNumber = sheet.getValueAt(6, line).toString();
         order.calibrationCode = sheet.getValueAt(9, line).toString();
         order.calibrationDate = sheet.getValueAt(10, line).toString();
-        addToContainers(line);
+        addToContainers(line, order);
         orders.add(order);
 	}
 
-	private static void setProbe(Order order, String probe) {
+	private static void setProbeData(Order order, String probe) {
 		String[] probeSerialArray = {EMPTY_CELL};
 		order.probeSerialNumber = probe;
         if(!probe.equals(",")) {
@@ -112,26 +113,26 @@ public class CertificateData {
 		order.probeSerial = probeSerialArray;
 	}
 	
-	private static void addToContainers(int line) {
-		setClient(3, line);
-		setClient(4, line);
-		setDevice(line);
-		setProbe(line);
+	private static void addToContainers(int line, Order order) {
+		setClient(3, line, order.declarant);
+		setClient(4, line, order.user);
+		setDevice(line, order.device);
+		setProbe(line, order.probe);
 	}
 
-	private static void setClient(int column, int line) {
-		String client = sheet.getValueAt(column, line).toString();
-		clientsData.put(client, null);
+	private static void setClient(int column, int line, Client client) {
+		client.name = sheet.getValueAt(column, line).toString();
+		clientsData.put(client.name, client);
 	}
 
-	private static void setDevice(int line) {
-		String device = sheet.getValueAt(5, line).toString();
-		devicesData.put(device, null);
+	private static void setDevice(int line, Device device) {
+		device.model = sheet.getValueAt(5, line).toString();
+		devicesData.put(device.model, device);
 	}
 
-	private static void setProbe(int line) {
-		String probe = sheet.getValueAt(7, line).toString();
-		probesData.put(probe, null);
+	private static void setProbe(int line, Probe probe) {
+		probe.model = sheet.getValueAt(7, line).toString();
+		probesData.put(probe.model, probe);
 	}
 
     private static void gatherData(){
@@ -141,7 +142,6 @@ public class CertificateData {
     }
        
     private static void completeCertyficationData(int index) {
-    	completeCertyficationData(index);
     	Order certyficate  = orders.get(index);
         certyficate.declarant = clientsData.get(orders.get(index).declarant.name);
         certyficate.user = clientsData.get(orders.get(index).user.name);

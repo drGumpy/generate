@@ -2,21 +2,21 @@ package certyficate.equipment.calculation;
 
 public class Calculate {
 	DataProbe[] pointsInRange;
-	int[] point;
+	double[] point;
 	
-	public DataProbe findPoint(DataProbe[] pointsInRange, int[] point) {
+	public DataProbe findPoint(DataProbe[] pointsInRange, double[] point) {
 		this.point = point;
 		this.pointsInRange = pointsInRange;
 		return getDataPoint(point);
 	}
 	
-	protected DataProbe getDataPoint(int[] point) {
+	protected DataProbe getDataPoint(double[] point) {
     	DataProbe data  = setCorrections(point);
     	setData(data);
 		return data;
 	}
 	
-    protected DataProbe setCorrections(int[] point) {
+    protected DataProbe setCorrections(double[] point) {
     	DataProbe data  = new DataProbe(point);
     	estimateCorection(data);
 		return data;
@@ -72,9 +72,5 @@ public class Calculate {
 			uncertainty = Math.max(uncertainty, pointUncertainty);
 		}
 		return uncertainty;
-	}
-
-	public DataProbe findPoint(DataProbe[] pointsInRange, double[] point) {
-		return null;
 	}
 }

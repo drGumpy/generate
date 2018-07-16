@@ -39,9 +39,11 @@ public class InfraredParametrs extends JDialog {
 	
 	public InfraredParametrs(Frame owner){
 		super(owner, true);
+		BlackBodyData.setBlackBodyGenerators();
 		findPanelData();
-		setPanelSettings();
+		setElements();
 		setWindow();
+		setPanelSettings();
 	}
 	
 	public void setIRData(IRData pyrometerData) {
@@ -76,13 +78,17 @@ public class InfraredParametrs extends JDialog {
 
 	private void setPanelSettings() {
 		Dimension size = new Dimension(WIDTH, HIGHT);
+		setSize(size);
+		setTitle(PANEL_NAME);
+		setVisible(true);
+	}
+	
+	private void setElements() {
 		pyrometers = new PyrometerPanel[data.size()];
 		accept = getAcceptButton();
 		constrain = new GridBagConstraints();
-		setSize(size);
-		setTitle(PANEL_NAME);
 	}
-	
+
 	private JButton getAcceptButton() {
 		JButton accept = new JButton(BUTTON_LABEL);
 		accept.addActionListener(new ActionListener(){
@@ -151,7 +157,8 @@ public class InfraredParametrs extends JDialog {
 
 	private void setPyrometrPanel(JPanel panel, int index) {
 		Order certificate = data.get(index);
-		pyrometers[index] = new PyrometerPanel(certificate, this);
+		pyrometers[index] =
+				new PyrometerPanel(certificate, this);
 		constrain.gridy = index / DEVICES_PER_LINE;
 		constrain.gridx = index % DEVICES_PER_LINE;
 		panel.add(pyrometers[index], constrain);

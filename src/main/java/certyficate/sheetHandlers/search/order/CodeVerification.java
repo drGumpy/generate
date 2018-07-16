@@ -38,21 +38,23 @@ public class CodeVerification {
 		String code = order.calibrationCode;
 		int indexOfSeparator = code.indexOf(UNSTANDARD_CHARACTER);
 		if(indexOfSeparator != -1) {
-			setPoints(order, code, indexOfSeparator);
+			code = setPoints(order, code, indexOfSeparator);
 		} else {
-			setStandardPoint(order, code);
+			code = setStandardPoint(order, code);
 		}
 		return code;
 	}
 
-	private void setPoints(Order order, String code, int index) {
+	private String setPoints(Order order, String code, int index) {
 		code = code.substring(2, index);
 		CalibrationPoints.setPoint(order);
+		return code;
 	}
 
-	private void setStandardPoint(Order order, String code) {
+	private String setStandardPoint(Order order, String code) {
 		code = code.substring(2, code.length());
 		order.point = CalibrationPoints.point();
+		return code;
 	}
 	
 	private void checkNumberOfChannel(Order order, String code) {

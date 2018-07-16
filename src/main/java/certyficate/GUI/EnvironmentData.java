@@ -32,8 +32,8 @@ public class EnvironmentData {
 	}
 
 	private static DataProbe[] correctionData() {
-		DataProbe[] dataprobe = new DataProbe[NUMBER_OF_PARAMETRS];
-		for(int i = 0; i < NUMBER_OF_PARAMETRS; i++) {
+		DataProbe[] dataprobe = new DataProbe[2];
+		for(int i = 0; i < 2; i++) {
 			dataprobe[i] = setDataProbe(i);
 		}
 		return dataprobe;
@@ -56,7 +56,7 @@ public class EnvironmentData {
 	}
 
 	private static void addCorrections() {
-		for(int i = 0; i < NUMBER_OF_PARAMETRS; i++) {
+		for(int i = 0; i < 2; i++) {
 			environmentData[i] += correctionData[i].correction;
 			environmentData[i + 2] += correctionData[i].correctionRh;
 		}

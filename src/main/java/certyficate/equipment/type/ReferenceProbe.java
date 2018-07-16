@@ -46,15 +46,16 @@ public abstract class ReferenceProbe extends Equipment {
 	private int[] findRange(String[] elements) {
 		int[] range = new int[rangeSize];
 		for(int i = 0; i < rangeSize; i++){
-			range[i] = getInteger(elements[0]);
+			range[i] = getInteger(elements[i]);
 		}
 		return range;
 	} 
 	
 	public DataProbe getPointData(double[] point) {
 		DataProbe pointData = findInStandardPoints(point);
-		if(pointData == null)
+		if(pointData == null) {
 			pointData = checkInRanges(point);
+		}
 		return pointData;
 	}
 
@@ -72,14 +73,15 @@ public abstract class ReferenceProbe extends Equipment {
 
 	protected DataProbe checkInRanges(double[] point) {
 		DataProbe pointData = new DataProbe(false);
-		for(int i = 0; i < numberOfRanges; i++)
+		for(int i = 0; i < numberOfRanges; i++) {
 			if(inRange(point, ranges[i])) {
 				pointData = findInRange(point, ranges[i]);
 				break;
 			}
+		}
 		return pointData;
 	}
-	
+
 	protected abstract boolean inRange(double[] point, int[] range);
 	
 	protected DataProbe findInRange(double[] point, int[] range) {

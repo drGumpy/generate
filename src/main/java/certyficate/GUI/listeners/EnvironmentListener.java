@@ -8,10 +8,10 @@ import javax.swing.JFormattedTextField;
 import certyficate.GUI.EnvironmentPanel;
 
 public class EnvironmentListener implements PropertyChangeListener{
-	private double MIN_TEMPERATURE = 17;
-	private double MAX_TEMPERATURE = 27;
+	private double MIN_TEMPERATURE = 20;
+	private double MAX_TEMPERATURE = 28;
 	private double MIN_HUMINIDITY = 20;
-	private double MAX_HUMINIDITY = 80;
+	private double MAX_HUMINIDITY = 70;
 	
 	private double minTemperature;
 	private double maxTemperature;
@@ -20,12 +20,19 @@ public class EnvironmentListener implements PropertyChangeListener{
 
 	public void propertyChange(PropertyChangeEvent e) {
 		JFormattedTextField field = (JFormattedTextField) e.getSource();
+		if(EnvironmentPanel.checkChange(field)) {
+			setNewData(field);
+		}
+	}
+	
+	private void setNewData(JFormattedTextField field) {
 		String text = field.getValue().toString();
 		int index = findIndex(text);
 		EnvironmentPanel.updateCondition();
 		checkParametr(index);
+		EnvironmentPanel.resetIndex();
 	}
-	
+
 	private int findIndex(Object text) {
 		int index = 0;
 		for(int i = 0; i < EnvironmentPanel.PARAMETS_NUMBER; i++) {
@@ -116,7 +123,7 @@ public class EnvironmentListener implements PropertyChangeListener{
 	}
 
 	private void setNewHuminidity() {
-		EnvironmentPanel.environment[2].setValue(minHuminidity);
-		EnvironmentPanel.environment[3].setValue(maxHuminidity);
+		EnvironmentPanel.setCondition(minHuminidity, 2);
+		EnvironmentPanel.setCondition(maxHuminidity, 3);
 	}
 }

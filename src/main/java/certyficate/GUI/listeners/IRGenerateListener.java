@@ -21,7 +21,7 @@ public class IRGenerateListener implements ActionListener {
 	
 	private static final String ERROR = "Generate file error";
 	
-	InfraredPanel infraredPanel;
+	private InfraredPanel infraredPanel;
 	
 	public IRGenerateListener(InfraredPanel infraredPanel) {
 		this.infraredPanel = infraredPanel;
