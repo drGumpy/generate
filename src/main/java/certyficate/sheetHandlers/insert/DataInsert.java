@@ -54,7 +54,7 @@ public class DataInsert {
 	}
 
 	private void insetLine(PointData[] data, int line) {
-		int column = SheetData.startRow;
+		int column = SheetData.timeColumn;
 		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
 			insertPoint(data[i], column, line);
 			column += 3;

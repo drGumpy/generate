@@ -19,9 +19,6 @@ public class PointCalculation {
 	private static void calculateResults() {
 		for(int i = 0; i < point.numberOfParamters; i++) {
 			setResults(i);
-			point.average[i] = calculaleAverage(i);
-			point.standardDeviation[i] 
-					= calculateStandardDeviation(i);
 		}
 	}
 
@@ -32,9 +29,6 @@ public class PointCalculation {
 
 	private static double calculaleAverage(int index) {
 		double average = calculaleSum(index);
-		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
-			average += point.data[index][i];
-		}
 		average /= MEASUREMENTS_POINTS;
 		return average;
 	}
@@ -55,7 +49,7 @@ public class PointCalculation {
 	}
 
 	private static double sumOfSquares(int index) {
-		double sum = sumOfSquares(index);
+		double sum = 0;
 		for(int i = 0; i < MEASUREMENTS_POINTS; i++) {
 			sum += square(index, i);
 		}

@@ -18,7 +18,7 @@ public class MeasurementsData {
 	
 	private static List<CalibrationPoint> points;
     
-	static Sheet sheet;
+	private static Sheet sheet;
 	
 	private static List<Measurements> devices;
 
@@ -35,13 +35,15 @@ public class MeasurementsData {
 	}
 	
 	private static void findMeasurments() {
-		devices = MeasurementResults.findMeasurmentData();
+		devices = MeasurementResults.findMeasurmentData(sheet);
 		addMeasurmentsToOrders();
 	}
 
 	private static void setSheet() throws IOException {
 		File file = CalibrationData.sheet;
 		sheet = SpreadSheet.createFromFile(file).getSheet(SheetData.sheetName);
+		System.out.println(file + "\n"+ SheetData.sheetName);
+		System.out.println(sheet.getRowCount() + "\t"+ sheet.getColumnCount());
 	}
 	
 	private static void getCalibtationPoints() {
@@ -108,7 +110,6 @@ public class MeasurementsData {
 	
 	private static void checkMeasurmentsData(Order order) {
 		if(order.measurmets == null) {
-			System.out.println(order.deviceSerialNumber);
 			CalibrationData.orders.remove(order);
 		}
 	}

@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import certyficate.entitys.Order;
+import certyficate.property.DataCalculation;
 
 @SuppressWarnings("serial")
 public class PyrometerPanel extends JPanel {
@@ -47,6 +48,14 @@ public class PyrometerPanel extends JPanel {
 	private Order certificate;
 	
 	private GridBagConstraints constrain;
+	
+	public IRData getPyrometerData() {
+		IRData data = new IRData();
+		data.emissivity = DataCalculation.getDouble(emissivity.getText());
+		data.distance = Integer.parseInt(distance.getText());
+		pointPanel.findPointsData(data);
+		return data;
+	}
 	
 	public PyrometerPanel(Order certificate, InfraredParametrs infraredParametrs) {
 		owner = infraredParametrs;
@@ -121,14 +130,6 @@ public class PyrometerPanel extends JPanel {
 	private IRData findDataFormElements() {
 		IRData data = getPyrometerData();
 		data.point = certificate.point;
-		return data;
-	}
-	
-	public IRData getPyrometerData() {
-		IRData data = new IRData();
-		data.emissivity = Double.parseDouble(emissivity.getText());
-		data.distance = Integer.parseInt(distance.getText());
-		pointPanel.findPointsData(data);
 		return data;
 	}
 	

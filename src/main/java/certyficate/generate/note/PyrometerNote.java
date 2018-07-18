@@ -1,16 +1,22 @@
 package certyficate.generate.note;
 
 import certyficate.generate.CertificateValue;
-import certyficate.generate.DataCalculation;
 import certyficate.generate.certificate.PyrometerCertificate;
+import certyficate.property.DataCalculation;
 
 public class PyrometerNote extends Note {
-	protected static String noteFile = "z_T.ods";
+	private static final String NOTE_FILE = "z_T.ods";
 	
-	protected static int numberOfData = 5;
+	private static final int NUMBER_OF_DATA = 3;
 
 	public PyrometerNote() {
 		super();
+	}
+	
+	@Override
+	protected void setData() {
+		noteFile = NOTE_FILE;
+		numberOfData = NUMBER_OF_DATA;
 	}
 	
 	@Override
@@ -22,7 +28,7 @@ public class PyrometerNote extends Note {
 	protected void setValue(int line, int index, int point) {
 		double referenceValue =	order.pyrometr.reference[calibrationPointCount];
 		sheet.setValueAt(referenceValue, 1, line);
-		sheet.setValueAt(order.measurmets[index].data[point][0], 3, line);
+		sheet.setValueAt(order.measurmets[index].data[0][point], 3, line);
 	}
 
 	@Override
@@ -65,7 +71,7 @@ public class PyrometerNote extends Note {
 		double uncerinity = findUncerinityAndRound(uncerinities);
         double referenceValue = DataCalculation.roundTonumber(order.pyrometr.reference[calibrationPointCount] 
         		+ reference[index].correction,round);
-        double deviceValue =DataCalculation.roundTonumber(order.measurmets[index].average[0], round);
+        double deviceValue = DataCalculation.roundTonumber(order.measurmets[index].average[0], round);
         pointValue.probeT = setNumber(referenceValue);
         pointValue.deviceT = setNumber(deviceValue);
         pointValue.errorT = setNumber(deviceValue - referenceValue);

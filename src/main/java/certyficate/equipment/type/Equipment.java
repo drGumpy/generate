@@ -9,8 +9,6 @@ import certyficate.files.ReaderCreator;
 
 public abstract class Equipment {
 	protected static final String SEPARATOR = "\t";
-	private static final String COMMA = ",";
-	private static final String DOT = ".";
 	
 	public Calculate calculate;
 	
@@ -46,16 +44,14 @@ public abstract class Equipment {
 		return Integer.parseInt(element);
 	}
 	
-	protected double getDouble(String element) {
-		element = element.replaceAll(COMMA, DOT);
-		return Double.parseDouble(element);
-	}
-	
 	private void getRangesData(BufferedReader reader) throws IOException {
+		setRanges();
 		for(int i = 0; i < numberOfRanges; i++) {
 			getRange(reader.readLine(), i);
 		}
 	}
+
+	protected abstract void setRanges();
 
 	protected abstract void getRange(String readLine, int index);
 	

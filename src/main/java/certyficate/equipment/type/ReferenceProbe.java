@@ -36,12 +36,9 @@ public abstract class ReferenceProbe extends Equipment {
 
 	@Override
 	protected void getRange(String line, int index) {
-		setRanges();
 		String[] elements = line.split(SEPARATOR);
 		ranges[index] = findRange(elements);
 	}
-
-	protected abstract void setRanges();
 	
 	private int[] findRange(String[] elements) {
 		int[] range = new int[rangeSize];
@@ -55,7 +52,7 @@ public abstract class ReferenceProbe extends Equipment {
 		DataProbe pointData = findInStandardPoints(point);
 		if(pointData == null) {
 			pointData = checkInRanges(point);
-		}
+		}    	
 		return pointData;
 	}
 

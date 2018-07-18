@@ -51,7 +51,7 @@ public class PutData {
 	}
 
 	private static void setSheet() throws IOException {
-		sheet = SpreadSheet.createFromFile(file).addSheet(SheetData.sheetName);
+		sheet = SpreadSheet.createFromFile(file).getSheet(SheetData.sheetName);
 		insert = new DataInsert(sheet);
 	}
 	

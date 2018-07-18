@@ -31,6 +31,7 @@ public class Generate {
 		for(Order certificate: CalibrationData.orders) {
 			generateCalibrationDocuments(certificate);
 		}
+		CalibrationData.orders = null;
 	}
 
 	private static void generateCalibrationDocuments(Order certificate) {
@@ -50,6 +51,5 @@ public class Generate {
 	
     private static void markAsDone(Order certificate) {
     	done.add(certificate.numberOfCalibration);
-    	CalibrationData.orders.remove(certificate);
 	}
 }

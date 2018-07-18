@@ -23,10 +23,11 @@ public class CertificateText {
 	private static final String INFRARED_EMISSIVITY_TEXT = "Emisyjność źródła ε=";
 	private static final String INFRARED_DISTANCE_TEXT = 
 			"Odległość pirometru wzorcowanego od źródła w czasie wzorcowania wynosiła: ";
-	private static final String MEASURE = " MM";
+	private static final String MEASURE = " mm";
 	private static final String FILE_EXTENCTION = ".ods";
 	private static final String TEMPERATURE_PROBE = "Czujnik temperatury: ";
 	private static final String CHANNEL_NAME = " (nazwa kanału: ";
+	private static final String WITH  = " ,z";
 	
 	private static double[] environmentData;
 	
@@ -111,7 +112,8 @@ public class CertificateText {
 	}
 
 	private static String setRanges(int index) {
-		StringBuilder builder = new StringBuilder(OPEN_BRACKET);
+		StringBuilder builder = new StringBuilder();
+		builder.append(OPEN_BRACKET);
 		builder.append(environmentData[2 * index]);
 		builder.append(COMPARTMENT);
 		builder.append(environmentData[2 * index +1]);
@@ -122,7 +124,7 @@ public class CertificateText {
 	
 	private static StringBuilder setProbe(Order certificate) {
 		StringBuilder builder;
-		if(certificate.probe.type.equals("")) {
+		if(certificate.probe.type.equals(EMPTY_STRING)) {
 			builder = probeWithoutModel(certificate);
 		} else {
 			builder = probeWithModel(certificate);
@@ -131,7 +133,7 @@ public class CertificateText {
 	}
 
 	private static StringBuilder probeWithoutModel(Order certificate) {
-		StringBuilder builder = new StringBuilder(", z");
+		StringBuilder builder = new StringBuilder(WITH);
 		builder.append(certificate.probe.model);
 		builder.append(MANOFACTURER);
 		builder.append(certificate.probeSerialNumber);
@@ -139,7 +141,7 @@ public class CertificateText {
 	}
 
 	private static StringBuilder probeWithModel(Order certificate) {
-		StringBuilder builder = new StringBuilder(", z");
+		StringBuilder builder = new StringBuilder(WITH);
 		builder.append(certificate.probe.type);
 		builder.append(MODEL);
 		builder.append(certificate.probe.model);

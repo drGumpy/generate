@@ -87,7 +87,6 @@ public class Console extends JFrame {
     	constrain.weighty=0.2;
     	constrain.gridy=4;
     	add(tabbedPane, constrain);
-		
 	}
 
     private JTabbedPane setTabbedPane() {

@@ -12,6 +12,7 @@ public class PointData {
 	private static final int dataLength = 2;
 	
 	private static final String ZERO = "0";
+	private static final String TIME_FORMAT = "HH:mm";
 	
 	private String[] temperature;
 	private String[] humidity;
@@ -24,6 +25,10 @@ public class PointData {
 	
 	public String[] getHumidity() {
 		return humidity;
+	}
+	
+	public String getTime() {
+		return new SimpleDateFormat(TIME_FORMAT).format(date);
 	}
 	
 	@SuppressWarnings("deprecation")

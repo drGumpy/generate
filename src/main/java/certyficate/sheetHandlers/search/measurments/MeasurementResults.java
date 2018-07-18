@@ -21,14 +21,14 @@ public class MeasurementResults {
 	
 	private static Sheet sheet;
 	
-	static List<Measurements> findMeasurmentData() {
-		setProperties();
+	static List<Measurements> findMeasurmentData(Sheet dataSheet) {
+		setProperties(dataSheet);
 		findDevicesData();
 		return devices;
 	}	
 
-	private static void setProperties() {
-		sheet = MeasurementsData.sheet;
+	private static void setProperties(Sheet dataSheet) {
+		sheet = dataSheet;
 		calibrationPoints = CalibrationData.calibrationPoints;
 	}
 
@@ -44,10 +44,14 @@ public class MeasurementResults {
 	private static void checkAndAddDevice(int line) {
 		String name = sheet.getValueAt(1,line).toString();
 		if(!EMPTY_CELL.equals(name)) {
-			Measurements device = findDeviceResults(line);
-			device.name = name;
-			devices.add(device);
+			addDevice(line, name);
 		}
+	}
+
+	private static void addDevice(int line, String name) {
+		Measurements device = findDeviceResults(line);
+		device.name = name;
+		devices.add(device);
 	}
 
 	static Measurements findDeviceResults(int line) {
@@ -65,7 +69,7 @@ public class MeasurementResults {
         try{
         	point = findPointData(line);
         }catch(NumberFormatException e) {
-        	point = Point.setFalse();;
+        	point = Point.setFalse();
         }
 		return point;
 	}
@@ -78,8 +82,8 @@ public class MeasurementResults {
 	}
 	
 	private static Point getPointMeasurmentData(int line) {
-		Point point = new Point(calibrationPoints);
-		for(int i = 0; i < calibrationPoints; i++) {
+		Point point = new Point(CalibrationData.numberOfParameters);
+		for(int i = 0; i < CalibrationData.numberOfParameters; i++) {
 			point.data[i] = getMeasurmentData(line);
 			line++;
 		}
@@ -104,7 +108,7 @@ public class MeasurementResults {
 		if(NON_DATA.equals(integer)) {
 			number = Double.NaN;
 		} else {
-			String decimal = sheet.getValueAt(column,line).toString();
+			String decimal = sheet.getValueAt(column + 2,line).toString();
 			number = createDouble(integer, decimal);
 		}
 		return number;

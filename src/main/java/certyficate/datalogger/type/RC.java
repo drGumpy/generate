@@ -8,10 +8,9 @@ public class RC extends Logger{
 	protected static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	protected static final String NUMBER_SEPARATOR = "\\.";
 	
-	protected int nonDataLine = 23;
-	
     public RC(boolean RH) {
         super(RH);
+        nonDataLine = 23;
     }
     
     @Override

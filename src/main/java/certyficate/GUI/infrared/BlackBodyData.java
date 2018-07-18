@@ -11,6 +11,7 @@ import certyficate.files.PathCreator;
 
 public class BlackBodyData {
 	private static final int RADIATOR_VALUE = 25;
+	private static final double RADIATOR_ERROR = 0.2;
 	
 	private static final String RADIATOR = "radiator";
 	private static final String ERROR = "non blackBody file: ";
@@ -55,7 +56,7 @@ public class BlackBodyData {
 			comboBox.setSelectedItem(RADIATOR);
 		} else {
 			comboBox.setSelectedIndex(
-					(index + 1) / blackBodyData.size());
+					(index + 1) % blackBodyData.size());
 		}
 		return comboBox;
 	}
@@ -67,6 +68,22 @@ public class BlackBodyData {
 	}
 
 	public static double getBlackBodyError(String blackBodyName, double[] pointValue) {
+		double error = checkIfRadiator(blackBodyName);
+		if(Double.isNaN(error)) {
+			error = findBlackBodyError(blackBodyName, pointValue);
+		}
+		return error;
+	}
+
+	private static double checkIfRadiator(String name) {
+		double error = Double.NaN;
+		if(RADIATOR.equals(name)) {
+			error = RADIATOR_ERROR;
+		}
+		return error;
+	}
+
+	private static double findBlackBodyError(String blackBodyName, double[] pointValue) {
 		BlackBodyGenerator generator = blackBodyData.get(blackBodyName);
 		return generator.getUncertainty(pointValue);
 	}

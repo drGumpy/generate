@@ -102,6 +102,7 @@ public abstract class Logger {
 		while((line = reader.readLine()) != null) {
 			PointData pointData = divide(line);
 			if(pointData.equalsData(point)) {
+				System.out.println("pobieranie danych dla punktu: " + (currentPoint + 1) + " z godziny; " + pointData.getTime());
 				data[currentPoint][0] = pointData;
 				setPointData(reader);
 				break;

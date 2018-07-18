@@ -10,10 +10,7 @@ public class Rotronic extends Logger {
 	protected static final String LINE_DATA_SEPARATOR = "\t";
 	protected static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	protected static final String NUMBER_SEPARATOR = ",";
-	
-	protected int nonDataLine = 47;
-	
-	protected int deviceNumber = -1;
+	protected static final String DATE_SEPARATOR = " ";
 	
 	private ReferenceFiles files;
 
@@ -25,6 +22,8 @@ public class Rotronic extends Logger {
 	@Override
 	protected void setData() {
 		super.setData();
+		nonDataLine = 47;
+		deviceNumber = -1;
 		findFile();
 	}
 
@@ -49,7 +48,7 @@ public class Rotronic extends Logger {
 	
 	private String setDate(String data, String time) {
 		StringBuilder build = new StringBuilder(data);
-		build.append(" ");
+		build.append(DATE_SEPARATOR);
 		build.append(time);
 		return build.toString();
 	}

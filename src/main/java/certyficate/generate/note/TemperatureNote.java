@@ -3,15 +3,15 @@ package certyficate.generate.note;
 
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.generate.CertificateValue;
-import certyficate.generate.DataCalculation;
 import certyficate.generate.certificate.TemperatureCertificate;
 import certyficate.property.CalibrationData;
+import certyficate.property.DataCalculation;
 import certyficate.sheetHandlers.search.measurments.Measurements;
 
 public class TemperatureNote extends Note {
-	protected String noteFile = "z_T.ods";
+	private static final String NOTE_FILE = "z_T.ods";
 	
-	protected static int numberOfData = 3;
+	private static final int NUMBER_OF_DATA = 3;
 	
 	protected Measurements referenceValue;
 	
@@ -20,6 +20,12 @@ public class TemperatureNote extends Note {
 	public TemperatureNote() {
 		super();
 		setDeviceData();
+	}
+	
+	@Override
+	protected void setData() {
+		noteFile = NOTE_FILE;
+		numberOfData = NUMBER_OF_DATA;
 	}
 
 	private void setDeviceData() {

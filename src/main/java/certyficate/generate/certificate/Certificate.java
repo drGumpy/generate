@@ -53,8 +53,9 @@ public abstract class Certificate {
 	
 	public Certificate() {
 		environment = CertificateText.getEnvironmentText();
+		setTemplateData();
 	}
-	
+
 	public void setNumberOfChanel(int channelNumber) {
 		numberOfChannel = channelNumber;		
 	}
@@ -72,6 +73,8 @@ public abstract class Certificate {
 		setCalibrationData(certificateData, calibration);
 		setDataSheet();
 	}
+	
+	protected abstract void setTemplateData();
 	
 	private void setCalibrationData(Order certificateData,
 			List<CertificateValue> calibration) {
@@ -112,7 +115,7 @@ public abstract class Certificate {
 	}
 
 	private void setDateAndNumber(int line) {
-		sheet.setValueAt(new Date(), dateColumn , line);
+		sheet.setValueAt(new Date(), dateColumn, line);
         sheet.setValueAt(certificate.numberOfCalibration,
         		numberColumn, line);
 		
@@ -143,7 +146,7 @@ public abstract class Certificate {
         sheet.setValueAt(adres, informactionColumn, line + 1);
 	}
 
-	private void setEnvironmentData(int line) {
+	private void setEnvironmentData(int line) {		
 		for(int i = 0; i < environment.length; i++) {
 			sheet.setValueAt(environment[i],
 					informactionColumn, line + i);
@@ -159,7 +162,7 @@ public abstract class Certificate {
 	
 	protected void setMeasurmentData(int line) {
 		int endData = setEndData();
-		for(; currentPoint > endData; currentPoint++) {
+		for(; currentPoint < endData; currentPoint++) {
 			setData(pointData.get(currentPoint), line);
 			line += POINT_GAP;
 		}
@@ -201,5 +204,4 @@ public abstract class Certificate {
 		File file = new File(certificates, fileName);
 		return file;
 	}
-
 }
