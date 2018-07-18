@@ -16,14 +16,14 @@ import certyficate.entitys.Device;
 import certyficate.files.PathCreator;
 import certyficate.generate.CertificateText;
 import certyficate.generate.CertificateValue;
-import certyficate.generate.DataCalculation;
 import certyficate.generate.certificate.Certificate;
 import certyficate.property.CalibrationData;
+import certyficate.property.DataCalculation;
 
 //TODO remove T/Rh poll
 public abstract class Note {
 	private static final String NOTE_SHEET = "Wyniki wzorcowania";
-	private static final String DEFAULT_NUMBER_SEPRATOR = ".";
+	private static final String DEFAULT_NUMBER_SEPRATOR = "\\.";
 	private static final String CUSTOM_NUMBER_SEPRATOR = ",";
 	
 	private static final int POINT_GAP = 32;
@@ -37,7 +37,7 @@ public abstract class Note {
 	private static List<CertificateValue> calibrationData;
 	
 	protected static int calibrationPointCount;
-	protected static int numberOfData;
+	protected int numberOfData;
 	
 	protected static double round;
 	
@@ -52,6 +52,13 @@ public abstract class Note {
 	public Note() {
 		setCalibrationData();
 		setCertificate();
+		setData();
+	}
+
+	public void setNoteAndCertificate(Order orderData) throws IOException {
+		setCalibrationData(orderData);
+		createNote();
+		certificate.setCertificate(order, calibrationData);
 	}
 	
 	private void setCalibrationData() {
@@ -62,12 +69,10 @@ public abstract class Note {
 	private static void setEquipmentData() {
 		reference = CalibrationData.probe;		
 	}
-
-	public void setNoteAndCertificate(Order orderData) throws IOException {
-		setCalibrationData(orderData);
-		createNote();
-		certificate.setCertificate(order, calibrationData);
-	}
+	
+	protected abstract void setCertificate();
+	
+	protected abstract void setData();
 
 	private static void setCalibrationData(Order orderData) {
 		order = orderData;
@@ -88,22 +93,27 @@ public abstract class Note {
 	private void setSheetData() {
 		calibrationData = new ArrayList<CertificateValue>();
 		calibrationPointCount = 0;
-		for(int i = 0; i< CalibrationData.calibrationPoints; i++) { 
+		for(int i = 0; i < CalibrationData.calibrationPoints; i++) { 
 			checkData(i);
 		}
 	}
 
 	private void checkData(int index) {
-        if(haveData(index)) {
-        	setPointData(index);
-        }	
+		if(calibrationPointCount < order.point.length) {
+			checkPointData(index);
+		}
 	}
 	
-	private boolean haveData(int index) {
+	private void checkPointData(int index) {
+		if(havePointData(index)) {
+        	setPointData(index);
+        }
+	}
+
+	private boolean havePointData(int index) {
 		boolean haveData = order.measurmets[index].haveMeasurments;
 		haveData &= reference[index].question;
-		haveData &= reference[index].value 
-				!= order.point[calibrationPointCount][0];
+		haveData &= reference[index].value == order.point[calibrationPointCount][0];
 		return haveData;
 	}
 
@@ -167,7 +177,7 @@ public abstract class Note {
 		sheet.setValueAt(probe.producent, PROBE_COLUMN, line + 11);
 	}
 	
-	protected static void serProbeSerial(String[] probeSerial, int line) {
+	protected void serProbeSerial(String[] probeSerial, int line) {
 		int probeNumber = calibrationPointCount / numberOfData;
 		if(probeNumber < probeSerial.length) {
 			sheet.setValueAt(probeSerial[probeNumber], PROBE_COLUMN , line);
@@ -193,15 +203,15 @@ public abstract class Note {
 	}
 	
 	protected double findUncerinityAndRound(double[] uncerinities) {
-		double uncerinity =DataCalculation.uncertainty(uncerinities);
+		double uncerinity = DataCalculation.uncertainty(uncerinities);
 		round = DataCalculation.findRound(2 * uncerinity, 
 				Double.parseDouble(order.device.resolution[0]));
-		return uncerinity;
+		return DataCalculation.roundTonumber(uncerinity, round);
 	}
 	
 	protected String setNumber(double number) {
 		String rounded = DataCalculation.round(number, round);
-		return rounded.replace(DEFAULT_NUMBER_SEPRATOR, CUSTOM_NUMBER_SEPRATOR);
+		return rounded.replaceAll(DEFAULT_NUMBER_SEPRATOR, CUSTOM_NUMBER_SEPRATOR);
 	}
 
 	protected void setPointValue(int line, CertificateValue pointValue) {
@@ -235,6 +245,4 @@ public abstract class Note {
 		bulid.append(".ods");
 		return bulid.toString();
 	}
-	
-	protected abstract void setCertificate();
 }

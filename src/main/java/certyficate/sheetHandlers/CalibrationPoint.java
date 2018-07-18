@@ -13,6 +13,7 @@ public class CalibrationPoint{
 	private static final String DATE_FORMAT = "dd.MM.yyyy";
 	private static final String SHEET_TIME_FORMAT = "'PT'HH'H'mm'M's'S'";
 	private static final String TIME_FORMAT = "HH:mm";
+	private static final String PATTERN_FORMAT = "yyyyMMdd";
 	
 	private static final Locale LOCALE =  Locale.US;
 	
@@ -39,6 +40,10 @@ public class CalibrationPoint{
 	
 	public String getDate() {
 		return date;
+	}
+	
+	public String getPatternDate() {
+		return new SimpleDateFormat(PATTERN_FORMAT).format(pointDate);
 	}
 	
 	public String getTime() {

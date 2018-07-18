@@ -5,14 +5,17 @@ import certyficate.generate.CertificateValue;
 public class PyrometerCertificate extends Certificate {
 	protected static final int MEASURMENT_LINE = 84;
 	
-	protected static int dateColumn = 8;
-	protected static int numberColumn = 22;
-	protected static int informactionColumn = 12;
-	protected static int numberOfData = 3;	
-	protected static int commentsLine = 95;
-	
 	public PyrometerCertificate() {
 		super();
+	}
+	
+	@Override
+	protected void setTemplateData() {
+		dateColumn = 8;
+		numberColumn = 22;
+		informactionColumn = 12;
+		numberOfData = 3;	
+		commentsLine = 95;
 	}
 
 	@Override

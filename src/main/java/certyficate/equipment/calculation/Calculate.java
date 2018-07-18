@@ -15,8 +15,8 @@ public class Calculate {
     	setData(data);
 		return data;
 	}
-	
-    protected DataProbe setCorrections(double[] point) {
+
+	protected DataProbe setCorrections(double[] point) {
     	DataProbe data  = new DataProbe(point);
     	estimateCorection(data);
 		return data;
@@ -46,7 +46,7 @@ public class Calculate {
 	protected void findUncertainty(DataProbe data) {
 		double[] uncertainty = maxUncertainty();
 		data.uncertainty = uncertainty[0];
-		data.uncertainty = uncertainty[1];
+		data.uncertaintyRh = uncertainty[1];
 	}
 	
     public double[] maxUncertainty() {

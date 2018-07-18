@@ -44,12 +44,12 @@ public class IRGenerateListener implements ActionListener {
 	}
 	
 	private void findCalibrationData() throws IOException {
-		findMeasurmentsData();
+		findCertificateData();
 		findReferenceData();
 		EnvironmentData.setEnvirometsData();
 	}
 
-	private void findMeasurmentsData() throws IOException {
+	private void findCertificateData() throws IOException {
 		getCalibrationData();
 		findMeasurementsData();
 		new InfraredParametrs(infraredPanel.getConsole());

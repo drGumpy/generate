@@ -14,12 +14,12 @@ public class ReferenceFiles {
 	
 	private String[] fileList;
 	
+	private File file;
+	
 	private Pattern probe;
 	private Pattern datePattern;
 	
 	private Logger logger;
-	
-	private File file;
 
 	public ReferenceFiles(Rotronic rotronic) {
 		logger = rotronic;
@@ -35,7 +35,7 @@ public class ReferenceFiles {
 	}
 	
 	private void setDatePattern(int currentPoint) {
-		String date = logger.getCalibrationPoints().get(currentPoint).getDate();
+		String date = logger.getCalibrationPoints().get(currentPoint).getPatternDate();
 		datePattern = Pattern.compile(date, Pattern.CASE_INSENSITIVE);
 	}
 
@@ -48,6 +48,7 @@ public class ReferenceFiles {
 
 	private void checkFileName(String fileName) {
 		if(checkName(fileName)) {
+			System.out.println("otwieranie: " +fileName);
 			String filePath = getFilePath(fileName);
 			file = new File(filePath);
 		}

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import certyficate.equipment.calculation.CalculateRh;
 import certyficate.equipment.calculation.DataProbe;
+import certyficate.property.DataCalculation;
 
 public class RhProbe extends ReferenceProbe {
     public RhProbe(String path) throws IOException{
@@ -13,8 +14,8 @@ public class RhProbe extends ReferenceProbe {
   
 	@Override
 	protected void setDrifts(String[] elements) {
-		driftT = getDouble(elements[1]);
-		driftRh = getDouble(elements[2]);
+		driftT = DataCalculation.getDouble(elements[1]);
+		driftRh = DataCalculation.getDouble(elements[2]);
 	}
 
 	@Override
@@ -22,10 +23,10 @@ public class RhProbe extends ReferenceProbe {
 		DataProbe data = new DataProbe();
 		data.value = getInteger(elements[0]);
 		data.valueRh = getInteger(elements[1]);
-		data.correction = getDouble(elements[2]);
-		data.correctionRh = getDouble(elements[3]);
-		data.uncertainty = getDouble(elements[4]);
-		data.uncertaintyRh = getDouble(elements[5]);
+		data.correction = DataCalculation.getDouble(elements[2]);
+		data.correctionRh = DataCalculation.getDouble(elements[3]);
+		data.uncertainty = DataCalculation.getDouble(elements[4]);
+		data.uncertaintyRh = DataCalculation.getDouble(elements[5]);
 		data.drift = driftT;
 		data.driftRh = driftRh;
 		return data;

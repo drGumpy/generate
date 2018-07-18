@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.equipment.calculation.EquipmentCalculate;
+import certyficate.property.DataCalculation;
 
 public class ChamberT extends TProbe{
 	public ChamberT(String path) throws IOException {
@@ -20,8 +21,8 @@ public class ChamberT extends TProbe{
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
         data.value = getInteger(elements[0]);
-        data.correction = getDouble(elements[1]);
-        data.uncertainty = getDouble(elements[2]);
+        data.correction = DataCalculation.getDouble(elements[1]);
+        data.uncertainty = DataCalculation.getDouble(elements[2]);
 		return data;
 	}
 }

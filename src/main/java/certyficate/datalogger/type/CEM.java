@@ -8,11 +8,10 @@ public class CEM extends Logger {
 	protected static final String DATE_FORMAT = "dd-MM-yy/HH:mm:ss";
 	protected static final String WHITESPACE = "\\s+";
 	protected static final String NUMBER_SEPARATOR = "\\.";
-	
-	protected int nonDataLine = 11;
-	
+
     public CEM(boolean Rh) {
         super(Rh);
+        nonDataLine = 11;
     }
  
     protected PointData divide(String line){

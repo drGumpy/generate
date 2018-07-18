@@ -2,16 +2,22 @@ package certyficate.generate.note;
 
 
 import certyficate.generate.CertificateValue;
-import certyficate.generate.DataCalculation;
 import certyficate.generate.certificate.HuminidityCertificate;
+import certyficate.property.DataCalculation;
 
 public class HuminidityNote extends TemperatureNote {
-	protected String noteFile = "z_Rh.ods";
+	private static final String NOTE_FILE = "z_Rh.ods";
 	
-	protected static int numberOfData = 5;
+	private static final int NUMBER_OF_DATA = 5;
 	
 	public HuminidityNote() {
 		super();
+	}
+	
+	@Override
+	protected void setData() {
+		noteFile = NOTE_FILE;
+		numberOfData = NUMBER_OF_DATA;
 	}
 
 	@Override

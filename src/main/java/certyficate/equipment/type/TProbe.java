@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import certyficate.equipment.calculation.Calculate;
 import certyficate.equipment.calculation.DataProbe;
+import certyficate.property.DataCalculation;
 
 
 public class TProbe extends ReferenceProbe {
@@ -14,15 +15,15 @@ public class TProbe extends ReferenceProbe {
     
 	@Override
 	protected void setDrifts(String[] elements) {
-		driftT = getDouble(elements[1]);
+		driftT = DataCalculation.getDouble(elements[1]);
 	}
 
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
         data.value = getInteger(elements[0]);
-        data.correction = getDouble(elements[1]);
-        data.uncertainty = getDouble(elements[2]);
+        data.correction = DataCalculation.getDouble(elements[1]);
+        data.uncertainty = DataCalculation.getDouble(elements[2]);
         data.drift = driftT;
 		return data;
 	}
@@ -47,9 +48,11 @@ public class TProbe extends ReferenceProbe {
 	@Override
 	protected DataProbe[] findPointsInRange(int[] range) {
 		DataProbe[] pointsInRange = new DataProbe[rangeSize];
-		for(int i = 0; i < 2; i++) 
+		for(int i = 0; i < 2; i++) {
 			pointsInRange[i] = findInStandardPoints(
 					new double[]{range[i]});
+			
+		}
 		return pointsInRange;
 	}
 

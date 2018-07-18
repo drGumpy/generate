@@ -8,8 +8,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import certyficate.entitys.Order;
+import certyficate.property.DataCalculation;
 
 @SuppressWarnings("serial")
 public class PointPanel extends JPanel {
@@ -36,25 +38,18 @@ public class PointPanel extends JPanel {
 		addPoints();
 	}
 
+
 	private void setPanelData() {
 		setLayout(new GridBagLayout());
 		setPanelElements();
 		constrain = new GridBagConstraints();
 		constrain.anchor = GridBagConstraints.PAGE_START;
 		constrain.fill = GridBagConstraints.HORIZONTAL;
-		setSize();
-	}
-
-	private void setSize() {
-		int WIDTH = 300;
-		int HIGHT = 400;
-		setSize 
 	}
 
 	@SuppressWarnings("unchecked")
 	private void setPanelElements() {
 		numberOfParametrs = certificate.point.length;
-		System.out.println(numberOfParametrs);
 		blackBodyChoose = new JComboBox[numberOfParametrs];
 		referenceValue = new JFormattedTextField[numberOfParametrs];
 	}
@@ -95,6 +90,8 @@ public class PointPanel extends JPanel {
 
 	private void setTextField(int index) {
 		referenceValue[index] = createTextField(index);
+		referenceValue[index].setColumns(3);
+		referenceValue[index].setHorizontalAlignment(JTextField.CENTER);
 		constrain.gridx = 2;
 		add(referenceValue[index], constrain);
 	}
@@ -122,7 +119,7 @@ public class PointPanel extends JPanel {
 	
 	private double getReferenceValue(int index) {
 		String fieldValue = referenceValue[index].getText();
-		double value = Double.parseDouble(fieldValue);
+		double value = DataCalculation.getDouble(fieldValue);
 		return value;
 	}
 

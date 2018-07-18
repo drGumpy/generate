@@ -45,7 +45,7 @@ public class CertificateData {
     }
 
 	private static void settings() {
-		verification = new  CodeVerification();
+		verification = new CodeVerification();
 		setContainers();
 	}
 

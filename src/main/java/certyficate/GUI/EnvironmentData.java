@@ -6,8 +6,8 @@ import certyficate.equipment.EquipmentFactory;
 import certyficate.equipment.EquipmentType;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.equipment.type.Equipment;
-import certyficate.generate.DataCalculation;
 import certyficate.property.CalibrationData;
+import certyficate.property.DataCalculation;
 
 public class EnvironmentData {
     private static final int NUMBER_OF_PARAMETRS = 4;

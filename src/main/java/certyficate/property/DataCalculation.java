@@ -1,10 +1,12 @@
-package certyficate.generate;
+package certyficate.property;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalTime;
 
 public class DataCalculation {
+	private static final String COMMA = ",";
+	private static final String DOT = ".";
     public static double uncertainty(double[] number){
         double sum= 0;
         for(int i=0; i<number.length; i++)
@@ -13,7 +15,12 @@ public class DataCalculation {
         return sum;
     }
     
-	public static String time (String time, int d){
+	public static double getDouble(String element) {
+		element = element.replaceAll(COMMA, DOT);
+		return Double.parseDouble(element);
+	}
+    
+	public static String time(String time, int d){
         LocalTime newTime= LocalTime.parse(time);
         newTime=newTime.plusMinutes(d);
         return newTime.toString();
@@ -22,7 +29,7 @@ public class DataCalculation {
     //TODO find better method
     public static double findRound(double uncertainty, double resolution){
         double round = checkLogarithm(uncertainty, resolution);
-        if(round == Double.NaN) {
+        if(Double.isNaN(round)) {
         	round = setByResolution(resolution);
         }
         return round;
@@ -32,11 +39,11 @@ public class DataCalculation {
     	double round = Double.NaN;
     	double uncertaintyLog = Math.log10(uncertainty),
                  resolutionLog = Math.log10(resolution);
-         if(uncertaintyLog > 0 && resolutionLog < 0) {
-        	 round = checkUncertaintyLog(uncertaintyLog);
-         } else if((int)uncertaintyLog - 1 > resolutionLog) {
-        	 round = Math.pow(10, ((int)uncertaintyLog - 2));
-         }
+    	if(uncertaintyLog > 0 && resolutionLog < 0) {
+    		round = checkUncertaintyLog(uncertaintyLog);
+    	} else if((int)uncertaintyLog - 1 > resolutionLog) {
+    		round = Math.pow(10, ((int)uncertaintyLog - 2));
+    	}
 		return round;
 	}
 
@@ -66,7 +73,7 @@ public class DataCalculation {
 
     public static double roundTonumber(double value, double round){
         double newValue = checkRound(value, round);
-        if(newValue != Double.NaN) {
+        if(Double.isNaN(Double.NaN)) {
         	newValue = roundValue(value, round);
         }
         return newValue;
@@ -100,25 +107,25 @@ public class DataCalculation {
     
     public static String round(double value, double round){
     	String roundText = checkNumber(value, round);
-    	if(roundText != null) {
-    		roundText = setRoundText(value, round);
+    	if(roundText == null) {
+    		roundText = setRoundedText(value, round);
     	}
         return roundText;
     }
 
 	private static String checkNumber(double value, double round) {
     	String roundText = null;
-    	if(round>=1){
+    	if(round >= 1) {
     		roundText = Integer.toString((int)Math.round(value));
         }
 		return roundText;
 	}
 	
-    private static String setRoundText(double value, double round) {
+    private static String setRoundedText(double value, double round) {
     	double roundLogarithm = Math.log10(round);
     	double rounded = Math.round(value/round) * round;
     	int places = checkRoundedLogarithm(roundLogarithm);
-		return setString(rounded, places);
+		return setStringFromNumber(rounded, places);
 	}
 
     
@@ -130,9 +137,9 @@ public class DataCalculation {
 		return places;
 	}
     
-	private static String setString(double rounded, int places) {
+	private static String setStringFromNumber(double rounded, int places) {
 		NumberFormat format = new DecimalFormat();
-		format.setMaximumFractionDigits(places);
+		format.setMinimumFractionDigits(places);
         return format.format(rounded);
 	}
 }

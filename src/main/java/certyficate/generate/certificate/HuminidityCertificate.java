@@ -15,6 +15,14 @@ public class HuminidityCertificate extends Certificate {
 	}
 	
 	@Override
+	protected void setTemplateData() {
+		dateColumn = 9;
+		numberColumn = 24;
+		informactionColumn = 13;
+		numberOfData = 5;
+	}
+	
+	@Override
 	protected void setMeasurmentData() {
 		setMeasurmentData(MEASURMENT_LINE);		
 	}
