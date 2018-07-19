@@ -10,6 +10,7 @@ import certyficate.equipment.EquipmentParameters;
 import certyficate.equipment.EquipmentType;
 import certyficate.generate.Generate;
 import certyficate.property.CalibrationData;
+import certyficate.property.SheetData;
 import certyficate.sheetHandlers.search.measurments.MeasurementsData;
 import certyficate.sheetHandlers.search.order.CertificateData;
 
@@ -23,6 +24,7 @@ public class GenerateListener implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		SheetData.setChamberData(CalibrationData.calibrationType);
 		climateChamber.setSheetData();
 		getFilesData();
 		generateCalibrationDocuments();
@@ -60,12 +62,11 @@ public class GenerateListener implements ActionListener {
 	
 	private void findReferenceData() throws IOException {
 		EquipmentType probe = EquipmentType.setReferenceType();
-		CalibrationData.probe = EquipmentParameters.find(probe);
+		CalibrationData.probe = EquipmentParameters.findProbe(probe);
 	}
 	
 	private void findChamberData() throws IOException {
-		EquipmentType chamber = EquipmentType.setChamber();
-		CalibrationData.chamber = EquipmentParameters.find(chamber);
+		CalibrationData.chamber = EquipmentParameters.findChamber();
 	}
 
 	private void generateCalibrationDocuments() {

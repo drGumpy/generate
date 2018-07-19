@@ -15,16 +15,16 @@ public class EquipmentFactory {
 	
 	public static Equipment getEquipment(EquipmentType equipmentType)
 			throws IOException {
-		findAndGetEquipment (equipmentType);
+		findEquipmentType (equipmentType);
 		return equipment;
 	}
 	
-	public static Equipment getChamberData() throws IOException {
-		Equipment equipment = GetChamberData ();
+	public static Equipment getChamber() throws IOException {
+		findChamberType();
 		return equipment;
 	}
 
-	private static void findAndGetEquipment(EquipmentType equipmentType) 
+	private static void findEquipmentType(EquipmentType equipmentType) 
 			throws IOException {
 		switch(equipmentType) {
 		case TEMPERATURE_REFERENCE:
@@ -62,8 +62,7 @@ public class EquipmentFactory {
 		equipment = new RhProbe(path);
 	}
 	
-	private static Equipment GetChamberData() throws IOException {
-		Equipment equipment;
+	private static void findChamberType() throws IOException {
 		switch(CalibrationData.calibrationType) {
 		case HUMINIDITY:
 			equipment = setChamberHumidity();
@@ -72,7 +71,6 @@ public class EquipmentFactory {
 			equipment = setChamberTemperature();
 			break;
 		}
-		return equipment;
 	}
 	
 	private static Equipment setChamberTemperature() throws IOException {

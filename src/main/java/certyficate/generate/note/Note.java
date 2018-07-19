@@ -194,14 +194,16 @@ public abstract class Note {
 
 	protected void setCalibrationBudget(int line, int index) {
 		sheet.setValueAt(order.measurmets[index].average[0], 7 , line + 5);
-        sheet.setValueAt(order.pyrometr.reference[calibrationPointCount],
-        		7 , line + 7);
-        sheet.setValueAt(reference[index].correction, 7 , line + 9);
         sheet.setValueAt(order.device.resolution[0], 9 , line + 6);
-        sheet.setValueAt(reference[index].uncertainty, 9, line + 9);
-        sheet.setValueAt(reference[index].drift, 9, line + 10);
+        setReference(reference[index], line);
 	}
 	
+	private void setReference(DataProbe reference, int line) {
+		sheet.setValueAt(reference.correction, 7 , line + 9);
+		sheet.setValueAt(reference.uncertainty, 9, line + 9);
+        sheet.setValueAt(reference.drift, 9, line + 10);
+	}
+
 	protected double findUncerinityAndRound(double[] uncerinities) {
 		double uncerinity = DataCalculation.uncertainty(uncerinities);
 		round = DataCalculation.findRound(2 * uncerinity, 

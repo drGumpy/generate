@@ -43,9 +43,9 @@ public class TemperatureNote extends Note {
 	protected void setValue(int line, int index, int point) {
 		String time = CalibrationData.point.get(index).getTime();
 		sheet.setValueAt(DataCalculation.time(time, point), 0, line);
-		sheet.setValueAt(referenceValue.measurmets[index].data[point][0], 
+		sheet.setValueAt(referenceValue.measurmets[index].data[0][point], 
 				1, line);
-		sheet.setValueAt(order.measurmets[index].data[point][0], 
+		sheet.setValueAt(order.measurmets[index].data[0][point], 
 				3, line);
 	}
 	
@@ -59,7 +59,7 @@ public class TemperatureNote extends Note {
 	@Override
 	protected void setCalibrationBudget(int line, int index) {
 		super.setCalibrationBudget(line, index);
-		sheet.setValueAt(referenceValue.measurmets[index].average[1],
+		sheet.setValueAt(referenceValue.measurmets[index].average[0],
         		7 , line + 7);
         sheet.setValueAt(chamber[index].correction, 9, line + 11);
         sheet.setValueAt(chamber[index].uncertainty, 9, line + 12);

@@ -14,11 +14,21 @@ public class EquipmentParameters {
 	private static List<CalibrationPoint> points;
 	private static DataProbe[] equipmentData;
 	
-	public static DataProbe[] find(EquipmentType equipmentType) throws IOException {
-		equipment = EquipmentFactory.getEquipment(equipmentType);
+	public static DataProbe[] findProbe(EquipmentType probe) throws IOException {
+		equipment = EquipmentFactory.getEquipment(probe);
+		setData();
+		return equipmentData;
+	}
+
+	public static DataProbe[] findChamber() throws IOException {
+		equipment = EquipmentFactory.getChamber();
+		setData();
+		return equipmentData;
+	}
+	
+	private static void setData() {
 		points = CalibrationData.point;
 		findData();
-		return equipmentData;
 	}
 
 	private static void findData() {

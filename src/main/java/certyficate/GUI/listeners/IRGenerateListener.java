@@ -67,7 +67,7 @@ public class IRGenerateListener implements ActionListener {
 	
 	private void findReferenceData() throws IOException {
 		CalibrationData.probe 
-			= EquipmentParameters.find(EquipmentType.INFRARED_REFERENCE);
+			= EquipmentParameters.findProbe(EquipmentType.INFRARED_REFERENCE);
 	}	
 
 	private void generateCalibrationDocuments() {
