@@ -42,8 +42,6 @@ public class MeasurementsData {
 	private static void setSheet() throws IOException {
 		File file = CalibrationData.sheet;
 		sheet = SpreadSheet.createFromFile(file).getSheet(SheetData.sheetName);
-		System.out.println(file + "\n"+ SheetData.sheetName);
-		System.out.println(sheet.getRowCount() + "\t"+ sheet.getColumnCount());
 	}
 	
 	private static void getCalibtationPoints() {

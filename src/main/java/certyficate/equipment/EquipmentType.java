@@ -1,7 +1,6 @@
 package certyficate.equipment;
 
 import certyficate.property.CalibrationData;
-import certyficate.property.CalibrationType;
 
 public enum EquipmentType {
 	TEMPERATURE_REFERENCE,
@@ -14,20 +13,26 @@ public enum EquipmentType {
 	
 	public static EquipmentType setReferenceType() {
 		EquipmentType equipment;
-		if(CalibrationData.calibrationType == CalibrationType.HUMINIDITY) {
+		switch(CalibrationData.calibrationType) {
+		case HUMINIDITY:
 			equipment = HUMIDITY_REFERENCE;
-		} else {
+			break;
+		default:
 			equipment = TEMPERATURE_REFERENCE;
+			break;
 		}
 		return equipment;
 	}
 
 	public static EquipmentType setChamber() {
 		EquipmentType equipment;
-		if(CalibrationData.calibrationType == CalibrationType.HUMINIDITY) {
+		switch(CalibrationData.calibrationType) {
+		case HUMINIDITY:
 			equipment = CHAMBER_HUMIDITY;
-		} else {
+			break;
+		default:
 			equipment = CHAMBER_TEMPERATURE;
+			break;
 		}
 		return equipment;
 	}

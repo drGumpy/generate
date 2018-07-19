@@ -29,9 +29,9 @@ public class HuminidityNote extends TemperatureNote {
 	@Override
 	protected void setValue(int line, int index, int point) {
 		super.setValue(line, index, point);
-		sheet.setValueAt(referenceValue.measurmets[index].data[point][1], 
+		sheet.setValueAt(referenceValue.measurmets[index].data[1][point], 
 				2, line);
-		sheet.setValueAt(order.measurmets[index].data[point][1], 
+		sheet.setValueAt(order.measurmets[index].data[1][point], 
 				4, line);
 	}
 	
