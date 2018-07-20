@@ -70,7 +70,7 @@ public class InfraredParametrs extends JDialog {
 	private int findMaxCalibrationPoints() {
 		int max = 0;
 		for(Order calibration: data) {
-			int calibrationPoints = calibration.point.length;
+			int calibrationPoints = calibration.getPointLength();
 			max = Math.max(max, calibrationPoints);
 		}
 		return max;

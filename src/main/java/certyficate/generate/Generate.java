@@ -50,6 +50,6 @@ public class Generate {
 	}
 	
     private static void markAsDone(Order certificate) {
-    	done.add(certificate.numberOfCalibration);
+    	done.add(certificate.getNumberOfCalibration());
 	}
 }

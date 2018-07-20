@@ -116,7 +116,7 @@ public abstract class Certificate {
 
 	private void setDateAndNumber(int line) {
 		sheet.setValueAt(new Date(), dateColumn, line);
-        sheet.setValueAt(certificate.numberOfCalibration,
+        sheet.setValueAt(certificate.getNumberOfCalibration(),
         		numberColumn, line);
 		
 	}
@@ -135,14 +135,14 @@ public abstract class Certificate {
 	}
 	
 	private void setClientsData() {
-		setClient(certificate.declarant, DECLARANT_LINE);
-		setClient(certificate.user, USER_LINE);		
+		setClient(certificate.getDeclarant(), DECLARANT_LINE);
+		setClient(certificate.getUser(), USER_LINE);		
 	}
 
 
 	private void setClient(Client client, int line) {
 		String adres = CertificateText.getAdres(client);
-		sheet.setValueAt(client.name, informactionColumn, line);
+		sheet.setValueAt(client.getName(), informactionColumn, line);
         sheet.setValueAt(adres, informactionColumn, line + 1);
 	}
 
@@ -154,7 +154,7 @@ public abstract class Certificate {
 	}
 	
 	private void setCalibrationDate(int line) {
-		sheet.setValueAt(certificate.calibrationDate,
+		sheet.setValueAt(certificate.getCalibrationDate(),
 				informactionColumn, line);		
 	}
 	

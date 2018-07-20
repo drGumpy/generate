@@ -10,6 +10,7 @@ import certyficate.property.SheetData;
 
 public class ReferenceFiles {	
 	private static final String NON_FILE = "brak pliku wzorca dla punktu: ";
+	private static final String OPENING = "otwieranie: ";
 	private String path;
 	
 	private String[] fileList;
@@ -48,10 +49,21 @@ public class ReferenceFiles {
 
 	private void checkFileName(String fileName) {
 		if(checkName(fileName)) {
-			System.out.println("otwieranie: " +fileName);
-			String filePath = getFilePath(fileName);
-			file = new File(filePath);
+			setFile(fileName);
 		}
+	}
+
+	private void setFile(String fileName) {
+		openFileCommunicate(fileName);
+		System.out.println(OPENING +fileName);
+		String filePath = getFilePath(fileName);
+		file = new File(filePath);
+	}
+
+	private void openFileCommunicate(String fileName) {
+		StringBuilder build = new StringBuilder(OPENING);
+		build.append(fileName);
+		System.out.println(build);
 	}
 
 	private boolean checkName(String fileName) {

@@ -9,8 +9,16 @@ import certyficate.files.ReaderCreator;
 import certyficate.sheetHandlers.CalibrationPoint;
 
 public abstract class Logger {
+	private static final String NON_DATA_INFROMATION = "No data for point ";
+	private static final String GET_DATA = "pobieranie danych dla punktu: ";
+	private static final String TIME = " z godziny: ";
+	private static final String END_OF_FILE = "End of File"; 
+	
 	private static final int MEASUREMENTS_POINTS = 10;
+	
 	private File file;
+	
+	private BufferedReader reader;
 	
 	protected boolean Rh;
 	
@@ -67,67 +75,85 @@ public abstract class Logger {
 	}
 
 	private void findPoints() throws IOException {
-    	BufferedReader reader = ReaderCreator.getReader(file);
-    	removeNonDataLine(reader);
-    	getPoint(reader);
+    	reader = ReaderCreator.getReader(file);
+    	removeNonDataLine();
+    	findPointsData();
     	reader.close();
     }
 
-	private void removeNonDataLine(BufferedReader reader) throws IOException {
+	private void removeNonDataLine() throws IOException {
 		for(int i = 0; i < nonDataLine; i++) {
 			reader.readLine();
 		}
 	}
-	
-	private void getPoint(BufferedReader reader) throws IOException {
-		int arrayLength = calibrationPoints.size();
-		for(; currentPoint < arrayLength; currentPoint++) {
-			findPoint(reader);
-		}
-	}
 
-	private void findPoint(BufferedReader reader) throws IOException {
-		CalibrationPoint point = calibrationPoints.get(currentPoint);
+	private void findPointsData() throws IOException {
 		try {
-			findPoint(reader, point);
+			findPoint();
 		} catch (IOException e) {
-			System.out.println("No data for point " + currentPoint);
+			System.out.println(noDataInformation());
 			throw e;
 		}
 	}
+	
+	private StringBuilder noDataInformation() {
+		StringBuilder build = new StringBuilder(NON_DATA_INFROMATION);
+		build.append(currentPoint);
+		return build;
+	}
 
-	private void findPoint(BufferedReader reader, CalibrationPoint point) 
+	private void findPoint() 
 			throws IOException {
-		String line;
-		while((line = reader.readLine()) != null) {
-			PointData pointData = divide(line);
-			if(pointData.equalsData(point)) {
-				System.out.println("pobieranie danych dla punktu: " + (currentPoint + 1) + " z godziny; " + pointData.getTime());
-				data[currentPoint][0] = pointData;
-				setPointData(reader);
-				break;
-			}
+		String line= reader.readLine();
+		while(checkLine(line)) {
+			checkPoint(line);
+			line = reader.readLine();
 		}
-		checkPoints(line);
+		checkLineData(line);
 	}
 
-	private void setPointData(BufferedReader reader) throws IOException {
+	private boolean checkLine(String line) {
+		return line != null && currentPoint < calibrationPoints.size();
+	}
+	
+	private void checkPoint(String line) throws IOException {
+		CalibrationPoint point = calibrationPoints.get(currentPoint);
+		PointData pointData = divide(line);
+		if(pointData.equalsData(point)) {
+			setPointsData(pointData);
+		}
+	}
+
+	private void setPointsData(PointData pointData) throws IOException {
+		noInsertPointData(pointData.getTime());
+		data[currentPoint][0] = pointData;
+		setPointData();
+		currentPoint++;
+	}
+
+	private void noInsertPointData(String time) {
+		StringBuilder build = new StringBuilder(GET_DATA);
+		build.append(currentPoint + 1);
+		build.append(TIME);
+		build.append(time);
+		System.out.println(build);
+	}
+
+	private void setPointData() throws IOException {
 		for(int i = 1; i < MEASUREMENTS_POINTS; i++) {
-			data[currentPoint][i] = setLine(reader.readLine());
+			data[currentPoint][i] = setLine();
 		}
-		
 	}
 
-	private PointData setLine(String line) throws IOException {
-		if(line == null) {
-			throw new IOException();
-		}
+	private PointData setLine() throws IOException {
+		String line = reader.readLine();
+		checkLineData(line);
 		return divide(line);
 	}
 	
-	protected void checkPoints(String line) throws IOException {
+	protected void checkLineData(String line) throws IOException {
 		if(line == null) {
-			System.out.println("End of File");
+			System.out.println(END_OF_FILE);
 			throw new IOException();
 		}
 	}

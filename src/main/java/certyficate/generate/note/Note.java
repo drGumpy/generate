@@ -25,6 +25,8 @@ public abstract class Note {
 	private static final String NOTE_SHEET = "Wyniki wzorcowania";
 	private static final String DEFAULT_NUMBER_SEPRATOR = "\\.";
 	private static final String CUSTOM_NUMBER_SEPRATOR = ",";
+	private static final String FILE_TEXT_SEPARATOR = "_";
+	private static final String FILE_EXTENSION = ".ods";
 	
 	private static final int POINT_GAP = 32;
 	private static final int PROBE_COLUMN = 4;
@@ -99,7 +101,7 @@ public abstract class Note {
 	}
 
 	private void checkData(int index) {
-		if(calibrationPointCount < order.point.length) {
+		if(calibrationPointCount < order.getPointLength()) {
 			checkPointData(index);
 		}
 	}
@@ -111,9 +113,9 @@ public abstract class Note {
 	}
 
 	private boolean havePointData(int index) {
-		boolean haveData = order.measurmets[index].haveMeasurments;
+		boolean haveData = order.getMeasurments(index).haveMeasurments;
 		haveData &= reference[index].question;
-		haveData &= reference[index].value == order.point[calibrationPointCount][0];
+		haveData &= reference[index].value == order.getPoint(calibrationPointCount, 0);
 		return haveData;
 	}
 
@@ -132,17 +134,17 @@ public abstract class Note {
 	private void setConstantValue(int line) {
         setCertificate(line);
         setEnvironment(line + 1);
-        setDevice(order.device, line);
-        if(order.probe != null) {
+        setDevice(order.getDevice(), line);
+        if(order.getProbe() != null) {
         	setProbeData(line);
         }
 	}
 
 	private void setCertificate(int line) {
-		sheet.setValueAt(order.numberOfCalibration, 3, line);
-        sheet.setValueAt(order.calibrationCode, 8, line);
-        sheet.setValueAt(order.calibrationDate, 13, line);
-        sheet.setValueAt(order.deviceSerialNumber, 3, line + 9);
+		sheet.setValueAt(order.getNumberOfCalibration(), 3, line);
+        sheet.setValueAt(order.getCalibrationCode(), 8, line);
+        sheet.setValueAt(order.getCalibrationDate(), 13, line);
+        sheet.setValueAt(order.getDeviceSerialNumber(), 3, line + 9);
 	}
 
 	private void setEnvironment(int environmentLine) {
@@ -151,33 +153,33 @@ public abstract class Note {
 	}
 
 	private void setDevice(Device device, int line) {
-        sheet.setValueAt(device.type, DEVICE_COLUMN, line + 3);
-        sheet.setValueAt(device.model, DEVICE_COLUMN, line + 6);
-        sheet.setValueAt(device.producent, DEVICE_COLUMN, line + 11);
-        setChannel(device.channel, line + 8);
-        setResolution(device.resolution, line + 13);
+        sheet.setValueAt(device.getType(), DEVICE_COLUMN, line + 3);
+        sheet.setValueAt(device.getModel(), DEVICE_COLUMN, line + 6);
+        sheet.setValueAt(device.getProducent(), DEVICE_COLUMN, line + 11);
+        setChannel(device, line + 8);
+        setResolution(device, line + 13);
 	}
 
-	private void setChannel(String[] channel, int line) {
+	private void setChannel(Device device, int line) {
 		int channelNumber = calibrationPointCount / numberOfData;
-		if(channelNumber < channel.length) {
-			sheet.setValueAt(channel[channelNumber], DEVICE_COLUMN , line);
+		if(channelNumber < device.getChannelLength()) {
+			sheet.setValueAt(device.getChannel(channelNumber), DEVICE_COLUMN , line);
 		}
 	}
 
-	protected abstract void setResolution(String[] resolution, int line);
+	protected abstract void setResolution(Device device, int line);
 
 	private void setProbeData(int line) {
-		setProbe(order.probe ,line);
-    	serProbeSerial(order.probeSerial, line + 9);
+		setProbe(order.getProbe() ,line);
+    	setProbeSerial(order.getProbeSerial(), line + 9);
 	}
 	
 	private static void setProbe(Probe probe, int line) {
-		sheet.setValueAt(probe.model, PROBE_COLUMN, line + 6);
-		sheet.setValueAt(probe.producent, PROBE_COLUMN, line + 11);
+		sheet.setValueAt(probe.getModel(), PROBE_COLUMN, line + 6);
+		sheet.setValueAt(probe.getProducent(), PROBE_COLUMN, line + 11);
 	}
 	
-	protected void serProbeSerial(String[] probeSerial, int line) {
+	protected void setProbeSerial(String[] probeSerial, int line) {
 		int probeNumber = calibrationPointCount / numberOfData;
 		if(probeNumber < probeSerial.length) {
 			sheet.setValueAt(probeSerial[probeNumber], PROBE_COLUMN , line);
@@ -193,8 +195,8 @@ public abstract class Note {
 	protected abstract void setValue(int line, int index, int i);
 
 	protected void setCalibrationBudget(int line, int index) {
-		sheet.setValueAt(order.measurmets[index].average[0], 7 , line + 5);
-        sheet.setValueAt(order.device.resolution[0], 9 , line + 6);
+		sheet.setValueAt(order.getMeasurments(index).average[0], 7 , line + 5);
+        sheet.setValueAt(order.getDevice().getResolution(0), 9 , line + 6);
         setReference(reference[index], line);
 	}
 	
@@ -207,7 +209,7 @@ public abstract class Note {
 	protected double findUncerinityAndRound(double[] uncerinities) {
 		double uncerinity = DataCalculation.uncertainty(uncerinities);
 		round = DataCalculation.findRound(2 * uncerinity, 
-				Double.parseDouble(order.device.resolution[0]));
+				Double.parseDouble(order.getDevice().getResolution(0)));
 		return DataCalculation.roundTonumber(uncerinity, round);
 	}
 	
@@ -241,10 +243,10 @@ public abstract class Note {
 	}
 
 	private static String setFileName() {
-		StringBuilder bulid = new StringBuilder(order.numberOfCalibration);
-		bulid.append("_");
-		bulid.append(order.device.model);
-		bulid.append(".ods");
+		StringBuilder bulid = new StringBuilder(order.getNumberOfCalibration());
+		bulid.append(FILE_TEXT_SEPARATOR);
+		bulid.append(order.getDevice().getModel());
+		bulid.append(FILE_EXTENSION);
 		return bulid.toString();
 	}
 }

@@ -22,7 +22,7 @@ public class IRData {
 
 	public boolean checkPoint(Order certificate) {
 		boolean answer;
-		if(point != null && point.equals(certificate.point));
+		if(point != null && point.equals(certificate.getPoint()));
 			answer = true;
 		return answer;
 	}

@@ -41,7 +41,7 @@ public class Special {
 	}
 	
 	private void setComment() {
-		if(SPECIAL_DEVICE_1.equals(order.device.model)) {
+		if(SPECIAL_DEVICE_1.equals(order.getDevice().getModel())) {
 			setCommentsText();
 		}
 	}
@@ -54,15 +54,15 @@ public class Special {
 
 	private String checkCient() {
 		String comment = "";
-		if(SPECIAL_CLIENT_2.equals(order.declarant.name)) {
+		if(SPECIAL_CLIENT_2.equals(order.getDeclarant().getName())) {
 			comment = SPECIAL_COMMENT;
 		}
 		return comment;
 	}
 
 	private void setChannelNumber() {
-		channelNumber = order.channelNumber;
-		if(SPECIAL_CLIENT_1.equals(order.declarant.name)) {
+		channelNumber = order.getChannelNumber();
+		if(SPECIAL_CLIENT_1.equals(order.getDeclarant().getName())) {
 			channelNumber = 2;
 		}
 	}

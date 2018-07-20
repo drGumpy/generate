@@ -59,7 +59,7 @@ public class PyrometerPanel extends JPanel {
 	public PyrometerPanel(Order certificate, InfraredParametrs infraredParametrs) {
 		owner = infraredParametrs;
 		this.certificate = certificate;
-		setBorder(new TitledBorder(certificate.declarant.name));
+		setBorder(new TitledBorder(certificate.getDeclarant().getName()));
 		pointPanel = new PointPanel(certificate);
 		setPanel();
 	}
@@ -128,7 +128,7 @@ public class PyrometerPanel extends JPanel {
 
 	private IRData findDataFormElements() {
 		IRData data = getPyrometerData();
-		data.point = certificate.point;
+		data.point = certificate.getPoint();
 		return data;
 	}
 	
@@ -139,12 +139,12 @@ public class PyrometerPanel extends JPanel {
 	
 	private void addModelField() {
 		addLabel(MODEL);
-		addField(certificate.device.model);
+		addField(certificate.getDevice().getModel());
 	}
 	
 	private void addSerialField() {
 		addLabel(SERIAL_NUMBER);
-		addField(certificate.deviceSerialNumber);
+		addField(certificate.getDeviceSerialNumber());
 	}
 	
 	private void addLabel(String name) {
@@ -210,6 +210,6 @@ public class PyrometerPanel extends JPanel {
 	public void setPyrometerData() {
 		IRData data = getPyrometerData();
 		pointPanel.setBlackBodyError(data);
-		certificate.pyrometr = data;		
+		certificate.setPyrometrData(data);		
 	}
 }

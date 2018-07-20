@@ -4,10 +4,11 @@ import certyficate.datalogger.Logger;
 import certyficate.datalogger.PointData;
 
 public class CEM extends Logger {
-	protected static final String LINE_DATA_SEPARATOR = "\t";
-	protected static final String DATE_FORMAT = "dd-MM-yy/HH:mm:ss";
-	protected static final String WHITESPACE = "\\s+";
-	protected static final String NUMBER_SEPARATOR = "\\.";
+	private static final String LINE_DATA_SEPARATOR = "\t";
+	private static final String DATE_FORMAT = "dd-MM-yy/HH:mm:ss";
+	private static final String WHITESPACE = "\\s+";
+	private static final String NUMBER_SEPARATOR = "\\.";
+	private static final String EMPTY_SPACE = "\\.";
 
     public CEM(boolean Rh) {
         super(Rh);
@@ -32,6 +33,6 @@ public class CEM extends Logger {
 	}
 
 	private String removewhiteSpace(String string) {
-		return string.replaceAll("\\s+","");
+		return string.replaceAll(WHITESPACE, EMPTY_SPACE);
 	}
 }

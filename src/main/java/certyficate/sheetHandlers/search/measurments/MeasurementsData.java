@@ -102,12 +102,12 @@ public class MeasurementsData {
 
 	private static void check(Measurements device, Order order) {
 		if(device.match(order)) {
-			order.measurmets = device.measurmets;
+			order.setMeasurmet(device.measurmets);
 		}
 	}
 	
 	private static void checkMeasurmentsData(Order order) {
-		if(order.measurmets == null) {
+		if(order.getMeasurmets() == null) {
 			CalibrationData.orders.remove(order);
 		}
 	}

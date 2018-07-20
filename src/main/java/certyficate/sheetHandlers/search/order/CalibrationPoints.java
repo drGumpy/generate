@@ -37,8 +37,8 @@ public class CalibrationPoints {
 	}
 
 	public static void setPoint(Order order) {
-		String code = order.calibrationCode;
-		order.point = findPoints(code);
+		String code = order.getCalibrationCode();
+		order.setPoint(findPoints(code));
 	}
 
 	private static double[][] findPoints(String code) {

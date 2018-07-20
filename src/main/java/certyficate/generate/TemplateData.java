@@ -50,8 +50,8 @@ public class TemplateData {
 
 	private static void setInfraredComments() {
 		String[] comments = new String[2];
-		comments[0] = CertificateText.getDistance(order.pyrometr);
-		comments[1] = CertificateText.getEmissivity(order.pyrometr);
+		comments[0] = CertificateText.getDistance(order.getPyrometrData());
+		comments[1] = CertificateText.getEmissivity(order.getPyrometrData());
 		certificate.setComments(comments);
 	}
 

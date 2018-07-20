@@ -86,7 +86,7 @@ public class CertificateData {
 	
 	private static void checkAndAddOrderData(int line) {
 		Order order = new Order();
-		order.calibrationCode = sheet.getValueAt(9, line).toString();
+		order.setCalibrationCode(sheet.getValueAt(9, line).toString());
 		if(verification.checkCalibrationCode(order)) {
 			addOrder(line, order);
 		}
@@ -95,44 +95,47 @@ public class CertificateData {
 	private static void addOrder(int line, Order order) {
 		String probe = sheet.getValueAt(8, line).toString();
 		setProbeData(order, probe);
-        order.numberOfCalibration = sheet.getValueAt(1, line).toString();
-        order.deviceSerialNumber = sheet.getValueAt(6, line).toString();
-        order.calibrationCode = sheet.getValueAt(9, line).toString();
-        order.calibrationDate = sheet.getValueAt(10, line).toString();
+        order.setNumberOfCalibration(sheet.getValueAt(1, line).toString());
+        order.setDeviceSerialNumber(sheet.getValueAt(6, line).toString());
+        order.setCalibrationCode(sheet.getValueAt(9, line).toString());
+        order.setCalibrationDate(sheet.getValueAt(10, line).toString());
         addToContainers(line, order);
         orders.add(order);
 	}
 
 	private static void setProbeData(Order order, String probe) {
 		String[] probeSerialArray = {EMPTY_CELL};
-		order.probeSerialNumber = probe;
-        if(!probe.equals(",")) {
+		order.setProbeSerialNumber(probe);
+        if(!PROBE_SEPARATOR.equals(probe)) {
             probe = probe.replaceAll(WHITE_SPACE, EMPTY_CELL);
             probeSerialArray = probe.split(PROBE_SEPARATOR);
         }
-		order.probeSerial = probeSerialArray;
+		order.setProbeSerial(probeSerialArray);
 	}
 	
 	private static void addToContainers(int line, Order order) {
-		setClient(3, line, order.declarant);
-		setClient(4, line, order.user);
-		setDevice(line, order.device);
-		setProbe(line, order.probe);
+		setClient(3, line, order.getDeclarant());
+		setClient(4, line, order.getUser());
+		setDevice(line, order.getDevice());
+		setProbe(line, order.getProbe());
 	}
 
 	private static void setClient(int column, int line, Client client) {
-		client.name = sheet.getValueAt(column, line).toString();
-		clientsData.put(client.name, client);
+		String name = sheet.getValueAt(column, line).toString();
+		client.setName(name);
+		clientsData.put(name, client);
 	}
 
 	private static void setDevice(int line, Device device) {
-		device.model = sheet.getValueAt(5, line).toString();
-		devicesData.put(device.model, device);
+		String model = sheet.getValueAt(5, line).toString();
+		device.setModel(model);
+		devicesData.put(model, device);
 	}
 
 	private static void setProbe(int line, Probe probe) {
-		probe.model = sheet.getValueAt(7, line).toString();
-		probesData.put(probe.model, probe);
+		String model = sheet.getValueAt(7, line).toString();
+		probe.setModel(model);
+		probesData.put(model, probe);
 	}
 
     private static void gatherData(){
@@ -143,17 +146,17 @@ public class CertificateData {
        
     private static void completeCertyficationData(int index) {
     	Order certyficate  = orders.get(index);
-        certyficate.declarant = clientsData.get(orders.get(index).declarant.name);
-        certyficate.user = clientsData.get(orders.get(index).user.name);
-        certyficate.device = devicesData.get(orders.get(index).device.model);
-        certyficate.probe = findProbe(certyficate, index);
+        certyficate.setDeclarant(clientsData.get(orders.get(index).getDeclarant().getName()));
+        certyficate.setUser(clientsData.get(orders.get(index).getUser().getName()));
+        certyficate.setDevice(devicesData.get(orders.get(index).getDevice().getModel()));
+        certyficate.setProbe(findProbe(orders.get(index).getProbe()));
         orders.set(index, certyficate);
 	}
 
-	private static Probe findProbe(Order certyficate, int index) {
+	private static Probe findProbe(Probe orderProbe) {
 		Probe probe = null;
-		if(probesData.containsKey(orders.get(index).probe.model)) {
-			probe = probesData.get(orders.get(index).probe.model);
+		if(probesData.containsKey(orderProbe.getModel())) {
+			probe = probesData.get(orderProbe.getModel());
 		}
 		return probe;
 	}

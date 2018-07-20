@@ -1,6 +1,5 @@
 package certyficate.GUI;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -84,18 +83,15 @@ public class Console extends JFrame {
 
 	private void addTabbetPane() {
     	JTabbedPane tabbedPane = setTabbedPane();
-    	constrain.weighty=0.2;
-    	constrain.gridy=4;
+    	constrain.weighty = 0.2;
+    	constrain.gridy = 4;
     	add(tabbedPane, constrain);
 	}
 
     private JTabbedPane setTabbedPane() {
     	JTabbedPane tabbedPane = new JTabbedPane();
-    	int width = 700;
-    	int height = 10;
     	tabbedPane.addTab(CLIMATE_CHAMBER, new ClimateChamber(this));
     	tabbedPane.addTab(INFRARED, new InfraredPanel(this));
-    	tabbedPane.setMaximumSize(new Dimension(width, height));
 		return tabbedPane;
 	}
 

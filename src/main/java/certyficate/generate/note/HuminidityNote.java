@@ -1,6 +1,7 @@
 package certyficate.generate.note;
 
 
+import certyficate.entitys.Device;
 import certyficate.generate.CertificateValue;
 import certyficate.generate.certificate.HuminidityCertificate;
 import certyficate.property.DataCalculation;
@@ -21,9 +22,9 @@ public class HuminidityNote extends TemperatureNote {
 	}
 
 	@Override
-	protected void setResolution(String[] resolution, int line) {
-		super.setResolution(resolution, line);
-		sheet.setValueAt(resolution[1], 4, line);	
+	protected void setResolution(Device device, int line) {
+		super.setResolution(device, line);
+		sheet.setValueAt(device.getResolution(1), 4, line);	
 	}
 	
 	@Override
@@ -31,7 +32,7 @@ public class HuminidityNote extends TemperatureNote {
 		super.setValue(line, index, point);
 		sheet.setValueAt(referenceValue.measurmets[index].data[1][point], 
 				2, line);
-		sheet.setValueAt(order.measurmets[index].data[1][point], 
+		sheet.setValueAt(order.getMeasurments(index).data[1][point], 
 				4, line);
 	}
 	
@@ -47,11 +48,11 @@ public class HuminidityNote extends TemperatureNote {
 		double[] uncerinity = findUncerinityRh(index, 1);
 		line += 13;
 		setUncerinity(uncerinity, line);
-		sheet.setValueAt(order.measurmets[index].average[1], 7 , line + 5);
+		sheet.setValueAt(order.getMeasurments(index).average[1], 7 , line + 5);
         sheet.setValueAt(referenceValue.measurmets[index].average[1],
         		7 , line + 7);
         sheet.setValueAt(reference[index].correctionRh, 7 , line +  9);
-        sheet.setValueAt(order.device.resolution[1], 9 , line + 6);
+        sheet.setValueAt(order.getDevice().getResolution(1), 9 , line + 6);
         sheet.setValueAt(reference[index].uncertaintyRh, 9, line + 9);
         sheet.setValueAt(reference[index].drift, 9, line + 10);
         sheet.setValueAt(chamber[index].correctionRh, 9, line + 11);
@@ -78,7 +79,7 @@ public class HuminidityNote extends TemperatureNote {
         double referenceData = DataCalculation.roundTonumber(
         		referenceValue.measurmets[index].average[1]
         		+ reference[index].correctionRh, round);
-        double deviceValue =DataCalculation.roundTonumber(order.measurmets[index].average[0], round);
+        double deviceValue =DataCalculation.roundTonumber(order.getMeasurments(index).average[0], round);
         certificateValue.probeRh = setNumber(referenceData);
         certificateValue.deviceRh = setNumber(deviceValue);
         certificateValue.errorRh = setNumber(deviceValue - referenceData);

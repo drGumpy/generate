@@ -1,5 +1,6 @@
 package certyficate.generate.note;
 
+import certyficate.entitys.Device;
 import certyficate.generate.CertificateValue;
 import certyficate.generate.certificate.PyrometerCertificate;
 import certyficate.property.DataCalculation;
@@ -20,15 +21,15 @@ public class PyrometerNote extends Note {
 	}
 	
 	@Override
-	protected void setResolution(String[] resolution, int line) {
-		sheet.setValueAt(resolution[0], DEVICE_COLUMN, line);
+	protected void setResolution(Device device, int line) {
+		sheet.setValueAt(device.getResolution(0), DEVICE_COLUMN, line);
 	}
 
 	@Override
 	protected void setValue(int line, int index, int point) {
-		double referenceValue =	order.pyrometr.reference[calibrationPointCount];
+		double referenceValue =	order.getPyrometrData().reference[calibrationPointCount];
 		sheet.setValueAt(referenceValue, 1, line);
-		sheet.setValueAt(order.measurmets[index].data[0][point], 3, line);
+		sheet.setValueAt(order.getMeasurments(index).data[0][point], 3, line);
 	}
 
 	@Override
@@ -41,22 +42,22 @@ public class PyrometerNote extends Note {
 	@Override
 	protected void setCalibrationBudget(int line, int index) {
 		super.setCalibrationBudget(line, index);
-		sheet.setValueAt(order.pyrometr.reference[calibrationPointCount],
+		sheet.setValueAt(order.getPyrometrData().reference[calibrationPointCount],
         		7 , line + 7);
-        sheet.setValueAt(order.pyrometr.blackBodyError[calibrationPointCount],
+        sheet.setValueAt(order.getPyrometrData().blackBodyError[calibrationPointCount],
         		9, line+11);
 	}
 
 	private double[] findUncerinity(int index, int parametrIndex) {
 		double[] uncerinity = new double[7];
-        uncerinity[0] = order.measurmets[index].standardDeviation[parametrIndex];
-        uncerinity[1] = Double.parseDouble(order.device.resolution[parametrIndex]) 
+        uncerinity[0] = order.getMeasurments(index).standardDeviation[parametrIndex];
+        uncerinity[1] = Double.parseDouble(order.getDevice().getResolution(parametrIndex)) 
         		/ Math.sqrt(3);
         uncerinity[2] = 0;
         uncerinity[3] = 0.1 / Math.sqrt(3);
         uncerinity[4] = reference[index].getUncertainty(parametrIndex) / 2;
         uncerinity[5] = reference[index].getDrift(parametrIndex) / Math.sqrt(3);
-        uncerinity[6] = order.pyrometr.blackBodyError[calibrationPointCount] / 2;
+        uncerinity[6] = order.getPyrometrData().blackBodyError[calibrationPointCount] / 2;
 		return uncerinity;
 	}
 	
@@ -69,9 +70,9 @@ public class PyrometerNote extends Note {
 	private CertificateValue setCertificateValue(int index, double[] uncerinities) {
 		CertificateValue pointValue = new CertificateValue();
 		double uncerinity = findUncerinityAndRound(uncerinities);
-        double referenceValue = DataCalculation.roundTonumber(order.pyrometr.reference[calibrationPointCount] 
+        double referenceValue = DataCalculation.roundTonumber(order.getPyrometrData().reference[calibrationPointCount] 
         		+ reference[index].correction,round);
-        double deviceValue = DataCalculation.roundTonumber(order.measurmets[index].average[0], round);
+        double deviceValue = DataCalculation.roundTonumber(order.getMeasurments(index).average[0], round);
         pointValue.probeT = setNumber(referenceValue);
         pointValue.deviceT = setNumber(deviceValue);
         pointValue.errorT = setNumber(deviceValue - referenceValue);

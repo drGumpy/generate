@@ -38,14 +38,14 @@ public class ProbeData {
 
 	private static void addProbe(int line) {
 		Probe probe = new Probe();
-		probe.type = sheet.getValueAt(1, line).toString();
-		probe.producent = sheet.getValueAt(2, line).toString();
+		probe.setType(sheet.getValueAt(1, line).toString());
+		probe.setProducent(sheet.getValueAt(2, line).toString());
 		addProbe(probe, line);
 	}
 
 	private static void addProbe(Probe probe, int line) {
 		String  model = sheet.getValueAt(0, line).toString();
-		probe.model = model;	
+		probe.setModel(model);	
 		data.put(model, probe);	
 	}
 }

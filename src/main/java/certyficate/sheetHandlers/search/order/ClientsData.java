@@ -37,15 +37,15 @@ public class ClientsData {
 
 	private static void addClient(int line) {
 		Client client = new Client();
-		client.address = sheet.getValueAt(1, line).toString();
-		client.postalCode = sheet.getValueAt(2, line).toString();
-		client.town = sheet.getValueAt(3, line).toString();
+		client.setAddress(sheet.getValueAt(1, line).toString());
+		client.setPostalCode(sheet.getValueAt(2, line).toString());
+		client.setTown(sheet.getValueAt(3, line).toString());
 		addClient(client, line);
 	}
 
 	private static void addClient(Client client, int line) {
 		String name = sheet.getValueAt(0, line).toString();
-		client.name = name;
+		client.setName(name);
 		data.put(name, client);
 	}
 }

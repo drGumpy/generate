@@ -39,7 +39,7 @@ public class Rotronic extends Logger {
 	}
 	
 	@Override
-	protected void checkPoints(String line) {
+	protected void checkLineData(String line) {
 		if(currentPoint + 1 < calibrationPoints.size()) {
 			checkNextPointDate();
 			checkNextPoint();

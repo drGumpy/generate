@@ -50,14 +50,14 @@ public class CertificateText {
 	}
 
 	public static String setDescription(Order certificate) {
-		StringBuilder builder = new StringBuilder(certificate.device.type);
+		StringBuilder builder = new StringBuilder(certificate.getDevice().getType());
 		builder.append(MODEL); 
-		builder.append(certificate.device.model);
+		builder.append(certificate.getDevice().getModel());
 		builder.append(MANOFACTURER);
-		builder.append(certificate.device.producent);
+		builder.append(certificate.getDevice().getProducent());
 		builder.append(SERIAL_NUMBER);
-		builder.append(certificate.deviceSerialNumber);
-		if(!EMPTY_STRING.equals(certificate.probeSerialNumber)) {
+		builder.append(certificate.getDeviceSerialNumber());
+		if(!EMPTY_STRING.equals(certificate.getProbeSerialNumber())) {
 			builder.append(setProbe(certificate));
 		}
 		builder.append(DOT);
@@ -65,11 +65,11 @@ public class CertificateText {
 	}
 	
 	public static String getAdres(Client client) {
-		StringBuilder builder = new StringBuilder(client.address);
+		StringBuilder builder = new StringBuilder(client.getAddress());
 		builder.append(COMMA);
-		builder.append(client.postalCode);
+		builder.append(client.getPostalCode());
 		builder.append(COMMA);
-		builder.append(client.town);
+		builder.append(client.getTown());
 		return builder.toString();
 	}
 
@@ -88,9 +88,9 @@ public class CertificateText {
 	}
 
 	public static String setCertificateFileName(Order certificate) {
-		StringBuilder bulid = new StringBuilder(certificate.numberOfCalibration);
+		StringBuilder bulid = new StringBuilder(certificate.getNumberOfCalibration());
 		bulid.append(FILE_NAME_SEPARTOR);
-		bulid.append(certificate.declarant.name);
+		bulid.append(certificate.getDeclarant().getName());
 		bulid.append(FILE_EXTENCTION);
 		return bulid.toString();
 	}
@@ -98,8 +98,8 @@ public class CertificateText {
 	public static String getChannelText(Order certificate, int channelNumber) {
 		String channel = EMPTY_STRING;
 		String probeSerial = getProbeSerial(certificate, channelNumber);
-		String channelName = certificate.device.channel[channelNumber];
-		if(checkChannel(certificate.device.channel[channelNumber])) {
+		String channelName = certificate.getDevice().getChannel(channelNumber);
+		if(checkChannel(channelName)) {
 			channel = getChannelText(probeSerial, channelName);
 		}
 		return channel;
@@ -124,7 +124,7 @@ public class CertificateText {
 	
 	private static StringBuilder setProbe(Order certificate) {
 		StringBuilder builder;
-		if(certificate.probe.type.equals(EMPTY_STRING)) {
+		if(EMPTY_STRING.equals(certificate.getProbe().getType())) {
 			builder = probeWithoutModel(certificate);
 		} else {
 			builder = probeWithModel(certificate);
@@ -134,28 +134,28 @@ public class CertificateText {
 
 	private static StringBuilder probeWithoutModel(Order certificate) {
 		StringBuilder builder = new StringBuilder(WITH);
-		builder.append(certificate.probe.model);
+		builder.append(certificate.getProbe().getModel());
 		builder.append(MANOFACTURER);
-		builder.append(certificate.probeSerialNumber);
+		builder.append(certificate.getProbeSerialNumber());
 		return builder;
 	}
 
 	private static StringBuilder probeWithModel(Order certificate) {
 		StringBuilder builder = new StringBuilder(WITH);
-		builder.append(certificate.probe.type);
+		builder.append(certificate.getProbe().getType());
 		builder.append(MODEL);
-		builder.append(certificate.probe.model);
+		builder.append(certificate.getProbe().getModel());
 		builder.append(MANOFACTURER);
-		builder.append(certificate.probe.producent);
+		builder.append(certificate.getProbe().getProducent());
 		builder.append(SERIAL_NUMBER);
-		builder.append(certificate.probeSerialNumber);
+		builder.append(certificate.getProbeSerialNumber());
 		return builder;
 	}
 	
 	private static String getProbeSerial(Order certificate, int channelNumber) {
 		String probeSerial = EMPTY_STRING;
-		if(certificate.probeSerial.length > channelNumber) {
-			probeSerial = certificate.probeSerial[channelNumber];
+		if(certificate.getProbeSerialLength() > channelNumber) {
+			probeSerial = certificate.getProbeSerial(channelNumber);
 		}
 		return probeSerial;
 	}

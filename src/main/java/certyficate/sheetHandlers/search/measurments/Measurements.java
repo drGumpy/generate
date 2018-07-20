@@ -12,6 +12,6 @@ public class Measurements{
 	}
 
 	public boolean match(Order certificate) {
-		return name != null && name.equals(certificate.deviceSerialNumber);
+		return name != null && name.equals(certificate.getDeviceSerialNumber());
 	}
 }

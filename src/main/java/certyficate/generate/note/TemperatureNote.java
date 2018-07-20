@@ -1,6 +1,7 @@
 package certyficate.generate.note;
 
 
+import certyficate.entitys.Device;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.generate.CertificateValue;
 import certyficate.generate.certificate.TemperatureCertificate;
@@ -34,8 +35,8 @@ public class TemperatureNote extends Note {
 	}
 
 	@Override
-	protected void setResolution(String[] resolution, int line) {
-		sheet.setValueAt(resolution[0], 3, line);
+	protected void setResolution(Device device, int line) {
+		sheet.setValueAt(device.getResolution(0), 3, line);
 	}
 
 
@@ -45,7 +46,7 @@ public class TemperatureNote extends Note {
 		sheet.setValueAt(DataCalculation.time(time, point), 0, line);
 		sheet.setValueAt(referenceValue.measurmets[index].data[0][point], 
 				1, line);
-		sheet.setValueAt(order.measurmets[index].data[0][point], 
+		sheet.setValueAt(order.getMeasurments(index).data[0][point], 
 				3, line);
 	}
 	
@@ -67,8 +68,8 @@ public class TemperatureNote extends Note {
 
 	protected double[] findUncerinity(int index, int parametrIndex) {
 		double[] uncerinity = new double[8];
-        uncerinity[0] = order.measurmets[index].standardDeviation[parametrIndex];
-        uncerinity[1] = Double.parseDouble(order.device.resolution[parametrIndex]) 
+        uncerinity[0] = order.getMeasurments(index).standardDeviation[parametrIndex];
+        uncerinity[1] = Double.parseDouble(order.getDevice().getResolution(parametrIndex)) 
         		/ Math.sqrt(3);
         uncerinity[2] = referenceValue.measurmets[index].standardDeviation[parametrIndex];
         uncerinity[3] = 0.01 / Math.sqrt(3);
@@ -91,7 +92,7 @@ public class TemperatureNote extends Note {
         double referenceData = DataCalculation.roundTonumber(
         		referenceValue.measurmets[index].average[0]
         		+ reference[index].correction, round);
-        double deviceValue =DataCalculation.roundTonumber(order.measurmets[index].average[0], round);
+        double deviceValue =DataCalculation.roundTonumber(order.getMeasurments(index).average[0], round);
         pointValue.probeT = setNumber(referenceData);
         pointValue.deviceT = setNumber(deviceValue);
         pointValue.errorT = setNumber(deviceValue - referenceData);

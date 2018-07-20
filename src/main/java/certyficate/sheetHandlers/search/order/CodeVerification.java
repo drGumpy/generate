@@ -35,7 +35,7 @@ public class CodeVerification {
 	}
 
 	private String findCodeAndPoints(Order order) {
-		String code = order.calibrationCode;
+		String code = order.getCalibrationCode();
 		int indexOfSeparator = code.indexOf(UNSTANDARD_CHARACTER);
 		if(indexOfSeparator != -1) {
 			code = setPoints(order, code, indexOfSeparator);
@@ -53,17 +53,17 @@ public class CodeVerification {
 
 	private String setStandardPoint(Order order, String code) {
 		code = code.substring(2, code.length());
-		order.point = CalibrationPoints.point();
+		order.setPoint(CalibrationPoints.point());
 		return code;
 	}
 	
 	private void checkNumberOfChannel(Order order, String code) {
-		String calibrationCode = order.calibrationCode;
+		String calibrationCode = order.getCalibrationCode();
 		int indexOfSeparator = calibrationCode.indexOf(CHANNEL_CHARACTER);
 		if(indexOfSeparator != -1) {
-			order.channelNumber = setChannelNumber(calibrationCode, indexOfSeparator);
+			order.setChannelNumber(setChannelNumber(calibrationCode, indexOfSeparator));
 		} else {
-			order.channelNumber = setStandardChannelNumber(code);
+			order.setChannelNumber(setStandardChannelNumber(code));
 		}
 	}
 

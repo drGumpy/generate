@@ -39,9 +39,9 @@ public class DeviceData {
 	private static void addDevice(int line){
 		Device device = new Device();
 		addChannels(device, line);
-        device.type = sheet.getValueAt(1, line).toString();
-        device.producent = sheet.getValueAt(2, line).toString();
-        device.resolution = setResolution(line);
+        device.setType(sheet.getValueAt(1, line).toString());
+        device.setProducent(sheet.getValueAt(2, line).toString());
+        device.setResolution(setResolution(line));
         addModel(device, line);
 	}
 
@@ -51,11 +51,11 @@ public class DeviceData {
 	}
 
 	private static void addChannels(Device device, String channel) {
-		String[] arr = {EMPTY_CELL};
+		String[] channelArray = {EMPTY_CELL};
 		if(!channel.equals(PROBE_SEPARATOR)) {
-            arr = channel.split(PROBE_SEPARATOR);
+            channelArray = channel.split(PROBE_SEPARATOR);
 		}
-		device.channel = arr;
+		device.setChannel(channelArray);
 	}
 	
 	private static String[] setResolution(int line) {
@@ -67,7 +67,7 @@ public class DeviceData {
 	
 	private static void addModel(Device device, int line) {
 		String model = sheet.getValueAt(0, line).toString();
-		device.model = model;
+		device.setModel(model);
 		data.put(model, device);
 	}
 }

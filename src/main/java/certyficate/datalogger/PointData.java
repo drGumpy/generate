@@ -67,7 +67,6 @@ public class PointData {
 	}
 
 	public boolean equalsData(CalibrationPoint point) {
-		boolean answer = point.getPointDate().compareTo(date) == 0;
-		return answer;
+		return point.getPointDate().compareTo(date) == 0;
 	}
 }

@@ -49,7 +49,7 @@ public class PointPanel extends JPanel {
 
 	@SuppressWarnings("unchecked")
 	private void setPanelElements() {
-		numberOfParametrs = certificate.point.length;
+		numberOfParametrs = certificate.getPointLength();
 		blackBodyChoose = new JComboBox[numberOfParametrs];
 		referenceValue = new JFormattedTextField[numberOfParametrs];
 	}
@@ -62,7 +62,7 @@ public class PointPanel extends JPanel {
 	}
 
 	private void addPoint(int index) {
-		double point = certificate.point[index][0];
+		double point = certificate.getPoint(index, 0);
 		addLabel((int) point);
 		setComboBox(index);
 		setTextField(index);
@@ -79,7 +79,7 @@ public class PointPanel extends JPanel {
 
 	private void setComboBox(int index) {
 		blackBodyChoose[index] = 
-				BlackBodyData.setComboBox(certificate.point[index][0], index);
+				BlackBodyData.setComboBox(certificate.getPoint(index, 0), index);
 		addComboBox(index);		
 	}
 
@@ -99,7 +99,7 @@ public class PointPanel extends JPanel {
 	private JFormattedTextField createTextField(int index) {
 		JFormattedTextField textField = new JFormattedTextField(
 				new DecimalFormat("#0.0"));
-		textField.setValue(certificate.point[index][0]);
+		textField.setValue(certificate.getPoint(index, 0));
 		return textField;
 	}
 
@@ -139,7 +139,7 @@ public class PointPanel extends JPanel {
 		double[] blackBodyError = new double[numberOfParametrs];
 		for(int i = 0; i < numberOfParametrs; i++) {
 			blackBodyError[i] = 
-					BlackBodyData.getBlackBodyError(getBlackBodyName(i), certificate.point[i]);
+					BlackBodyData.getBlackBodyError(getBlackBodyName(i), certificate.getPoint(i));
 		}
 		data.blackBodyError = blackBodyError;
 	}
