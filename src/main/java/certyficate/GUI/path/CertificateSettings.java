@@ -16,7 +16,7 @@ public class CertificateSettings extends PathSettings {
 	}
 	
 	@Override
-	protected void updateFile(File file) {
+	public void updateFile(File file) {
 		CalibrationData.certificate = file;
 	}
 

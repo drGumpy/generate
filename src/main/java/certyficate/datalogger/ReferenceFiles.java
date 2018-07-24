@@ -30,6 +30,7 @@ public class ReferenceFiles {
 	}
 
 	public File findFile(int currentPoint) {
+		file = null;
 		setDatePattern(currentPoint);
 		searchTheFiles();
 		return file;
@@ -55,7 +56,6 @@ public class ReferenceFiles {
 
 	private void setFile(String fileName) {
 		openFileCommunicate(fileName);
-		System.out.println(OPENING +fileName);
 		String filePath = getFilePath(fileName);
 		file = new File(filePath);
 	}

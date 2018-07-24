@@ -28,7 +28,7 @@ public abstract class PathSettings {
 		return settings;
 	}
 	
-	protected abstract void updateFile(File file);	
+	public abstract void updateFile(File file);	
 	
 	protected void setPanelName(String name) {
 		panelName = name;

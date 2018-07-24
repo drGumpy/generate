@@ -37,7 +37,7 @@ public class CodeVerification {
 	private String findCodeAndPoints(Order order) {
 		String code = order.getCalibrationCode();
 		int indexOfSeparator = code.indexOf(UNSTANDARD_CHARACTER);
-		if(indexOfSeparator != -1) {
+		if(indexOfSeparator > -1) {
 			code = setPoints(order, code, indexOfSeparator);
 		} else {
 			code = setStandardPoint(order, code);

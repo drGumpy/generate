@@ -3,14 +3,15 @@ package certyficate.GUI.infrared;
 import certyficate.entitys.Order;
 
 public class IRData {
+	public double[][] point;
 	public double[] blackBodyError;
 	public double[] reference;
 	
 	public double emissivity;
 	
-	public double[][] point;
-	
 	public int distance;
+	
+	public boolean active;
 	
 	public String[] blackBodyName;
 
@@ -21,9 +22,6 @@ public class IRData {
 	}
 
 	public boolean checkPoint(Order certificate) {
-		boolean answer;
-		if(point != null && point.equals(certificate.getPoint()));
-			answer = true;
-		return answer;
+		return point != null && point.equals(certificate.getPoint());
 	}
 }

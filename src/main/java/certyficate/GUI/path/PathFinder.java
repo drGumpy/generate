@@ -33,6 +33,7 @@ public class PathFinder  extends JPanel {
 	
 	public void setFile(File file) {
 		this.file = file;
+		setting.updateFile(file);
 		pathTextField.setText(file.toString());
 	}
 	
@@ -42,12 +43,12 @@ public class PathFinder  extends JPanel {
 	
 	public PathFinder(PathType pathType) {
 		this.pathType = pathType;
-		setSettingsAndFile(pathType);
+		setSettingsAndFile();
 		setPanelSettings();
 		setPanelElements();
 	}
 
-	private void setSettingsAndFile(PathType pathType) {
+	private void setSettingsAndFile() {
 		setting = PathSettings.getSettings(pathType);
 		file = setting.getFile();
 	}

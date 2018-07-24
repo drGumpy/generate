@@ -20,7 +20,7 @@ public class SheetSettings extends PathSettings {
 	}
 	
 	@Override
-	protected void updateFile(File file) {
+	public void updateFile(File file) {
 		this.file = file;
 		CalibrationData.sheet = file;
 		setSheet();

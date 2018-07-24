@@ -55,9 +55,9 @@ public class RhProbe extends ReferenceProbe {
 		DataProbe[] pointsInRange = new DataProbe[rangeSize];
 		for(int i = 0; i < 2; i++) {
 			pointsInRange[i] = findInStandardPoints(
-					new double[]{range[i], range[i+2]});
+					new double[]{range[0], range[i+2]});
 			pointsInRange[i+2] = findInStandardPoints(
-					new double[]{range[i+1], range[i+2]});
+					new double[]{range[1], range[i+2]});
 		}
 		return pointsInRange;
 	}

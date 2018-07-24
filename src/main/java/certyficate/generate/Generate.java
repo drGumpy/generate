@@ -20,10 +20,10 @@ public class Generate {
     	done = new ArrayList<String>();
     	setNote();
     	findCertificateData();
-    	PutDate.calibrationDate(done);
+    	markDoneCertificate();
     }
-    
-    private static void setNote() throws IOException {
+
+	private static void setNote() throws IOException {
     	note = NoteFactor.setNote();
 	}
 
@@ -50,6 +50,14 @@ public class Generate {
 	}
 	
     private static void markAsDone(Order certificate) {
-    	done.add(certificate.getNumberOfCalibration());
+    	if(note.isCalibrationData()) {
+    		done.add(certificate.getNumberOfCalibration());
+    	}
+	}
+    
+    private static void markDoneCertificate() {
+		if(!done.isEmpty()) {
+			PutDate.calibrationDate(done);
+		}
 	}
 }

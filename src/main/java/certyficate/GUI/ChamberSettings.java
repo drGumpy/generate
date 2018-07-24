@@ -75,6 +75,8 @@ public class ChamberSettings extends JPanel {
 
 	private void setButtonGroup() {
 		ButtonGroup buttons = new ButtonGroup();
+		temperature = new JRadioButton(TEMPERATURE_LABEL);
+		huminidity = new JRadioButton(HUMINIDITY_LABEL);
 		buttons.add(huminidity);
 		buttons.add(temperature);
 		setButtons();
@@ -86,7 +88,6 @@ public class ChamberSettings extends JPanel {
 	}
 
 	private void setTemperaturButton() {
-		temperature = new JRadioButton(TEMPERATURE_LABEL); 
 		temperature.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				calibrationType = CalibrationType.TEMPERATURE;
@@ -100,7 +101,6 @@ public class ChamberSettings extends JPanel {
 	
 
 	private void setHuminidityButton() {
-		huminidity = new JRadioButton(HUMINIDITY_LABEL);
 		huminidity.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				calibrationType = CalibrationType.HUMINIDITY;

@@ -9,6 +9,7 @@ import certyficate.files.ReaderCreator;
 import certyficate.sheetHandlers.CalibrationPoint;
 
 public abstract class Logger {
+	//TODO reorganizing messages
 	private static final String NON_DATA_INFROMATION = "No data for point ";
 	private static final String GET_DATA = "pobieranie danych dla punktu: ";
 	private static final String TIME = " z godziny: ";
@@ -35,6 +36,10 @@ public abstract class Logger {
 		this.Rh = RH;
 	}
 	
+	public void setFile(File file) {
+		this.file= file;		
+	}
+	
 	public PointData[][] getPointData() {
 		return data;
 	}
@@ -45,10 +50,6 @@ public abstract class Logger {
 	
 	public List<CalibrationPoint> getCalibrationPoints() {
 		return calibrationPoints;
-	}
-	
-	public void setFile(File file) {
-		this.file= file;		
 	}
 
 	public void setDeviceNumber(int index) {
@@ -70,7 +71,7 @@ public abstract class Logger {
 		try {
 			findPoints();
 		} catch (IOException e) {
-			e.printStackTrace();
+			
 		}
 	}
 
@@ -100,16 +101,14 @@ public abstract class Logger {
 		StringBuilder build = new StringBuilder(NON_DATA_INFROMATION);
 		build.append(currentPoint);
 		return build;
-	}
+	} 
 
-	private void findPoint() 
-			throws IOException {
+	private void findPoint() throws IOException {
 		String line= reader.readLine();
 		while(checkLine(line)) {
 			checkPoint(line);
 			line = reader.readLine();
 		}
-		checkLineData(line);
 	}
 
 	private boolean checkLine(String line) {
@@ -125,13 +124,13 @@ public abstract class Logger {
 	}
 
 	private void setPointsData(PointData pointData) throws IOException {
-		noInsertPointData(pointData.getTime());
+		insertPointDataMessage(pointData.getTime());
 		data[currentPoint][0] = pointData;
 		setPointData();
 		currentPoint++;
 	}
 
-	private void noInsertPointData(String time) {
+	private void insertPointDataMessage(String time) {
 		StringBuilder build = new StringBuilder(GET_DATA);
 		build.append(currentPoint + 1);
 		build.append(TIME);
@@ -141,8 +140,17 @@ public abstract class Logger {
 
 	private void setPointData() throws IOException {
 		for(int i = 1; i < MEASUREMENTS_POINTS; i++) {
-			data[currentPoint][i] = setLine();
+			setLine(i);
 		}
+		checkFileData();
+	}
+
+	protected void checkFileData() {}
+
+	private void setLine(int index) throws IOException {
+		if(currentPoint < calibrationPoints.size()) {
+			data[currentPoint][index] = setLine();
+		} 
 	}
 
 	private PointData setLine() throws IOException {
@@ -151,7 +159,7 @@ public abstract class Logger {
 		return divide(line);
 	}
 	
-	protected void checkLineData(String line) throws IOException {
+	private void checkLineData(String line) throws IOException {
 		if(line == null) {
 			System.out.println(END_OF_FILE);
 			throw new IOException();

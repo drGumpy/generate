@@ -59,8 +59,12 @@ public abstract class Note {
 
 	public void setNoteAndCertificate(Order orderData) throws IOException {
 		setCalibrationData(orderData);
-		createNote();
-		certificate.setCertificate(order, calibrationData);
+		setNoteData();
+		checkDocumentData();
+	}
+
+	public boolean isCalibrationData() {
+		return !calibrationData.isEmpty();
 	}
 	
 	private void setCalibrationData() {
@@ -80,10 +84,9 @@ public abstract class Note {
 		order = orderData;
 	}
 
-	private void createNote() throws FileNotFoundException, IOException {
+	private void setNoteData() throws FileNotFoundException, IOException {
 		setSheet();
 		setSheetData();
-		safeFile();
 	}
 	
 	private void setSheet() throws IOException {
@@ -229,6 +232,17 @@ public abstract class Note {
 	protected void addPointValue(CertificateValue pointValue) {
 		calibrationData.add(pointValue);		
 	}
+	
+	private void checkDocumentData() throws IOException {
+		if(isCalibrationData()) {
+			createDocuments();
+		}
+	}	
+	
+	private void createDocuments() throws IOException {
+		safeFile();
+		certificate.setCertificate(order, calibrationData);
+	}	
 
 	private static void safeFile() throws FileNotFoundException, IOException {
 		File noteFile = noteFile();

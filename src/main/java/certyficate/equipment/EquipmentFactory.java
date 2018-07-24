@@ -81,7 +81,7 @@ public class EquipmentFactory {
 	
 	private static Equipment setChamberHumidity() throws IOException {
 		String path = PathCreator.filePath(
-				EquipmentFiles.getChamberTemperatureFileName());
+				EquipmentFiles.getChamberHumidityFileName());
 		return new ChamberRh(path);
 	}
 }

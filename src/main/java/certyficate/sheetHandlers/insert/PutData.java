@@ -42,11 +42,13 @@ public class PutData {
 		setCalibrationPoints();
 		setProbeData();
 		setLoggerData();
+		safeSheet();
 	}
 
 	private static void updateSettings() throws IOException {
 		numberOfPoints = CalibrationData.calibrationPoints;
 		file = CalibrationData.sheet; 
+		System.out.println(file);
 		setSheet();
 	}
 
@@ -106,5 +108,9 @@ public class PutData {
 	private static void insertLoggerData(Logger logger) {
 		logger.getData(points);
 		insert.putLoggerData(logger);
+	}
+	
+	private static void safeSheet() throws IOException {
+		sheet.getSpreadSheet().saveAs(file);
 	}
 }

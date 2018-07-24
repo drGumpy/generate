@@ -16,7 +16,7 @@ public class NotesSettings extends PathSettings {
 	}
 	
 	@Override
-	protected void updateFile(File file) {
+	public void updateFile(File file) {
 		CalibrationData.notes = file;
 	}
 

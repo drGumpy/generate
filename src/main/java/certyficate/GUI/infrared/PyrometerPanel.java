@@ -16,11 +16,12 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import certyficate.entitys.Order;
+import certyficate.property.CalibrationData;
 import certyficate.property.DataCalculation;
 
 @SuppressWarnings("serial")
 public class PyrometerPanel extends JPanel {
-	private final static String ACTIVE = "aktywny";
+	private final static String ACTIVE = "nieaktywny";
 	private final static String APPLY_FOR_ALL = "zastosuj dla wszystkich";
 	private final static String MODEL = "model";
 	private final static String SERIAL_NUMBER = "numer seryjny";
@@ -91,7 +92,7 @@ public class PyrometerPanel extends JPanel {
 		add(active, constrain);
 		active.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){		
-				setElementsEditability(active.isSelected());
+				setElementsEditability(!active.isSelected());
 			}
 		});
 	}
@@ -108,7 +109,7 @@ public class PyrometerPanel extends JPanel {
 		add(copy, constrain);
 		copy.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){		
-				checkAndSetElements(active.isSelected());
+				checkAndSetElements(copy.isSelected());
 			}
 		});
 	}
@@ -208,8 +209,20 @@ public class PyrometerPanel extends JPanel {
 	}
 
 	public void setPyrometerData() {
+		if(checkActive()) {
+			setData();
+		} else {
+			CalibrationData.orders.remove(certificate);
+		}
+	}
+
+	private boolean checkActive() {
+		return !active.isSelected();
+	}
+	
+	private void setData() {
 		IRData data = getPyrometerData();
 		pointPanel.setBlackBodyError(data);
-		certificate.setPyrometrData(data);		
+		certificate.setPyrometrData(data);	
 	}
 }
