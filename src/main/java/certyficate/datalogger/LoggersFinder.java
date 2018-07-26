@@ -1,6 +1,7 @@
 package certyficate.datalogger;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,11 @@ public class LoggersFinder {
 	
 	private static Logger findLogger(File file, int index) {
 		Logger logger = findDataType(index);
-		logger.setFile(file);
+		try {
+			logger.setFile(file);
+		} catch (IOException e) {
+			System.out.println("file error");
+		}
 		return logger;
 	}
 

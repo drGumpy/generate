@@ -48,7 +48,6 @@ public class PutData {
 	private static void updateSettings() throws IOException {
 		numberOfPoints = CalibrationData.calibrationPoints;
 		file = CalibrationData.sheet; 
-		System.out.println(file);
 		setSheet();
 	}
 

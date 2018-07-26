@@ -1,6 +1,7 @@
 package certyficate.datalogger.type;
 
 import java.io.File;
+import java.io.IOException;
 
 import certyficate.datalogger.Logger;
 import certyficate.datalogger.PointData;
@@ -58,7 +59,15 @@ public class Rotronic extends Logger {
 		if(file == null) {
 			findNext();
 		} else {
+			newFile(file);
+		}
+	}
+
+	private void newFile(File file) {
+		try {
 			setFile(file);
+		} catch (IOException e) {
+			System.out.println("file error");
 		}
 	}
 
@@ -84,7 +93,15 @@ public class Rotronic extends Logger {
 		if(!nextPointDay()) {
 			currentPoint++;
 			findFile();
-			findDataPoints();
+			findPointFromNewFile();
+		}
+	}
+	
+	private void findPointFromNewFile() {
+		try {
+			findPoint();
+		} catch (IOException e) {
+			System.out.println("file error");
 		}
 	}
 

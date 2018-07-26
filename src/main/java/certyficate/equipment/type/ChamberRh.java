@@ -24,8 +24,8 @@ public class ChamberRh extends RhProbe{
         data.value = getInteger(elements[0]);
         data.valueRh = getInteger(elements[1]);
         data.correction = DataCalculation.getDouble(elements[2]);
-        data.correctionRh = DataCalculation.getDouble(elements[3]);
-        data.uncertainty = DataCalculation.getDouble(elements[4]);
+        data.uncertainty = DataCalculation.getDouble(elements[3]);
+        data.correctionRh = DataCalculation.getDouble(elements[4]);
         data.uncertaintyRh = DataCalculation.getDouble(elements[5]);
 		return data;
 	}

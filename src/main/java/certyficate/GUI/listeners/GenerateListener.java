@@ -40,18 +40,18 @@ public class GenerateListener implements ActionListener {
 	}
 	
 	private void findCalibrationData() throws IOException {
-		findMeasurmentsData();
+		getCalibrationData();
 		findReferenceData();
 		findChamberData();
 		EnvironmentData.setEnvirometsData();
 	}
 
-	private void findMeasurmentsData() throws IOException {
-		getCalibrationData();
+	private void getCalibrationData() throws IOException {
+		getOrdersData();
 		findMeasurementsData();
 	}
 	
-	private void getCalibrationData() {
+	private void getOrdersData() {
 		CertificateData.findOrdersData();
 	}
 	

@@ -5,11 +5,6 @@ import certyficate.generate.CertificateValue;
 public class HuminidityCertificate extends Certificate {
 	private static final int MEASURMENT_LINE = 84;
 	
-	protected static int dateColumn = 9;
-	protected static int numberColumn = 24;
-	protected static int informactionColumn = 13;
-	protected static int numberOfData = 5;
-	
 	public HuminidityCertificate() {
 		super();
 	}

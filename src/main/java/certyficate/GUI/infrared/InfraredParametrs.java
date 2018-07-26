@@ -47,7 +47,6 @@ public class InfraredParametrs extends JDialog {
 	}
 	
 	public void setIRData(IRData pyrometerData) {
-		System.out.println("sprawdzanie pirometrów");
 		for(PyrometerPanel pyrometer: pyrometers) {
 			pyrometer.checkData(pyrometerData);
 		}

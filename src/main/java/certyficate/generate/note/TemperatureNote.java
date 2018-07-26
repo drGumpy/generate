@@ -88,7 +88,7 @@ public class TemperatureNote extends Note {
 	
 	private CertificateValue setCertificateValue(int index, double[] uncerinities) {
 		CertificateValue pointValue = new CertificateValue();
-		double uncerinity = findUncerinityAndRound(uncerinities);
+		double uncerinity = findUncerinityAndRound(uncerinities, 0);
         double referenceData = DataCalculation.roundTonumber(
         		referenceValue.measurmets[index].average[0]
         		+ reference[index].correction, round);

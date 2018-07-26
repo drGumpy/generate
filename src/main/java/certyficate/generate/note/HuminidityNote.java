@@ -54,7 +54,7 @@ public class HuminidityNote extends TemperatureNote {
         sheet.setValueAt(reference[index].correctionRh, 7 , line +  9);
         sheet.setValueAt(order.getDevice().getResolution(1), 9 , line + 6);
         sheet.setValueAt(reference[index].uncertaintyRh, 9, line + 9);
-        sheet.setValueAt(reference[index].drift, 9, line + 10);
+        sheet.setValueAt(reference[index].driftRh, 9, line + 10);
         sheet.setValueAt(chamber[index].correctionRh, 9, line + 11);
         sheet.setValueAt(chamber[index].uncertaintyRh, 9, line + 12);
         setCertificateValueRh(certificateValue, index, uncerinity);
@@ -75,14 +75,15 @@ public class HuminidityNote extends TemperatureNote {
 	
 	private void setCertificateValueRh(CertificateValue certificateValue,
 			int index, double[] uncerinities) {
-		double uncerinity = findUncerinityAndRound(uncerinities);
+		double uncerinity = findUncerinityAndRound(uncerinities, 1);
         double referenceData = DataCalculation.roundTonumber(
         		referenceValue.measurmets[index].average[1]
         		+ reference[index].correctionRh, round);
-        double deviceValue =DataCalculation.roundTonumber(order.getMeasurments(index).average[0], round);
+        double deviceValue =DataCalculation.roundTonumber(order.getMeasurments(index).average[1], round);
         certificateValue.probeRh = setNumber(referenceData);
         certificateValue.deviceRh = setNumber(deviceValue);
         certificateValue.errorRh = setNumber(deviceValue - referenceData);
+        System.out.println(index+"\t"+uncerinity+"\t"+setNumber(2 * uncerinity));
         certificateValue.uncertaintyRh = setNumber(2 * uncerinity);
 	}
 	

@@ -84,7 +84,8 @@ public class MeasurementsData {
 	}
 	
 	private static double getPoint(int line, int index) {
-		return Double.parseDouble(sheet.getValueAt(1 - index, line).toString());
+		int column = 2 - CalibrationData.numberOfParameters + index;
+		return Double.parseDouble(sheet.getValueAt(column, line).toString());
 	}
 
 	private static void addMeasurmentsToOrders() {

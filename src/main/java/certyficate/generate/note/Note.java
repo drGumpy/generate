@@ -209,11 +209,11 @@ public abstract class Note {
         sheet.setValueAt(reference.drift, 9, line + 10);
 	}
 
-	protected double findUncerinityAndRound(double[] uncerinities) {
+	protected double findUncerinityAndRound(double[] uncerinities, int index) {
 		double uncerinity = DataCalculation.uncertainty(uncerinities);
 		round = DataCalculation.findRound(2 * uncerinity, 
-				Double.parseDouble(order.getDevice().getResolution(0)));
-		return DataCalculation.roundTonumber(uncerinity, round);
+				Double.parseDouble(order.getDevice().getResolution(index)));
+		return uncerinity;
 	}
 	
 	protected String setNumber(double number) {

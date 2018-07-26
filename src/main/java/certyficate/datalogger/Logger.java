@@ -36,8 +36,9 @@ public abstract class Logger {
 		this.Rh = RH;
 	}
 	
-	public void setFile(File file) {
-		this.file= file;		
+	public void setFile(File file) throws IOException {
+		this.file= file;
+		setReader();
 	}
 	
 	public PointData[][] getPointData() {
@@ -59,27 +60,30 @@ public abstract class Logger {
 	public void getData(List<CalibrationPoint> calibrationPoints) {
 		this.calibrationPoints = calibrationPoints;
 		setData();
-		findDataPoints();
+		findPointsData();
+		closeReader();
 	}
 	
+	protected void findPoint() throws IOException {
+		String line = reader.readLine();
+		while(checkLine(line)) {
+			checkPoint(line);
+			line = reader.readLine();
+		}
+	}
+
 	protected void setData() {
 		data = new PointData[calibrationPoints.size()][MEASUREMENTS_POINTS];
 		currentPoint = 0;
 	}
 	
-	protected void findDataPoints() {
-		try {
-			findPoints();
-		} catch (IOException e) {
-			
-		}
-	}
+	protected void checkFileData() {}
+	
+	protected abstract PointData divide(String nextLine);
 
-	private void findPoints() throws IOException {
+	private void setReader() throws IOException {
     	reader = ReaderCreator.getReader(file);
     	removeNonDataLine();
-    	findPointsData();
-    	reader.close();
     }
 
 	private void removeNonDataLine() throws IOException {
@@ -88,12 +92,11 @@ public abstract class Logger {
 		}
 	}
 
-	private void findPointsData() throws IOException {
+	private void findPointsData() {
 		try {
 			findPoint();
 		} catch (IOException e) {
 			System.out.println(noDataInformation());
-			throw e;
 		}
 	}
 	
@@ -102,14 +105,6 @@ public abstract class Logger {
 		build.append(currentPoint);
 		return build;
 	} 
-
-	private void findPoint() throws IOException {
-		String line= reader.readLine();
-		while(checkLine(line)) {
-			checkPoint(line);
-			line = reader.readLine();
-		}
-	}
 
 	private boolean checkLine(String line) {
 		return line != null && currentPoint < calibrationPoints.size();
@@ -145,8 +140,6 @@ public abstract class Logger {
 		checkFileData();
 	}
 
-	protected void checkFileData() {}
-
 	private void setLine(int index) throws IOException {
 		if(currentPoint < calibrationPoints.size()) {
 			data[currentPoint][index] = setLine();
@@ -165,6 +158,12 @@ public abstract class Logger {
 			throw new IOException();
 		}
 	}
-
-	protected abstract PointData divide(String nextLine);
+	
+	private void closeReader() {
+		try {
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

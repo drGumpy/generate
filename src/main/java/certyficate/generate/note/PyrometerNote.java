@@ -69,7 +69,7 @@ public class PyrometerNote extends Note {
 	
 	private CertificateValue setCertificateValue(int index, double[] uncerinities) {
 		CertificateValue pointValue = new CertificateValue();
-		double uncerinity = findUncerinityAndRound(uncerinities);
+		double uncerinity = findUncerinityAndRound(uncerinities, 0);
         double referenceValue = DataCalculation.roundTonumber(order.getPyrometrData().reference[calibrationPointCount] 
         		+ reference[index].correction,round);
         double deviceValue = DataCalculation.roundTonumber(order.getMeasurments(index).average[0], round);
