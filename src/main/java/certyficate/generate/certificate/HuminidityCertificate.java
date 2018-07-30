@@ -24,13 +24,13 @@ public class HuminidityCertificate extends Certificate {
 	
 	@Override
 	protected void setData(CertificateValue data, int line) {
-		sheet.setValueAt(data.probeT, 3, line);
-        sheet.setValueAt(data.probeRh, 8, line);
-        sheet.setValueAt(data.deviceT, 13, line);
-        sheet.setValueAt(data.deviceRh, 18, line);
-        sheet.setValueAt(data.errorT, 23, line);
-        sheet.setValueAt(data.errorRh, 28, line);
-        sheet.setValueAt(data.uncertaintyT, 33, line);
-        sheet.setValueAt(data.uncertaintyRh, 38, line);
+		sheet.setValueAt(data.getProbe(0), 3, line);
+		sheet.setValueAt(data.getProbe(1), 8, line);
+    	sheet.setValueAt(data.getDevice(0), 13, line);
+    	sheet.setValueAt(data.getDevice(1), 18, line);
+    	sheet.setValueAt(data.getError(0), 23, line);
+    	sheet.setValueAt(data.getError(1), 28, line);
+    	sheet.setValueAt(data.getUncertainty(0), 33, line);
+    	sheet.setValueAt(data.getUncertainty(1), 38, line);
 	}
 }

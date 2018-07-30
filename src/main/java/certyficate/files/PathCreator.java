@@ -17,23 +17,7 @@ public class PathCreator {
 	private static final String REFERENCE_FILES = "Wyniki z wzorca";
 	private static final String DOCUMENTS = "Documents";
 	private static final String DATALOGERS = "rejestratory";
-	
-	private static StringBuilder pathToDescop() {
-		StringBuilder path = userPath();
-		path.append(withSeparator(DESKTOP));
-		return path;
-	}
-	
-	private static StringBuilder userPath() {
-		return withSeparator(System.getProperty(PROPERTY_KEY));
-	}
 
-	private static StringBuilder withSeparator(String expression) {
-		StringBuilder path = new StringBuilder(expression);
-		path.append(File.separator);
-		return path;
-	}
-	
 	public static String certificatesPath() {
 		StringBuilder path = new StringBuilder();
 		path.append(archivesPath());
@@ -46,18 +30,6 @@ public class PathCreator {
 		path.append(archivesPath());
 		path.append(withSeparator(NOTE));
 		return path.toString();
-	}
-	
-	private static StringBuilder archivesPath(){
-		StringBuilder path = new StringBuilder(folderPath());
-		path.append(withSeparator(ARCHIVES));
-		return path;
-	}
-	
-	private static StringBuilder folderPath(){
-		StringBuilder path = new StringBuilder(PATH_TO_DESCOP);
-		path.append(withSeparator(DESKTOP_FILE));
-		return path;
 	}
 	
 	public static String filePath(String fileName) {
@@ -89,13 +61,6 @@ public class PathCreator {
 		path.append(withSeparator(loggerType));;
 		return path.toString();
 	}
-	
-	private static StringBuilder loggerPath() {
-		StringBuilder path = userPath();
-		path.append(withSeparator(DOCUMENTS));
-		path.append(withSeparator(DATALOGERS));
-		return path;
-	}
 
 	public static String probeDataPath() {
 		StringBuilder path = new StringBuilder(withSeparator("P:"));
@@ -104,4 +69,38 @@ public class PathCreator {
 		return path.toString();
 	}
 	
+	private static StringBuilder pathToDescop() {
+		StringBuilder path = userPath();
+		path.append(withSeparator(DESKTOP));
+		return path;
+	}
+	
+	private static StringBuilder userPath() {
+		return withSeparator(System.getProperty(PROPERTY_KEY));
+	}
+
+	private static StringBuilder withSeparator(String expression) {
+		StringBuilder path = new StringBuilder(expression);
+		path.append(File.separator);
+		return path;
+	}
+	
+	private static StringBuilder archivesPath(){
+		StringBuilder path = new StringBuilder(folderPath());
+		path.append(withSeparator(ARCHIVES));
+		return path;
+	}
+	
+	private static StringBuilder folderPath(){
+		StringBuilder path = new StringBuilder(PATH_TO_DESCOP);
+		path.append(withSeparator(DESKTOP_FILE));
+		return path;
+	}
+	
+	private static StringBuilder loggerPath() {
+		StringBuilder path = userPath();
+		path.append(withSeparator(DOCUMENTS));
+		path.append(withSeparator(DATALOGERS));
+		return path;
+	}
 }

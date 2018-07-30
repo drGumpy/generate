@@ -28,12 +28,6 @@ public class TemperatureNote extends Note {
 		noteFile = NOTE_FILE;
 		numberOfData = NUMBER_OF_DATA;
 	}
-
-	private void setDeviceData() {
-		referenceValue = CalibrationData.patern;
-		chamber = CalibrationData.chamber;
-	}
-
 	@Override
 	protected void setResolution(Device device, int line) {
 		sheet.setValueAt(device.getResolution(0), 3, line);
@@ -62,8 +56,8 @@ public class TemperatureNote extends Note {
 		super.setCalibrationBudget(line, index);
 		sheet.setValueAt(referenceValue.measurmets[index].average[0],
         		7 , line + 7);
-        sheet.setValueAt(chamber[index].correction, 9, line + 11);
-        sheet.setValueAt(chamber[index].uncertainty, 9, line + 12);
+        sheet.setValueAt(chamber[index].getCorrection(0), 9, line + 11);
+        sheet.setValueAt(chamber[index].getUncertainty(0), 9, line + 12);
 	}
 
 	protected double[] findUncerinity(int index, int parametrIndex) {
@@ -75,8 +69,8 @@ public class TemperatureNote extends Note {
         uncerinity[3] = 0.01 / Math.sqrt(3);
         uncerinity[4] = reference[index].getUncertainty(parametrIndex) / 2;
         uncerinity[5] = reference[index].getDrift(parametrIndex) / Math.sqrt(3);
-        uncerinity[6] = chamber[index].correction / Math.sqrt(3);
-        uncerinity[7] = chamber[index].uncertainty / 2;
+        uncerinity[6] = chamber[index].getCorrection(0) / Math.sqrt(3);
+        uncerinity[7] = chamber[index].getUncertainty(0) / 2;
 		return uncerinity;
 	}
 	
@@ -86,23 +80,27 @@ public class TemperatureNote extends Note {
         }
 	}
 	
+	@Override
+	protected void setCertificate() {
+		certificate = new TemperatureCertificate();
+	}
+	
+	private void setDeviceData() {
+		referenceValue = CalibrationData.patern;
+		chamber = CalibrationData.chamber;
+	}
+	
 	private CertificateValue setCertificateValue(int index, double[] uncerinities) {
 		CertificateValue pointValue = new CertificateValue();
 		double uncerinity = findUncerinityAndRound(uncerinities, 0);
         double referenceData = DataCalculation.roundTonumber(
         		referenceValue.measurmets[index].average[0]
-        		+ reference[index].correction, round);
+        		+ reference[index].getCorrection(0), round);
         double deviceValue =DataCalculation.roundTonumber(order.getMeasurments(index).average[0], round);
-        pointValue.probeT = setNumber(referenceData);
-        pointValue.deviceT = setNumber(deviceValue);
-        pointValue.errorT = setNumber(deviceValue - referenceData);
-        pointValue.uncertaintyT = setNumber(2 * uncerinity);
+        pointValue.setProbe(setNumber(referenceData), 0);
+        pointValue.setDevice(setNumber(deviceValue), 0);
+        pointValue.setError(setNumber(deviceValue - referenceData), 0);
+        pointValue.setUncertainty(setNumber(2 * uncerinity), 0);
 		return pointValue;
 	}
-
-	@Override
-	protected void setCertificate() {
-		certificate = new TemperatureCertificate();
-	}
-
 }

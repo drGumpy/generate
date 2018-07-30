@@ -29,9 +29,9 @@ public class ChamberSettings extends JPanel {
 	
 	private JComboBox<Integer> pointsBox;
 	
-	static int points = 3;
+	private static int points = 3;
 	
-	static CalibrationType calibrationType;
+	private static CalibrationType calibrationType;
 	
 	public ChamberSettings() {
 		setPanelSettings();

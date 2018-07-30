@@ -1,8 +1,13 @@
 package certyficate.equipment.calculation;
 
+import certyficate.property.CalibrationData;
+
 public class Calculate {
-	DataProbe[] pointsInRange;
-	double[] point;
+	protected static final int TEMPERATURE_INDEX = 0;
+	
+	protected DataProbe[] pointsInRange;
+	
+	protected double[] point;
 	
 	public DataProbe findPoint(DataProbe[] pointsInRange, double[] point) {
 		this.point = point;
@@ -24,8 +29,9 @@ public class Calculate {
 
 	protected void estimateCorection(DataProbe data) {
 		double[] correction = findCorrection();
-		data.correction = correction[0];
-		data.correctionRh = correction[1];
+		for(int i = 0; i < CalibrationData.numberOfParameters; i++) {
+			data.setCorrection(correction[i], i);
+		}
 	}
 
 	protected double[] findCorrection() {
@@ -34,41 +40,34 @@ public class Calculate {
 	
 	protected double[] calculateCorrection(DataProbe[] points) {
 		LineCreator creator = new LineCreator(points);
-		return creator.findCorrection(point[0]);
+		return creator.findCorrection(point[TEMPERATURE_INDEX], TEMPERATURE_INDEX);
 	}
 	
 
 	protected void setData(DataProbe data) {
-    	data.setDrift(pointsInRange[0]);
+    	data.setDrift(pointsInRange[TEMPERATURE_INDEX]);
     	findUncertainty(data);	
 	}
 
 	protected void findUncertainty(DataProbe data) {
 		double[] uncertainty = maxUncertainty();
-		data.uncertainty = uncertainty[0];
-		data.uncertaintyRh = uncertainty[1];
+		for(int i = 0; i < CalibrationData.numberOfParameters; i++) {
+			data.setUncertainty(uncertainty[i], i);
+		}
 	}
 	
-    public double[] maxUncertainty() {
-		double[] uncertainty = new double[2];
-		uncertainty[0] = maxUncertaintyT();
-		uncertainty[1] = maxUncertaintyRh();
-		return uncertainty;
-	}
-    
-	private double maxUncertaintyT() {
-		double uncertainty = 0D;
-		for(int i = 0; i < pointsInRange.length; i++) {
-			double pointUncertainty = pointsInRange[i].uncertainty;
-			uncertainty = Math.max(uncertainty, pointUncertainty);
+    private double[] maxUncertainty() {
+		double[] uncertainty = new double[CalibrationData.numberOfParameters];
+		for(int i = 0; i < CalibrationData.numberOfParameters; i++) {
+			uncertainty[i] = maxUncertainty(i);
 		}
 		return uncertainty;
 	}
-	
-	private double maxUncertaintyRh() {
+    
+	private double maxUncertainty(int index) {
 		double uncertainty = 0D;
 		for(int i = 0; i < pointsInRange.length; i++) {
-			double pointUncertainty = pointsInRange[i].uncertaintyRh;
+			double pointUncertainty = pointsInRange[i].getUncertainty(index);
 			uncertainty = Math.max(uncertainty, pointUncertainty);
 		}
 		return uncertainty;

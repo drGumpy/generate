@@ -67,6 +67,60 @@ public abstract class Note {
 		return !calibrationData.isEmpty();
 	}
 	
+	protected abstract void setCertificate();
+	
+	protected abstract void setData();
+	
+	protected boolean havePointData(int index) {
+		boolean haveData = order.getMeasurments(index).haveMeasurments;
+		haveData &= reference[index].haveData();
+		haveData &= reference[index].getValue(0) == order.getPoint(calibrationPointCount, 0);
+		return haveData;
+	}
+	
+	protected abstract void setResolution(Device device, int line);
+	
+	protected abstract void setValue(int line, int index, int i);
+
+	protected void setCalibrationBudget(int line, int index) {
+		sheet.setValueAt(order.getMeasurments(index).average[0], 7 , line + 5);
+        sheet.setValueAt(order.getDevice().getResolution(0), 9 , line + 6);
+        setReference(reference[index], line);
+	}
+	
+	protected void setProbeSerial(String[] probeSerial, int line) {
+		int probeNumber = calibrationPointCount / numberOfData;
+		if(probeNumber < probeSerial.length) {
+			sheet.setValueAt(probeSerial[probeNumber], PROBE_COLUMN , line);
+		}
+	}
+	
+	protected double findUncerinityAndRound(double[] uncerinities, int index) {
+		double uncerinity = DataCalculation.uncertainty(uncerinities);
+		round = DataCalculation.findRound(2 * uncerinity, 
+				Double.parseDouble(order.getDevice().getResolution(index)));
+		return uncerinity;
+	}
+	
+	protected String setNumber(double number) {
+		String rounded = DataCalculation.round(number, round);
+		return rounded.replaceAll(DEFAULT_NUMBER_SEPRATOR, CUSTOM_NUMBER_SEPRATOR);
+	}
+
+	protected void setPointValue(int line, CertificateValue pointValue) {
+		sheet.setValueAt(pointValue.getProbe(0), 5, line + 17);
+		sheet.setValueAt(pointValue.getDevice(0), 7, line + 17);
+		sheet.setValueAt(pointValue.getError(0), 9, line + 17);
+		sheet.setValueAt(pointValue.getUncertainty(0), 13, line + 17);
+		addPointValue(pointValue);
+	}
+	
+	protected void addPointValue(CertificateValue pointValue) {
+		calibrationData.add(pointValue);		
+	}
+	
+	protected abstract CertificateValue findPointValue(int line, int index);
+	
 	private void setCalibrationData() {
 		environment = CertificateText.getEnviromentData();
 		setEquipmentData();
@@ -75,10 +129,6 @@ public abstract class Note {
 	private static void setEquipmentData() {
 		reference = CalibrationData.probe;		
 	}
-	
-	protected abstract void setCertificate();
-	
-	protected abstract void setData();
 
 	private static void setCalibrationData(Order orderData) {
 		order = orderData;
@@ -115,13 +165,6 @@ public abstract class Note {
         }
 	}
 
-	private boolean havePointData(int index) {
-		boolean haveData = order.getMeasurments(index).haveMeasurments;
-		haveData &= reference[index].question;
-		haveData &= reference[index].value == order.getPoint(calibrationPointCount, 0);
-		return haveData;
-	}
-
 	private void setPointData(int index) {
 		int line = calibrationPointCount * POINT_GAP + 3;
 		CertificateValue pointValue = findPointValue(line, index);
@@ -131,8 +174,6 @@ public abstract class Note {
 		setPointValue(line, pointValue);
 		calibrationPointCount++;
 	}
-
-	protected abstract CertificateValue findPointValue(int line, int index);
 
 	private void setConstantValue(int line) {
         setCertificate(line);
@@ -170,8 +211,6 @@ public abstract class Note {
 		}
 	}
 
-	protected abstract void setResolution(Device device, int line);
-
 	private void setProbeData(int line) {
 		setProbe(order.getProbe() ,line);
     	setProbeSerial(order.getProbeSerial(), line + 9);
@@ -182,55 +221,16 @@ public abstract class Note {
 		sheet.setValueAt(probe.getProducent(), PROBE_COLUMN, line + 11);
 	}
 	
-	protected void setProbeSerial(String[] probeSerial, int line) {
-		int probeNumber = calibrationPointCount / numberOfData;
-		if(probeNumber < probeSerial.length) {
-			sheet.setValueAt(probeSerial[probeNumber], PROBE_COLUMN , line);
-		}
-	}
-
 	private void setMeasurmentValue(int line, int index) {
 		for(int i = 0; i < CalibrationData.MEASUREMENTS_POINTS; i++) {
 			setValue(line + i, index, i);
 		}
 	}
 	
-	protected abstract void setValue(int line, int index, int i);
-
-	protected void setCalibrationBudget(int line, int index) {
-		sheet.setValueAt(order.getMeasurments(index).average[0], 7 , line + 5);
-        sheet.setValueAt(order.getDevice().getResolution(0), 9 , line + 6);
-        setReference(reference[index], line);
-	}
-	
 	private void setReference(DataProbe reference, int line) {
-		sheet.setValueAt(reference.correction, 7 , line + 9);
-		sheet.setValueAt(reference.uncertainty, 9, line + 9);
-        sheet.setValueAt(reference.drift, 9, line + 10);
-	}
-
-	protected double findUncerinityAndRound(double[] uncerinities, int index) {
-		double uncerinity = DataCalculation.uncertainty(uncerinities);
-		round = DataCalculation.findRound(2 * uncerinity, 
-				Double.parseDouble(order.getDevice().getResolution(index)));
-		return uncerinity;
-	}
-	
-	protected String setNumber(double number) {
-		String rounded = DataCalculation.round(number, round);
-		return rounded.replaceAll(DEFAULT_NUMBER_SEPRATOR, CUSTOM_NUMBER_SEPRATOR);
-	}
-
-	protected void setPointValue(int line, CertificateValue pointValue) {
-		sheet.setValueAt(pointValue.probeT, 5, line + 17);
-		sheet.setValueAt(pointValue.deviceT, 7, line + 17);
-		sheet.setValueAt(pointValue.errorT, 9, line + 17);
-		sheet.setValueAt(pointValue.uncertaintyT, 13, line + 17);
-		addPointValue(pointValue);
-	}
-	
-	protected void addPointValue(CertificateValue pointValue) {
-		calibrationData.add(pointValue);		
+		sheet.setValueAt(reference.getCorrection(0), 7 , line + 9);
+		sheet.setValueAt(reference.getUncertainty(0), 9, line + 9);
+        sheet.setValueAt(reference.getDrift(0), 9, line + 10);
 	}
 	
 	private void checkDocumentData() throws IOException {

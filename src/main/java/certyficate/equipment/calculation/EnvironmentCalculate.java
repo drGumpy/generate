@@ -1,10 +1,7 @@
 package certyficate.equipment.calculation;
 
 public class EnvironmentCalculate extends CalculateRh {
-	double[] point;
-	
 	public DataProbe findPoint(DataProbe[] pointsInRange, double[] point) {
-		this.point = point;
 		this.pointsInRange = pointsInRange;
 		return getDataPoint(point);
 	}

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import certyficate.equipment.calculation.CalculateRh;
 import certyficate.equipment.calculation.DataProbe;
+import certyficate.property.CalibrationData;
 import certyficate.property.DataCalculation;
 
 public class RhProbe extends ReferenceProbe {
@@ -14,21 +15,21 @@ public class RhProbe extends ReferenceProbe {
   
 	@Override
 	protected void setDrifts(String[] elements) {
-		driftT = DataCalculation.getDouble(elements[1]);
-		driftRh = DataCalculation.getDouble(elements[2]);
+		for(int i = 0; i < CalibrationData.numberOfParameters; i++) {
+			drift[i] = DataCalculation.getDouble(elements[i + 1]);
+		}
 	}
 
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
-		data.value = getInteger(elements[0]);
-		data.valueRh = getInteger(elements[1]);
-		data.correction = DataCalculation.getDouble(elements[2]);
-		data.correctionRh = DataCalculation.getDouble(elements[3]);
-		data.uncertainty = DataCalculation.getDouble(elements[4]);
-		data.uncertaintyRh = DataCalculation.getDouble(elements[5]);
-		data.drift = driftT;
-		data.driftRh = driftRh;
+        data.setValue(getInteger(elements[0]), 0);
+        data.setValue(getInteger(elements[1]), 1);
+        data.setCorrection(DataCalculation.getDouble(elements[2]), 0);
+        data.setUncertainty(DataCalculation.getDouble(elements[4]), 0);
+        data.setCorrection(DataCalculation.getDouble(elements[3]), 1);
+        data.setUncertainty(DataCalculation.getDouble(elements[5]), 1);
+		data.setDrift(drift);
 		return data;
 	}
 
@@ -41,7 +42,7 @@ public class RhProbe extends ReferenceProbe {
 	@Override
 	protected boolean equalPoint(double[] point, int index) {
 		DataProbe data = standardPoints[index];
-		return (point[0] == data.value) && (point[1] == data.valueRh);
+		return (point[0] == data.getValue(0)) && (point[1] == data.getValue(1));
 	}
 
 	@Override

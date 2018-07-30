@@ -42,6 +42,36 @@ public class HuminidityNote extends TemperatureNote {
 		setCalibrationBudgetRh(certificateValue, line, index);
 		return certificateValue;
 	}
+	
+	@Override
+	protected boolean havePointData(int index) {
+		return super.havePointData(index) 
+				&& (reference[index].getValue(1) == order.getPoint(calibrationPointCount, 1));
+	}
+	
+	protected void setUncerinity(double[] uncerinity, int line) {
+		for(int i = 0; i < uncerinity.length; i++){
+            sheet.setValueAt(uncerinity[i], 13, line + 5 + i);
+        }
+	}
+	
+	@Override
+	protected void setPointValue(int line, CertificateValue pointValue) {
+		sheet.setValueAt(pointValue.getProbe(0), 5, line + 14);
+		sheet.setValueAt(pointValue.getDevice(0), 7, line + 14);
+		sheet.setValueAt(pointValue.getError(0), 9, line + 14);
+		sheet.setValueAt(pointValue.getUncertainty(0), 13, line + 14);
+		sheet.setValueAt(pointValue.getProbe(1), 5, line + 27);
+		sheet.setValueAt(pointValue.getDevice(1), 7, line + 27);
+		sheet.setValueAt(pointValue.getError(1), 9, line + 27);
+		sheet.setValueAt(pointValue.getUncertainty(1), 13, line + 27);
+		addPointValue(pointValue);
+	}
+	
+	@Override
+	protected void setCertificate() {
+		certificate = new HuminidityCertificate();
+	}
 
 	private void setCalibrationBudgetRh(CertificateValue certificateValue,
 			int line, int index) {
@@ -51,26 +81,20 @@ public class HuminidityNote extends TemperatureNote {
 		sheet.setValueAt(order.getMeasurments(index).average[1], 7 , line + 5);
         sheet.setValueAt(referenceValue.measurmets[index].average[1],
         		7 , line + 7);
-        sheet.setValueAt(reference[index].correctionRh, 7 , line +  9);
+        sheet.setValueAt(reference[index].getCorrection(1), 7 , line +  9);
         sheet.setValueAt(order.getDevice().getResolution(1), 9 , line + 6);
-        sheet.setValueAt(reference[index].uncertaintyRh, 9, line + 9);
-        sheet.setValueAt(reference[index].driftRh, 9, line + 10);
-        sheet.setValueAt(chamber[index].correctionRh, 9, line + 11);
-        sheet.setValueAt(chamber[index].uncertaintyRh, 9, line + 12);
+        sheet.setValueAt(reference[index].getUncertainty(1), 9, line + 9);
+        sheet.setValueAt(reference[index].getDrift(1), 9, line + 10);
+        sheet.setValueAt(chamber[index].getCorrection(1), 9, line + 11);
+        sheet.setValueAt(chamber[index].getUncertainty(1), 9, line + 12);
         setCertificateValueRh(certificateValue, index, uncerinity);
 	}
 
 	private double[] findUncerinityRh(int index, int parametrIndex) {
 		double[] uncerinity = super.findUncerinity(index, parametrIndex);
-        uncerinity[6] = chamber[index].correctionRh / Math.sqrt(3);
-        uncerinity[7] = chamber[index].uncertaintyRh / 2;
+        uncerinity[6] = chamber[index].getCorrection(1) / Math.sqrt(3);
+        uncerinity[7] = chamber[index].getUncertainty(1) / 2;
 		return uncerinity;
-	}
-
-	protected void setUncerinity(double[] uncerinity, int line) {
-		for(int i = 0; i < uncerinity.length; i++){
-            sheet.setValueAt(uncerinity[i], 13, line + 5 + i);
-        }
 	}
 	
 	private void setCertificateValueRh(CertificateValue certificateValue,
@@ -78,30 +102,11 @@ public class HuminidityNote extends TemperatureNote {
 		double uncerinity = findUncerinityAndRound(uncerinities, 1);
         double referenceData = DataCalculation.roundTonumber(
         		referenceValue.measurmets[index].average[1]
-        		+ reference[index].correctionRh, round);
+        		+ reference[index].getCorrection(1), round);
         double deviceValue =DataCalculation.roundTonumber(order.getMeasurments(index).average[1], round);
-        certificateValue.probeRh = setNumber(referenceData);
-        certificateValue.deviceRh = setNumber(deviceValue);
-        certificateValue.errorRh = setNumber(deviceValue - referenceData);
-        System.out.println(index+"\t"+uncerinity+"\t"+setNumber(2 * uncerinity));
-        certificateValue.uncertaintyRh = setNumber(2 * uncerinity);
-	}
-	
-	@Override
-	protected void setPointValue(int line, CertificateValue pointValue) {
-		sheet.setValueAt(pointValue.probeT, 5, line + 14);
-		sheet.setValueAt(pointValue.deviceT, 7, line + 14);
-		sheet.setValueAt(pointValue.errorT, 9, line + 14);
-		sheet.setValueAt(pointValue.uncertaintyT, 13, line + 14);
-		sheet.setValueAt(pointValue.probeRh, 5, line + 27);
-		sheet.setValueAt(pointValue.deviceRh, 7, line + 27);
-		sheet.setValueAt(pointValue.errorRh, 9, line + 27);
-		sheet.setValueAt(pointValue.uncertaintyRh, 13, line + 27);
-		addPointValue(pointValue);
-	}
-	
-	@Override
-	protected void setCertificate() {
-		certificate = new HuminidityCertificate();
+        certificateValue.setProbe(setNumber(referenceData), 1);
+        certificateValue.setDevice(setNumber(deviceValue), 1);
+        certificateValue.setError(setNumber(deviceValue - referenceData), 1);
+        certificateValue.setUncertainty(setNumber(2 * uncerinity), 1);
 	}
 }

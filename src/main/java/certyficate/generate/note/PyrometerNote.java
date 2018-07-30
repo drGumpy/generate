@@ -48,6 +48,11 @@ public class PyrometerNote extends Note {
         		9, line+11);
 	}
 
+	@Override
+	protected void setCertificate() {
+		certificate = new PyrometerCertificate();
+	}
+
 	private double[] findUncerinity(int index, int parametrIndex) {
 		double[] uncerinity = new double[7];
         uncerinity[0] = order.getMeasurments(index).standardDeviation[parametrIndex];
@@ -71,17 +76,12 @@ public class PyrometerNote extends Note {
 		CertificateValue pointValue = new CertificateValue();
 		double uncerinity = findUncerinityAndRound(uncerinities, 0);
         double referenceValue = DataCalculation.roundTonumber(order.getPyrometrData().reference[calibrationPointCount] 
-        		+ reference[index].correction,round);
+        		+ reference[index].getCorrection(index), round);
         double deviceValue = DataCalculation.roundTonumber(order.getMeasurments(index).average[0], round);
-        pointValue.probeT = setNumber(referenceValue);
-        pointValue.deviceT = setNumber(deviceValue);
-        pointValue.errorT = setNumber(deviceValue - referenceValue);
-        pointValue.uncertaintyT = setNumber(2 * uncerinity);
+        pointValue.setProbe(setNumber(referenceValue), 0);
+        pointValue.setDevice(setNumber(deviceValue), 0);
+        pointValue.setError(setNumber(deviceValue - referenceValue), 0);
+        pointValue.setUncertainty(setNumber(2 * uncerinity), 0);
 		return pointValue;
-	}
-
-	@Override
-	protected void setCertificate() {
-		certificate = new PyrometerCertificate();
 	}
 }

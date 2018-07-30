@@ -3,6 +3,8 @@ package certyficate.equipment.calculation;
 import java.util.Arrays;
 
 public class CalculateRh extends Calculate {
+	protected static final int HUMINIDITY_INDEX = 1;
+	
 	protected double[] findCorrection() {
 		double[] correction = checkPoint();
 		if(correction == null) {
@@ -23,7 +25,8 @@ public class CalculateRh extends Calculate {
 	private double[] checkTemperature() {
 		double[] correction = null;
 		for(int i = 0; i < 2; i++) {
-			if(pointsInRange[i].value == point[0]){
+			if(pointsInRange[i].getValue(TEMPERATURE_INDEX) 
+					== point[TEMPERATURE_INDEX]){
 				pointsInRange = temperatureSubArray(i);
 				correction = calculateCorrection(
 						pointsInRange);
@@ -34,15 +37,15 @@ public class CalculateRh extends Calculate {
 
 	private DataProbe[] temperatureSubArray(int index) {
 		int startSubArray = 2 * index;
-		DataProbe[] array = Arrays.copyOfRange(pointsInRange, 
+		return Arrays.copyOfRange(pointsInRange, 
 				startSubArray,  startSubArray + 2);
-		return array;
 	}
 
 	private double[] checkHuminidity() {
 		double[] correction = null;
 		for(int i = 0; i < 2; i++) {
-			if(pointsInRange[2 * i].value == point[1]){
+			if(pointsInRange[2 * i].getValue(HUMINIDITY_INDEX) 
+					== point[HUMINIDITY_INDEX]){
 				pointsInRange = setHuminiditySubArray(i);
 				correction = calculateCorrectionRh(
 						pointsInRange);
@@ -52,16 +55,15 @@ public class CalculateRh extends Calculate {
 	}
 
 	private DataProbe[] setHuminiditySubArray(int index) {
-		DataProbe[] array = new DataProbe[] {
+		return new DataProbe[] {
 				pointsInRange[index],
 				pointsInRange[index + 2]
 		};
-		return array;
 	}
 
 	private double[] calculateCorrectionRh(DataProbe[] points) {
 		LineCreator creator = new LineCreator(points);
-		return creator.findCorrectionRh(point[1]);
+		return creator.findCorrection(point[HUMINIDITY_INDEX], HUMINIDITY_INDEX);
 	}
 
 	private double[] calculateCorrection() {
@@ -82,8 +84,9 @@ public class CalculateRh extends Calculate {
 	private double[][] setSubPoints() {
 		double[][] subPoints = new double[2][2];
 		for(int i = 0; i < 2; i++) {
-			subPoints[i][0] = point[0];
-			subPoints[i][1] = pointsInRange[i].valueRh;
+			subPoints[i][TEMPERATURE_INDEX] = point[TEMPERATURE_INDEX];
+			subPoints[i][HUMINIDITY_INDEX] 
+					= pointsInRange[i].getValue(HUMINIDITY_INDEX);
 		}
 		return subPoints;
 	}

@@ -26,6 +26,31 @@ public class BlackBodyData {
 			findAndSetBlackBody(blackBody);
 		}
 	}
+	
+	public static JComboBox<String> setComboBox(double point, int index) {
+		JComboBox<String> comboBox = new JComboBox<String>();
+		setBlackBodyName(comboBox);
+		if(point == RADIATOR_VALUE) {
+			setRadiator(comboBox);
+		} else {
+			comboBox.setSelectedIndex(
+					(index - 1) % blackBodyData.size());
+		}
+		return comboBox;
+	}
+
+	private static void setRadiator(JComboBox<String> comboBox) {
+		comboBox.addItem(RADIATOR);
+		comboBox.setSelectedItem(RADIATOR);
+	}
+
+	public static double getBlackBodyError(String blackBodyName, double[] pointValue) {
+		double error = checkIfRadiator(blackBodyName);
+		if(Double.isNaN(error)) {
+			error = findBlackBodyError(blackBodyName, pointValue);
+		}
+		return error;
+	}
 
 	private static void findAndSetBlackBody(String blackBody) {
 		try {
@@ -48,31 +73,10 @@ public class BlackBodyData {
 		blackBodyData.put(blackBody, generator);
 	}
 
-	public static JComboBox<String> setComboBox(double point, int index) {
-		JComboBox<String> comboBox = new JComboBox<String>();
-		setBlackBodyName(comboBox);
-		if(point == RADIATOR_VALUE) {
-			comboBox.addItem(RADIATOR);
-			comboBox.setSelectedItem(RADIATOR);
-		} else {
-			comboBox.setSelectedIndex(
-					(index + 1) % blackBodyData.size());
-		}
-		return comboBox;
-	}
-
 	private static void setBlackBodyName(JComboBox<String> comoBox) {
 		for (String entry : blackBodyData.keySet()) {
 			comoBox.addItem(entry);
 		}
-	}
-
-	public static double getBlackBodyError(String blackBodyName, double[] pointValue) {
-		double error = checkIfRadiator(blackBodyName);
-		if(Double.isNaN(error)) {
-			error = findBlackBodyError(blackBodyName, pointValue);
-		}
-		return error;
 	}
 
 	private static double checkIfRadiator(String name) {

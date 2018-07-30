@@ -57,16 +57,16 @@ public class EnvironmentData {
 
 	private static void addCorrections() {
 		for(int i = 0; i < 2; i++) {
-			environmentData[i] += correctionData[i].correction;
-			environmentData[i + 2] += correctionData[i].correctionRh;
+			environmentData[i] += correctionData[i].getCorrection(0);
+			environmentData[i + 2] += correctionData[i].getCorrection(1);
 		}
 	}
 
 	private static void addUnceinity() {
-		environmentData[0] -= correctionData[0].uncertainty;
-		environmentData[1] += correctionData[1].uncertainty;
-		environmentData[2] -= correctionData[0].uncertaintyRh;
-		environmentData[3] += correctionData[1].uncertaintyRh;
+		environmentData[0] -= correctionData[0].getUncertainty(0);
+		environmentData[1] += correctionData[1].getUncertainty(0);
+		environmentData[2] -= correctionData[0].getUncertainty(1);
+		environmentData[3] += correctionData[1].getUncertainty(1);
 	}
 	
 	private static void roundNumbers() {

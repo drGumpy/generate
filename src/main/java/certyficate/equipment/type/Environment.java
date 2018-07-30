@@ -14,25 +14,25 @@ public class Environment extends RhProbe {
 	}
 	
 	@Override
+	public DataProbe getPointData(double[] point) {
+		DataProbe pointData = findInRange(point, ranges[0]);
+		return pointData;
+	}
+	
+	@Override
 	protected void setDrifts(String[] elements) {
 	}
 
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
-		data.value = getInteger(elements[0]);
-		data.valueRh = getInteger(elements[1]);
-		data.correction = DataCalculation.getDouble(elements[2]);
-		data.correctionRh = DataCalculation.getDouble(elements[3]);
-		data.uncertainty = DataCalculation.getDouble(elements[4]);
-		data.uncertaintyRh = DataCalculation.getDouble(elements[5]);
+        data.setValue(getInteger(elements[0]), 0);
+        data.setValue(getInteger(elements[1]), 1);
+        data.setCorrection(DataCalculation.getDouble(elements[2]), 0);
+        data.setUncertainty(DataCalculation.getDouble(elements[4]), 0);
+        data.setCorrection(DataCalculation.getDouble(elements[3]), 1);
+        data.setUncertainty(DataCalculation.getDouble(elements[5]), 1);
 		return data;
-	}
-	
-	@Override
-	public DataProbe getPointData(double[] point) {
-		DataProbe pointData = findInRange(point, ranges[0]);
-		return pointData;
 	}
 
 	@Override

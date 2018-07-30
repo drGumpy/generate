@@ -3,17 +3,26 @@ package certyficate.equipment.type;
 import java.io.IOException;
 
 import certyficate.equipment.calculation.DataProbe;
+import certyficate.property.CalibrationData;
 
 public abstract class ReferenceProbe extends Equipment {
 	protected DataProbe[] standardPoints;
 	
-	protected double driftT;
-	protected double driftRh;
+	protected double[] drift;
 	
 	protected int rangeSize;
 	
 	public ReferenceProbe(String path) throws IOException {
 		super(path);
+		drift =new double[CalibrationData.numberOfParameters];
+	}
+	
+	public DataProbe getPointData(double[] point) {
+		DataProbe pointData = findInStandardPoints(point);
+		if(pointData == null) {
+			pointData = checkInRanges(point);
+		}    	
+		return pointData;
 	}
 
 	@Override
@@ -47,14 +56,6 @@ public abstract class ReferenceProbe extends Equipment {
 		}
 		return range;
 	} 
-	
-	public DataProbe getPointData(double[] point) {
-		DataProbe pointData = findInStandardPoints(point);
-		if(pointData == null) {
-			pointData = checkInRanges(point);
-		}    	
-		return pointData;
-	}
 
 	protected DataProbe findInStandardPoints(double[] point) {
 		DataProbe pointData = null;

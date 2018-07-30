@@ -15,16 +15,16 @@ public class TProbe extends ReferenceProbe {
     
 	@Override
 	protected void setDrifts(String[] elements) {
-		driftT = DataCalculation.getDouble(elements[1]);
+		drift[0] = DataCalculation.getDouble(elements[1]);
 	}
 
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
-        data.value = getInteger(elements[0]);
-        data.correction = DataCalculation.getDouble(elements[1]);
-        data.uncertainty = DataCalculation.getDouble(elements[2]);
-        data.drift = driftT;
+		data.setValue(getInteger(elements[0]), 0);
+		data.setCorrection(DataCalculation.getDouble(elements[1]), 0);
+		data.setUncertainty(DataCalculation.getDouble(elements[2]), 0);
+        data.setDrift(drift);
 		return data;
 	}
 
@@ -37,7 +37,7 @@ public class TProbe extends ReferenceProbe {
 	@Override
 	protected boolean equalPoint(double[] point, int index) {
 		DataProbe data = standardPoints[index];
-		return point[0] == data.value;
+		return point[0] == data.getValue(0);
 	}
 
 	@Override
@@ -51,7 +51,6 @@ public class TProbe extends ReferenceProbe {
 		for(int i = 0; i < 2; i++) {
 			pointsInRange[i] = findInStandardPoints(
 					new double[]{range[i]});
-			
 		}
 		return pointsInRange;
 	}

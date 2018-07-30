@@ -7,6 +7,8 @@ import certyficate.equipment.calculation.EquipmentCalculate;
 import certyficate.property.DataCalculation;
 
 public class BlackBodyGenerator extends TProbe {
+	private static final int DATA_INDEX = 0;
+	
 	public BlackBodyGenerator(String path) throws IOException {
 		super(path);
 		calculate = new EquipmentCalculate();
@@ -14,7 +16,7 @@ public class BlackBodyGenerator extends TProbe {
 	
 	public double getUncertainty(double[] point) {
 		DataProbe data = getPointData(point);
-		return data.uncertainty;
+		return data.getUncertainty(DATA_INDEX);
 	}
 
 	@Override
@@ -25,8 +27,8 @@ public class BlackBodyGenerator extends TProbe {
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
-        data.value = getInteger(elements[0]);
-        data.uncertainty = DataCalculation.getDouble(elements[2]);
+        data.setValue(getInteger(elements[0]), DATA_INDEX);
+        data.setUncertainty(DataCalculation.getDouble(elements[2]), DATA_INDEX);
 		return data;
 	}
 }

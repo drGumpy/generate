@@ -21,12 +21,12 @@ public class ChamberRh extends RhProbe{
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
 		DataProbe data = new DataProbe();
-        data.value = getInteger(elements[0]);
-        data.valueRh = getInteger(elements[1]);
-        data.correction = DataCalculation.getDouble(elements[2]);
-        data.uncertainty = DataCalculation.getDouble(elements[3]);
-        data.correctionRh = DataCalculation.getDouble(elements[4]);
-        data.uncertaintyRh = DataCalculation.getDouble(elements[5]);
+        data.setValue(getInteger(elements[0]), 0);
+        data.setValue(getInteger(elements[1]), 1);
+        data.setCorrection(DataCalculation.getDouble(elements[2]), 0);
+        data.setUncertainty(DataCalculation.getDouble(elements[3]), 0);
+        data.setCorrection(DataCalculation.getDouble(elements[4]), 1);
+        data.setUncertainty(DataCalculation.getDouble(elements[5]), 1);
 		return data;
 	}
 

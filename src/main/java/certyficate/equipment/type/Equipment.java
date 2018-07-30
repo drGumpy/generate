@@ -10,7 +10,7 @@ import certyficate.files.ReaderCreator;
 public abstract class Equipment {
 	protected static final String SEPARATOR = "\t";
 	
-	public Calculate calculate;
+	protected Calculate calculate;
 	
     protected int numberOfStandardPoint;
     protected int numberOfRanges;
@@ -25,23 +25,29 @@ public abstract class Equipment {
     	getRangesData(reader);
     	reader.close();
     }
+    
+    public abstract DataProbe getPointData(double[] point);
 
 	protected abstract void getConstantData(String line);
+
+	protected abstract void getCalibrationPoint(String line, int index);
+	
+	protected int getInteger(String element) {
+		return Integer.parseInt(element);
+	}
+	
+	protected abstract void setRanges();
+
+	protected abstract void getRange(String readLine, int index);
 	
 	private void getCalibrationData(BufferedReader reader) throws IOException {
 		for(int i = 0; i < numberOfStandardPoint; i++) {
 			getCalibrationPoint(reader.readLine(), i);
 		}
 	}
-
-	protected abstract void getCalibrationPoint(String line, int index);
 	
 	private void getNuberOfRanges(String line) {
 		numberOfRanges = getInteger(line);	
-	}
-	
-	protected int getInteger(String element) {
-		return Integer.parseInt(element);
 	}
 	
 	private void getRangesData(BufferedReader reader) throws IOException {
@@ -50,10 +56,4 @@ public abstract class Equipment {
 			getRange(reader.readLine(), i);
 		}
 	}
-
-	protected abstract void setRanges();
-
-	protected abstract void getRange(String readLine, int index);
-	
-	public abstract DataProbe getPointData(double[] point);
 }

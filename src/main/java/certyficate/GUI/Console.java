@@ -27,6 +27,19 @@ public class Console extends JFrame {
         run();    
     }
     
+    public Console(){
+    	setPanelSettings();
+    	addEnvironmentPanel();
+    	addSheetPanel();
+    	addNotesPanel();
+    	addCertificatePanel();
+    	addTabbetPane();
+    }
+    
+	public void close(){
+		super.dispose();
+	}
+    
     private static void run(){
         SwingUtilities.invokeLater(new Runnable(){
             Console console = new Console();
@@ -37,15 +50,6 @@ public class Console extends JFrame {
                 console.setVisible(true);
             }
         });
-    }
-    
-    public Console(){
-    	setPanelSettings();
-    	addEnvironmentPanel();
-    	addSheetPanel();
-    	addNotesPanel();
-    	addCertificatePanel();
-    	addTabbetPane();
     }
     
 	private void setPanelSettings() {
@@ -93,9 +97,5 @@ public class Console extends JFrame {
     	tabbedPane.addTab(CLIMATE_CHAMBER, new ClimateChamber(this));
     	tabbedPane.addTab(INFRARED, new InfraredPanel(this));
 		return tabbedPane;
-	}
-
-	public void close(){
-		super.dispose();
 	}
 }

@@ -76,6 +76,18 @@ public abstract class Certificate {
 	
 	protected abstract void setTemplateData();
 	
+	protected abstract void setMeasurmentData();
+	
+	protected void setMeasurmentData(int line) {
+		int endData = setEndData();
+		for(; currentPoint < endData; currentPoint++) {
+			setData(pointData.get(currentPoint), line);
+			line += POINT_GAP;
+		}
+	}
+
+	protected abstract void setData(CertificateValue data, int line);
+	
 	private void setCalibrationData(Order certificateData,
 			List<CertificateValue> calibration) {
 		certificate = certificateData;
@@ -158,22 +170,10 @@ public abstract class Certificate {
 				informactionColumn, line);		
 	}
 	
-	protected abstract void setMeasurmentData();
-	
-	protected void setMeasurmentData(int line) {
-		int endData = setEndData();
-		for(; currentPoint < endData; currentPoint++) {
-			setData(pointData.get(currentPoint), line);
-			line += POINT_GAP;
-		}
-	}
-
 	private int setEndData() {
 		int endData = currentPoint + numberOfData;
 		return Math.min(endData, pointData.size());
 	}
-
-	protected abstract void setData(CertificateValue data, int line);
 	
 	private void insertComment() {
 		if(comments != null) {
@@ -183,7 +183,7 @@ public abstract class Certificate {
 	}
 	
 	private void insertCommentsCell() {
-		sheet.setValueAt(COMMENT, COMMENTS_COLUMN, commentsLine -1);
+		sheet.setValueAt(COMMENT, COMMENTS_COLUMN, commentsLine - 1);
 	}
 
 	private void insertCommentsText() {

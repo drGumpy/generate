@@ -1,5 +1,7 @@
 package certyficate.equipment.calculation;
 
+import certyficate.property.CalibrationData;
+
 public class EquipmentCalculate extends Calculate {
 	@Override
 	protected DataProbe getDataPoint(double[] point) {
@@ -13,24 +15,17 @@ public class EquipmentCalculate extends Calculate {
 	}
 
 	private double[] findMaxCorrection(DataProbe[] pointsInRange) {
-		double[] correction = new double[2];
-		correction[0] = maxCorrectionT();
-		correction[1] = maxCorrectionRh();
-		return correction;
-	}
-	private double maxCorrectionT() {
-		double correction = 0D;
-		for(int i = 0; i < pointsInRange.length; i++) {
-			double pointCorrection = pointsInRange[i].correction;
-			correction = Math.max(correction, pointCorrection);
+		double[] correction = new double[CalibrationData.numberOfParameters];
+		for(int i = 0; i < CalibrationData.numberOfParameters; i++) {
+			correction[i] = maxCorrection(i);
 		}
 		return correction;
 	}
-
-	private double maxCorrectionRh() {
+	
+	private double maxCorrection(int index) {
 		double correction = 0D;
 		for(int i = 0; i < pointsInRange.length; i++) {
-			double pointCorrection = pointsInRange[i].correctionRh;
+			double pointCorrection = pointsInRange[i].getCorrection(index);
 			correction = Math.max(correction, pointCorrection);
 		}
 		return correction;

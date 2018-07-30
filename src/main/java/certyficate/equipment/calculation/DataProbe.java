@@ -1,71 +1,81 @@
 package certyficate.equipment.calculation;
 
+import certyficate.property.CalibrationData;
+
 public class DataProbe {
-	public boolean question = true;
+	private boolean question = true;
 	
-	public double value;
-	public double valueRh;
-	public double correction;
-    public double correctionRh;
-    public double uncertainty;
-    public double uncertaintyRh;   
-    public double drift;
-    public double driftRh;
+	private double[] value;
+	private double[] correction;
+	private double[] uncertainty;
+	private double[] drift;
     
 	public DataProbe() {
-		super();
+		setSize();
 	}
 	
 	public DataProbe(boolean set) {
 		question = set;
 	}
-	
-	public DataProbe(int[] point) {
-		value = point[0];
-		if(point.length == 2)
-			valueRh = point[1];
-	}
-	
+
 	public DataProbe(double[] point) {
-		value = point[0];
-		if(point.length == 2)
-			valueRh = point[1];
+		setSize();
+		value = point;
 	}
 
+	public boolean haveData() {
+		return question;
+	}
+	
+	public void setValue(double value, int index) {
+		this.value[index] = value;
+	}
+	
+	public double getValue(int index) {
+		return value[index];
+	}
+	
+	public void setCorrection(double correction, int index) {
+		this.correction[index] = correction;
+	}
+	
+	public double getCorrection(int index) {
+		return correction[index];
+	}
+	
+	public void setUncertainty(double uncertainty, int index) {
+		this.uncertainty[index] = uncertainty;
+	}
+	
+	public double getUncertainty(int index) {
+		return uncertainty[index];
+	}
+	
 	public void setDrift(DataProbe data) {
 		drift = data.drift;
-		driftRh = data.driftRh;
 	}
 	
-	public StraightLine uncertaintyLineT(DataProbe data) {
-		double b = (double) this.correction;
-		double a = b - data.correction;
-		a /= (this.value - data.value);
-		b -= a * this.value;
+	public void setDrift(double[] drift) {
+		this.drift = drift;
+	}
+
+	public double getDrift(int index) {
+		return drift[index];
+	} 
+	
+	public StraightLine uncertaintyLine(DataProbe data, int index) {
+		double b = (double) this.correction[index];
+		double a = b - data.correction[index];
+		a /= (this.value[index] - data.value[index]);
+		b -= a * this.value[index];
 		return new StraightLine(a, b);
 	}
 	
-	public StraightLine uncertaintyLineRh(DataProbe data) {
-		double b = (double) this.correctionRh;
-		double a = b - data.correctionRh;
-		a /= (this.valueRh - data.valueRh);
-		b -= a * this.valueRh;
-		return new StraightLine(a, b);
+	private void setSize() {
+		int size = CalibrationData.numberOfParameters;
+		value = new double[size];
+		correction = new double[size];
+		uncertainty = new double[size];
+		drift = new double[size];
 	}
-
-	public double getUncertainty(int parametrIndex) {
-		if(parametrIndex == 0) {
-			return uncertainty;
-		} else {
-			return uncertaintyRh;
-		}
-	}
-
-	public double getDrift(int parametrIndex) {
-		if(parametrIndex == 0) {
-			return drift;
-		} else {
-			return driftRh;
-		}
-	}  
 }

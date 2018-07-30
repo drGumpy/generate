@@ -19,18 +19,24 @@ public class ClimateChamber extends JPanel {
 	public static final int WIDTH = 200;
 	public static final int HIGHT = 23;
 	
-	static ChamberSettings settings;
-	
 	private Console console;
 	
-	GridBagConstraints constrain;
+	private GridBagConstraints constrain;
 	
 	public ClimateChamber(Console console) {
 		this.console = console;
 		setPanelSettings();
 		setPanelElements();
 	}
+	
+	public void setSheetData() {
+		SheetData.setChamberData(CalibrationData.calibrationType);
+	}
 
+	public void close() {
+		console.close();
+	}
+	
 	private void setPanelSettings() {
 		 setLayout(new GridBagLayout());
 		 constrain = new GridBagConstraints();
@@ -60,19 +66,11 @@ public class ClimateChamber extends JPanel {
         add(dataLogger, constrain);
 	}
 	
-	public void setSheetData() {
-		SheetData.setChamberData(CalibrationData.calibrationType);
-	}
-	
 	private void setGenerationButton() {
 		JButton generate= new JButton(GENERATION_BUTTON);
 		generate.setMinimumSize(new Dimension(WIDTH, HIGHT));
 		generate.addActionListener(new GenerateListener(this));
 		constrain.gridx = 1;
         add(generate, constrain);
-	}
-
-	public void close() {
-		console.close();
 	}
 }

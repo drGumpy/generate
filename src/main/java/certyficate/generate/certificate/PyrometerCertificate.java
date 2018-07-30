@@ -24,9 +24,9 @@ public class PyrometerCertificate extends Certificate {
 	}
 	
 	protected void setData(CertificateValue data, int line) {
-		sheet.setValueAt(data.probeT, 3, line);
-    	sheet.setValueAt(data.deviceT, 12, line);
-    	sheet.setValueAt(data.errorT, 21, line);
-    	sheet.setValueAt(data.uncertaintyT, 30, line);
+		sheet.setValueAt(data.getProbe(0), 3, line);
+    	sheet.setValueAt(data.getDevice(0), 12, line);
+    	sheet.setValueAt(data.getError(0), 21, line);
+    	sheet.setValueAt(data.getUncertainty(0), 30, line);
 	}
 }
