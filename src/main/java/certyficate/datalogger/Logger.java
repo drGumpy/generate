@@ -1,4 +1,3 @@
-
 package certyficate.datalogger;
 
 import java.io.BufferedReader;
