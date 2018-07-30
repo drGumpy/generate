@@ -33,7 +33,8 @@ public class PyrometerPanel extends JPanel {
 	private final static double DEFAULT_DISTANCE_VALLUE = 200;
 	
 	private static final int WIDTH = 300;
-	private static final int HIGHT = 400;
+	private static final int HEIGHT = 400;
+	private static final int FIELD_SIZE = 10;
 	
 	private JRadioButton active;
 	private JRadioButton copy;
@@ -66,7 +67,7 @@ public class PyrometerPanel extends JPanel {
 	}
 
 	private void setPanel() {
-		Dimension size = new Dimension(WIDTH, HIGHT);
+		Dimension size = new Dimension(WIDTH, HEIGHT);
 		constrain = new GridBagConstraints();	
 		setMinimumSize(size);
 		setLayout(new GridBagLayout());
@@ -173,7 +174,7 @@ public class PyrometerPanel extends JPanel {
 		addLabel(EMISSIVITY);
 		emissivity = new JFormattedTextField(new DecimalFormat(EMISSIVITY_FORMAT));
 		emissivity.setValue(DEFAULT_EMISSIVITY_VALLUE);
-		emissivity.setColumns(10);
+		emissivity.setColumns(FIELD_SIZE);
 		constrain.gridx = 1;
 		add(emissivity, constrain);
 	}
@@ -183,7 +184,7 @@ public class PyrometerPanel extends JPanel {
 		distance = new JFormattedTextField(
 				NumberFormat.getIntegerInstance());
 		distance.setValue(DEFAULT_DISTANCE_VALLUE);
-		distance.setColumns(10);
+		distance.setColumns(FIELD_SIZE);
 		constrain.gridx = 1;
 		add(distance, constrain);
 	}

@@ -1,6 +1,5 @@
 package certyficate.generate.note;
 
-
 import certyficate.entitys.Device;
 import certyficate.generate.CertificateValue;
 import certyficate.generate.certificate.HuminidityCertificate;

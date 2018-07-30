@@ -20,7 +20,7 @@ import certyficate.generate.certificate.Certificate;
 import certyficate.property.CalibrationData;
 import certyficate.property.DataCalculation;
 
-//TODO remove T/Rh poll
+//TODO remove T/Rh poll, make class smaller again
 public abstract class Note {
 	private static final String NOTE_SHEET = "Wyniki wzorcowania";
 	private static final String DEFAULT_NUMBER_SEPRATOR = "\\.";

@@ -1,6 +1,5 @@
 package certyficate.generate.note;
 
-
 import certyficate.entitys.Device;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.generate.CertificateValue;
