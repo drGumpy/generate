@@ -3,18 +3,14 @@ package certyficate.equipment.type;
 import java.io.IOException;
 
 import certyficate.equipment.calculation.DataProbe;
-import certyficate.property.CalibrationData;
 
 public abstract class ReferenceProbe extends Equipment {
 	protected DataProbe[] standardPoints;
-	
-	protected double[] drift;
 	
 	protected int rangeSize;
 	
 	public ReferenceProbe(String path) throws IOException {
 		super(path);
-		drift =new double[CalibrationData.numberOfParameters];
 	}
 	
 	public DataProbe getPointData(double[] point) {

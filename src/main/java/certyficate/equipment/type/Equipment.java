@@ -6,6 +6,7 @@ import java.io.IOException;
 import certyficate.equipment.calculation.Calculate;
 import certyficate.equipment.calculation.DataProbe;
 import certyficate.files.ReaderCreator;
+import certyficate.property.CalibrationData;
 
 public abstract class Equipment {
 	protected static final String SEPARATOR = "\t";
@@ -15,10 +16,13 @@ public abstract class Equipment {
     protected int numberOfStandardPoint;
     protected int numberOfRanges;
     
+    protected double[] drift;
+    
     protected int[][] ranges;
     
     public Equipment(String file) throws IOException {
     	BufferedReader reader = ReaderCreator.getReader(file);
+    	setDrift();
     	getConstantData(reader.readLine());
     	getCalibrationData(reader);
     	getNuberOfRanges(reader.readLine());
@@ -26,7 +30,11 @@ public abstract class Equipment {
     	reader.close();
     }
     
-    public abstract DataProbe getPointData(double[] point);
+    private void setDrift() {
+    	drift =new double[CalibrationData.numberOfParameters];
+	}
+
+	public abstract DataProbe getPointData(double[] point);
 
 	protected abstract void getConstantData(String line);
 

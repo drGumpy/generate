@@ -20,7 +20,7 @@ public class TProbe extends ReferenceProbe {
 
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
-		DataProbe data = new DataProbe();
+		DataProbe data = new DataProbe(1);
 		data.setValue(getInteger(elements[0]), 0);
 		data.setCorrection(DataCalculation.getDouble(elements[1]), 0);
 		data.setUncertainty(DataCalculation.getDouble(elements[2]), 0);

@@ -26,7 +26,7 @@ public class BlackBodyGenerator extends TProbe {
 
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
-		DataProbe data = new DataProbe();
+		DataProbe data = new DataProbe(1);
         data.setValue(getInteger(elements[0]), DATA_INDEX);
         data.setUncertainty(DataCalculation.getDouble(elements[2]), DATA_INDEX);
 		return data;

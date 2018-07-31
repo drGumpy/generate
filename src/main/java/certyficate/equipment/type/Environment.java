@@ -25,7 +25,7 @@ public class Environment extends RhProbe {
 
 	@Override
 	protected DataProbe findProbeData(String[] elements) {
-		DataProbe data = new DataProbe();
+		DataProbe data = new DataProbe(2);
         data.setValue(getInteger(elements[0]), 0);
         data.setValue(getInteger(elements[1]), 1);
         data.setCorrection(DataCalculation.getDouble(elements[2]), 0);

@@ -1,7 +1,5 @@
 package certyficate.equipment.calculation;
 
-import certyficate.property.CalibrationData;
-
 public class DataProbe {
 	private boolean question = true;
 	
@@ -10,8 +8,8 @@ public class DataProbe {
 	private double[] uncertainty;
 	private double[] drift;
     
-	public DataProbe() {
-		setSize();
+	public DataProbe(int size) {
+		setSize(size);
 	}
 	
 	public DataProbe(boolean set) {
@@ -19,7 +17,7 @@ public class DataProbe {
 	}
 
 	public DataProbe(double[] point) {
-		setSize();
+		setSize(point.length);
 		value = point;
 	}
 
@@ -71,8 +69,7 @@ public class DataProbe {
 		return new StraightLine(a, b);
 	}
 	
-	private void setSize() {
-		int size = CalibrationData.numberOfParameters;
+	private void setSize(int size) {
 		value = new double[size];
 		correction = new double[size];
 		uncertainty = new double[size];
