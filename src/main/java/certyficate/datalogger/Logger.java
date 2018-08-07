@@ -96,18 +96,45 @@ public abstract class Logger {
 		try {
 			findPoint();
 		} catch (IOException e) {
-			System.out.println(noDataInformation());
+			noDataMessage();
 		}
+	}
+	
+	private void noDataMessage() {
+		System.out.println(noDataInformation());
 	}
 	
 	private StringBuilder noDataInformation() {
 		StringBuilder build = new StringBuilder(NON_DATA_INFROMATION);
-		build.append(currentPoint);
+		build.append(currentPoint + 1);
 		return build;
 	} 
 
 	private boolean checkLine(String line) {
-		return line != null && currentPoint < calibrationPoints.size();
+		boolean isData = checkPoint();
+		if(isData) {
+			isData = isLineData(line);
+		}
+		return isData;
+	}
+	
+	private boolean isLineData(String line) {
+		boolean answer = true;
+		if(line == null) {
+			answer = false;
+			nextPoint();
+		}
+		return answer;
+	}
+
+	private void nextPoint() {
+		noDataMessage();
+		data[currentPoint] = null;
+		currentPoint++;
+	}
+
+	private boolean checkPoint() {
+		return currentPoint < calibrationPoints.size();
 	}
 	
 	private void checkPoint(String line) throws IOException {
@@ -141,7 +168,7 @@ public abstract class Logger {
 	}
 
 	private void setLine(int index) throws IOException {
-		if(currentPoint < calibrationPoints.size()) {
+		if(checkPoint()) {
 			data[currentPoint][index] = setLine();
 		} 
 	}

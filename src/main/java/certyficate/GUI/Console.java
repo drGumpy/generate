@@ -30,12 +30,10 @@ public class Console extends JFrame {
     public Console(){
     	setPanelSettings();
     	addEnvironmentPanel();
-    	addSheetPanel();
-    	addNotesPanel();
-    	addCertificatePanel();
+    	addPathPanels();
     	addTabbetPane();
     }
-    
+
 	public void close(){
 		super.dispose();
 	}
@@ -66,6 +64,12 @@ public class Console extends JFrame {
     	add(environment, constrain);
 	}
 
+	private void addPathPanels() {
+		addSheetPanel();
+    	addNotesPanel();
+    	addCertificatePanel();
+	}
+	
 	private void addSheetPanel() {
 		PathFinder sheetFinder = new PathFinder(PathType.SHEET);
 		constrain.weighty = 0.1;

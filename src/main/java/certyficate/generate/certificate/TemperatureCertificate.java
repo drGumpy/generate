@@ -10,6 +10,14 @@ public class TemperatureCertificate extends PyrometerCertificate {
 	public TemperatureCertificate() {
 		super();
 	}
+	
+	@Override
+	public void setNumberOfChanel(int channelNumber) {
+		super.setNumberOfChanel(channelNumber);
+		if(channelNumber > 1) {
+			commentsLine = 110;
+		}	
+	}
 
 	@Override
 	protected void setMeasurmentData() {

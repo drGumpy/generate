@@ -16,6 +16,7 @@ import certyficate.datalogger.type.Rotronic;
     
 public class PutData {
 	private static final String ERROR = "Calibration sheet error";
+	private static final String OPENING = "Open file for data loger";
 	
 	private static Sheet sheet;    
     
@@ -106,9 +107,14 @@ public class PutData {
 
 	private static void insertLoggerData(Logger logger) {
 		logger.getData(points);
+		loggerMessage(logger);
 		insert.putLoggerData(logger);
 	}
 	
+	private static void loggerMessage(Logger logger) {
+		System.out.println(OPENING);
+	}
+
 	private static void safeSheet() throws IOException {
 		sheet.getSpreadSheet().saveAs(file);
 	}

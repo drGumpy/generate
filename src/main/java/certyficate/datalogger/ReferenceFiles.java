@@ -9,8 +9,8 @@ import certyficate.files.PathCreator;
 import certyficate.property.SheetData;
 
 public class ReferenceFiles {	
-	private static final String NON_FILE = "brak pliku wzorca dla punktu: ";
-	private static final String OPENING = "otwieranie: ";
+	private static final String NON_FILE = "non referecne file for point: ";
+	private static final String OPENING = "open file: ";
 	private String path;
 	
 	private String[] fileList;

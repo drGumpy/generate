@@ -44,7 +44,13 @@ public class DataInsert {
 	private void insertData() {
 		int length = data.length;
 		for(int i = 0; i < length; i++) {
-			insetPointData(i);
+			checkPointData(i);
+		}
+	}
+
+	private void checkPointData(int index) {
+		if(data[index] != null) {
+			insetPointData(index);
 		}
 	}
 
