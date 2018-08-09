@@ -56,17 +56,18 @@ public class HuminidityNote extends TemperatureNote {
 	
 	@Override
 	protected void setPointValue(int line, CertificateValue pointValue) {
-		sheet.setValueAt(pointValue.getProbe(0), 5, line + 14);
-		sheet.setValueAt(pointValue.getDevice(0), 7, line + 14);
-		sheet.setValueAt(pointValue.getError(0), 9, line + 14);
-		sheet.setValueAt(pointValue.getUncertainty(0), 13, line + 14);
-		sheet.setValueAt(pointValue.getProbe(1), 5, line + 27);
-		sheet.setValueAt(pointValue.getDevice(1), 7, line + 27);
-		sheet.setValueAt(pointValue.getError(1), 9, line + 27);
-		sheet.setValueAt(pointValue.getUncertainty(1), 13, line + 27);
+		setPointValue(line + 14, pointValue, 0);
+		setPointValue(line + 27, pointValue, 1);
 		addPointValue(pointValue);
 	}
 	
+	private void setPointValue(int line, CertificateValue pointValue, int paramertIndex) {
+		sheet.setValueAt(pointValue.getProbe(paramertIndex), 5, line);
+		sheet.setValueAt(pointValue.getDevice(paramertIndex), 7, line);
+		sheet.setValueAt(pointValue.getError(paramertIndex), 9, line);
+		sheet.setValueAt(pointValue.getUncertainty(paramertIndex), 13, line);
+	}
+
 	@Override
 	protected void setCertificate() {
 		certificate = new HuminidityCertificate();
@@ -74,7 +75,7 @@ public class HuminidityNote extends TemperatureNote {
 
 	private void setCalibrationBudgetRh(CertificateValue certificateValue,
 			int line, int index) {
-		double[] uncerinity = findUncerinityRh(index, 1);
+		double[] uncerinity = findUncerinity(index, 1);
 		line += 13;
 		setUncerinity(uncerinity, line);
 		sheet.setValueAt(order.getMeasurments(index).average[1], 7 , line + 5);
@@ -87,13 +88,6 @@ public class HuminidityNote extends TemperatureNote {
         sheet.setValueAt(chamber[index].getCorrection(1), 9, line + 11);
         sheet.setValueAt(chamber[index].getUncertainty(1), 9, line + 12);
         setCertificateValueRh(certificateValue, index, uncerinity);
-	}
-
-	private double[] findUncerinityRh(int index, int parametrIndex) {
-		double[] uncerinity = super.findUncerinity(index, parametrIndex);
-        uncerinity[6] = chamber[index].getCorrection(1) / Math.sqrt(3);
-        uncerinity[7] = chamber[index].getUncertainty(1) / 2;
-		return uncerinity;
 	}
 	
 	private void setCertificateValueRh(CertificateValue certificateValue,

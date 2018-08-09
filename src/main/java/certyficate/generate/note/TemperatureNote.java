@@ -27,6 +27,7 @@ public class TemperatureNote extends Note {
 		noteFile = NOTE_FILE;
 		numberOfData = NUMBER_OF_DATA;
 	}
+	
 	@Override
 	protected void setResolution(Device device, int line) {
 		sheet.setValueAt(device.getResolution(0), 3, line);
@@ -68,8 +69,8 @@ public class TemperatureNote extends Note {
         uncerinity[3] = 0.01 / Math.sqrt(3);
         uncerinity[4] = reference[index].getUncertainty(parametrIndex) / 2;
         uncerinity[5] = reference[index].getDrift(parametrIndex) / Math.sqrt(3);
-        uncerinity[6] = chamber[index].getCorrection(0) / Math.sqrt(3);
-        uncerinity[7] = chamber[index].getUncertainty(0) / 2;
+        uncerinity[6] = chamber[index].getCorrection(parametrIndex) / Math.sqrt(3);
+        uncerinity[7] = chamber[index].getUncertainty(parametrIndex) / 2;
 		return uncerinity;
 	}
 	

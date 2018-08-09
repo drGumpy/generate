@@ -59,10 +59,10 @@ public class LoggersFinder {
 			File file = setFile(deviceName, i);
 			if(file.exists()) {
 				logger = findLogger(file, i);
+				logger.setSerialNumber(deviceName);
 				break;
 			}
 		}
-		logger.setSerialNumber(deviceName);
 		return logger;
 	}
 

@@ -16,7 +16,7 @@ public class CalibrationPoints {
 	private final static char END_HUMINIDITY_POINT = ']';
 	
 	private final static String POINT_SEPARATOR = ", ";
-	private final static String NON_NUMBER = "[^\\d.]";
+	private final static String NON_NUMBER = "[^\\d-]";
 	private final static String EMPTY_STRING = "";
 	
 
