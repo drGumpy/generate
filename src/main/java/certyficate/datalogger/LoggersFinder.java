@@ -62,6 +62,7 @@ public class LoggersFinder {
 				break;
 			}
 		}
+		logger.setSerialNumber(deviceName);
 		return logger;
 	}
 

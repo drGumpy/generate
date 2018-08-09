@@ -44,15 +44,13 @@ public class ReferenceFiles {
 	private void searchTheFiles() {
 		int size = fileList.length;
 		for(int i = 0; i < size; i++) {
-			checkFileName(fileList[i]);
+			if(checkName(fileList[i])) {
+				setFile(fileList[i]);
+				break;
+			}
 		}
 	}
 
-	private void checkFileName(String fileName) {
-		if(checkName(fileName)) {
-			setFile(fileName);
-		}
-	}
 
 	private void setFile(String fileName) {
 		openFileCommunicate(fileName);

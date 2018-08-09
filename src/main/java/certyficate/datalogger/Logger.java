@@ -17,6 +17,8 @@ public abstract class Logger {
 	
 	private static final int MEASUREMENTS_POINTS = 10;
 	
+	private String serialNumber;
+	
 	private File file;
 	
 	private BufferedReader reader;
@@ -64,6 +66,14 @@ public abstract class Logger {
 		closeReader();
 	}
 	
+	public void setSerialNumber(String deviceName) {
+		serialNumber = deviceName;
+	}
+	
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+	
 	protected void findPoint() throws IOException {
 		String line = reader.readLine();
 		while(checkLine(line)) {
@@ -102,6 +112,7 @@ public abstract class Logger {
 	
 	private void noDataMessage() {
 		System.out.println(noDataInformation());
+		data[currentPoint] = null;
 	}
 	
 	private StringBuilder noDataInformation() {
@@ -129,7 +140,6 @@ public abstract class Logger {
 
 	private void nextPoint() {
 		noDataMessage();
-		data[currentPoint] = null;
 		currentPoint++;
 	}
 

@@ -16,7 +16,7 @@ import certyficate.datalogger.type.Rotronic;
     
 public class PutData {
 	private static final String ERROR = "Calibration sheet error";
-	private static final String OPENING = "Open file for data loger";
+	private static final String OPENING = "Open file for data loger: ";
 	
 	private static Sheet sheet;    
     
@@ -101,18 +101,20 @@ public class PutData {
 	
 	private static void insertLoggersData() {
 		for(Logger logger: loggers) {
+			loggerMessage(logger);
 			insertLoggerData(logger);
 		}
 	}
 
 	private static void insertLoggerData(Logger logger) {
 		logger.getData(points);
-		loggerMessage(logger);
 		insert.putLoggerData(logger);
 	}
 	
 	private static void loggerMessage(Logger logger) {
-		System.out.println(OPENING);
+		StringBuilder build = new StringBuilder(OPENING);
+		build.append(logger.getSerialNumber());
+		System.out.println(build);
 	}
 
 	private static void safeSheet() throws IOException {
