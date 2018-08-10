@@ -41,12 +41,16 @@ public class Rotronic extends Logger {
 	
 	@Override
 	protected void checkFileData() {
-		if(currentPoint + 1 < calibrationPoints.size()) {
+		if(checkCurrenPoint()) {
 			checkNextPointDate();
 			checkNextPoint();
 		}
 	}
 	
+	private boolean checkCurrenPoint() {
+		return currentPoint + 1 < calibrationPoints.size();
+	}
+
 	private String setDate(String data, String time) {
 		StringBuilder build = new StringBuilder(data);
 		build.append(DATE_SEPARATOR);
@@ -90,7 +94,7 @@ public class Rotronic extends Logger {
 	}
 	
 	private void checkNextPoint() {
-		if(!nextPointDay()) {
+		if(checkCurrenPoint() && !nextPointDay()) {
 			currentPoint++;
 			findFile();
 			findPointFromNewFile();

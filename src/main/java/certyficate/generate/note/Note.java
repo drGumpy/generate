@@ -40,6 +40,7 @@ public abstract class Note {
 	
 	protected static int calibrationPointCount;
 	protected int numberOfData;
+	private int channelCount;
 	
 	protected static double round;
 	
@@ -166,13 +167,32 @@ public abstract class Note {
 	}
 
 	private void setPointData(int index) {
-		int line = calibrationPointCount * POINT_GAP + 3;
+		int line = getLine();
 		CertificateValue pointValue = findPointValue(line, index);
 		setConstantValue(line);
 		setMeasurmentValue(line + 17, index);
 		setCalibrationBudget(line, index);
 		setPointValue(line, pointValue);
 		calibrationPointCount++;
+		checkCalibrationPointCount();
+	}
+
+	private int getLine() {
+		int answer = calibrationPointCount + channelCount * order.getChannelNumber();
+		return answer * POINT_GAP + 3;
+	}
+
+	private void checkCalibrationPointCount() {
+		if(calibrationPointCount == order.getPointLength()) {
+			channelCount++;
+			chceckChannelCount();
+		}
+	}
+
+	private void chceckChannelCount() {
+		if(channelCount < order.getChannelNumber()) {
+			calibrationPointCount = 0;
+		}
 	}
 
 	private void setConstantValue(int line) {
