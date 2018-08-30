@@ -22,7 +22,7 @@ public class ProbeData {
 
 	private static void findProbes() {
 		int line = 1;
-		while(EMPTY_CELL.equals(sheet.getValueAt(0, line))){		
+		while(!EMPTY_CELL.equals(sheet.getValueAt(0, line))){		
 			checkModel(line);		
 			line++;
 		}
@@ -31,21 +31,15 @@ public class ProbeData {
 	private static void checkModel(int line) {
 		String  model = sheet.getValueAt(0, line).toString();
 		if(data.containsKey(model)) {
-			addProbe(line);
+			addProbe(line, model);
 		}
 		line++;
 	}
 
-	private static void addProbe(int line) {
-		Probe probe = new Probe();
+	private static void addProbe(int line, String model) {
+		Probe probe = new Probe(model);
 		probe.setType(sheet.getValueAt(1, line).toString());
 		probe.setProducent(sheet.getValueAt(2, line).toString());
-		addProbe(probe, line);
-	}
-
-	private static void addProbe(Probe probe, int line) {
-		String  model = sheet.getValueAt(0, line).toString();
-		probe.setModel(model);	
-		data.put(model, probe);	
+		data.put(model, probe);
 	}
 }

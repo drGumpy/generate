@@ -40,7 +40,7 @@ public abstract class Note {
 	
 	protected static int calibrationPointCount;
 	protected int numberOfData;
-	private int channelCount;
+	private static int channelCount;
 	
 	protected static double round;
 	
@@ -133,6 +133,7 @@ public abstract class Note {
 
 	private static void setCalibrationData(Order orderData) {
 		order = orderData;
+		channelCount = 0;
 	}
 
 	private void setNoteData() throws FileNotFoundException, IOException {
