@@ -122,25 +122,30 @@ public abstract class Logger {
 	} 
 
 	private boolean checkLine(String line) {
+		isLineData(line);
 		boolean isData = checkPoint();
-		if(isData) {
-			isData = isLineData(line);
-		}
 		return isData;
 	}
 	
-	private boolean isLineData(String line) {
-		boolean answer = true;
+	private void isLineData(String line) {
 		if(line == null) {
-			answer = false;
 			nextPoint();
 		}
-		return answer;
 	}
 
 	private void nextPoint() {
 		noDataMessage();
 		currentPoint++;
+		reopenFile();
+	}
+
+	private void reopenFile() {
+		try {
+			setFile(file);
+			findPoint();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private boolean checkPoint() {

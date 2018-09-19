@@ -16,6 +16,7 @@ public class CalibrationPoints {
 	private final static char END_HUMINIDITY_POINT = ']';
 	
 	private final static String POINT_SEPARATOR = ", ";
+	private final static String HUMINIDITY_SEPARATOR = "; ";
 	private final static String NON_NUMBER = "[^\\d-]";
 	private final static String EMPTY_STRING = "";
 	
@@ -60,17 +61,19 @@ public class CalibrationPoints {
 	private static double[][] setPointsArray(String[] points) {
 		int numberOfPoints = points.length;
 		double[][] point = new double[numberOfPoints][];
-		for(int i = 0; i < numberOfPoints; i++) 
+		for(int i = 0; i < numberOfPoints; i++) {
 			point[i] = getPoint(points[i]);
+		}
 		return point;
 	}
 
 	private static double[] getPoint(String point) {
 		double[] pointArray;
-		if(CalibrationData.calibrationType == CalibrationType.HUMINIDITY)
+		if(CalibrationData.calibrationType == CalibrationType.HUMINIDITY) {
 			pointArray = findRhPoint(point);
-		else
+		} else {
 			pointArray = findPoint(point);
+		}
 		return pointArray;
 	}
 
@@ -89,7 +92,7 @@ public class CalibrationPoints {
 
 	private static double[] setRhPoint(String point) {
 		double[] pointArray = new double[2];
-		String[] points = point.split(POINT_SEPARATOR);
+		String[] points = point.split(HUMINIDITY_SEPARATOR);
 		for(int i = 0; i < 2; i++) {
 			pointArray[i] = findValue(points[i]);
 		}
