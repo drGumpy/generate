@@ -86,7 +86,8 @@ public abstract class Note {
 	protected abstract void setValue(int line, int index, int i);
 
 	protected void setCalibrationBudget(int line, int index) {
-		sheet.setValueAt(order.getMeasurments(index).average[0], 7 , line + 5);
+		sheet.setValueAt(checkValue(order.getMeasurments(index).average[0])
+				, 7 , line + 5);
         sheet.setValueAt(order.getDevice().getResolution(0), 9 , line + 6);
         setReference(reference[index], line);
 	}
@@ -123,6 +124,14 @@ public abstract class Note {
 	}
 	
 	protected abstract CertificateValue findPointValue(int line, int index);
+	
+	protected Object checkValue(double value) {
+		Object data = "-";
+		if(!Double.isNaN(value)) {
+			data = value;
+		}
+		return data;
+	}
 	
 	private void setCalibrationData() {
 		environment = CertificateText.getEnviromentData();

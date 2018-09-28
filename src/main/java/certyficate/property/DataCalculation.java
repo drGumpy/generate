@@ -72,12 +72,22 @@ public class DataCalculation {
 	}
 
     public static double roundTonumber(double value, double round){
-        double newValue = checkRound(value, round);
-        if(Double.isNaN(Double.NaN)) {
-        	newValue = roundValue(value, round);
+        double newValue;
+        if(Double.isNaN(value)) {
+        	newValue = value;
+        } else {
+        	newValue = roundNumber(value, round);
         }
         return newValue;
     }
+
+	private static double roundNumber(double value, double round) {
+		double newValue  = checkRound(value, round);
+        if(Double.isNaN(newValue)) {
+        	newValue = roundValue(value, round);
+        }
+		return newValue;
+	}
 
 	private static double checkRound(double value, double round) {
 		double newValue = Double.NaN;
@@ -114,14 +124,22 @@ public class DataCalculation {
     }
 
 	private static String checkNumber(double value, double round) {
-    	String roundText = null;
-    	if(round >= 1) {
+    	String roundText = checkNull(value);
+    	if(!Double.isNaN(value) && round >= 1) {
     		roundText = Integer.toString((int)Math.round(value));
         }
 		return roundText;
 	}
 	
-    private static String setRoundedText(double value, double round) {
+    private static String checkNull(double value) {
+    	String text = null;
+    	if(Double.isNaN(value)) {
+    		text = "-";
+    	}
+		return text;
+	}
+
+	private static String setRoundedText(double value, double round) {
     	double roundLogarithm = Math.log10(round);
     	double rounded = Math.round(value/round) * round;
     	int places = checkRoundedLogarithm(roundLogarithm);

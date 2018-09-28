@@ -38,12 +38,18 @@ public class TemperatureNote extends Note {
 	protected void setValue(int line, int index, int point) {
 		String time = CalibrationData.point.get(index).getTime();
 		sheet.setValueAt(DataCalculation.time(time, point), 0, line);
-		sheet.setValueAt(referenceValue.measurmets[index].data[0][point], 
-				1, line);
-		sheet.setValueAt(order.getMeasurments(index).data[0][point], 
-				3, line);
+		for(int i = 0; i < CalibrationData.numberOfParameters; i++) {
+			setMeasurmentsValue(line, index, point, i);
+		}
 	}
 	
+	private void setMeasurmentsValue(int line, int index, int point, int parameterIndex) {
+		sheet.setValueAt(checkValue(referenceValue.measurmets[index].data[parameterIndex][point]), 
+				1 + parameterIndex, line);
+		sheet.setValueAt(checkValue(order.getMeasurments(index).data[parameterIndex][point]), 
+				3 + parameterIndex, line);
+	}
+
 	@Override
 	protected CertificateValue findPointValue(int line, int index) {
 		double[] uncerinity = findUncerinity(index, 0);
@@ -70,13 +76,14 @@ public class TemperatureNote extends Note {
         uncerinity[4] = reference[index].getUncertainty(parametrIndex) / 2;
         uncerinity[5] = reference[index].getDrift(parametrIndex) / Math.sqrt(3);
         uncerinity[6] = chamber[index].getCorrection(parametrIndex) / Math.sqrt(3);
-        uncerinity[7] = chamber[index].getUncertainty(parametrIndex) / 2;
+        uncerinity[7] = chamber[index].getUncertainty(parametrIndex) / Math.sqrt(3);
 		return uncerinity;
 	}
 	
 	protected void setUncerinity(double[] uncerinity, int line) {
 		for(int i = 0; i < uncerinity.length; i++){
-            sheet.setValueAt(uncerinity[i], 13, line + 5 + i);
+            sheet.setValueAt(checkValue(uncerinity[i]),
+            		13, line + 5 + i);
         }
 	}
 	

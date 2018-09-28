@@ -27,15 +27,6 @@ public class HuminidityNote extends TemperatureNote {
 	}
 	
 	@Override
-	protected void setValue(int line, int index, int point) {
-		super.setValue(line, index, point);
-		sheet.setValueAt(referenceValue.measurmets[index].data[1][point], 
-				2, line);
-		sheet.setValueAt(order.getMeasurments(index).data[1][point], 
-				4, line);
-	}
-	
-	@Override
 	protected CertificateValue findPointValue(int line, int index) {
 		CertificateValue certificateValue = super.findPointValue(line, index);
 		setCalibrationBudgetRh(certificateValue, line, index);
@@ -50,7 +41,7 @@ public class HuminidityNote extends TemperatureNote {
 	
 	protected void setUncerinity(double[] uncerinity, int line) {
 		for(int i = 0; i < uncerinity.length; i++){
-            sheet.setValueAt(uncerinity[i], 13, line + 5 + i);
+            sheet.setValueAt(checkValue(uncerinity[i]), 13, line + 5 + i);
         }
 	}
 	
@@ -78,7 +69,7 @@ public class HuminidityNote extends TemperatureNote {
 		double[] uncerinity = findUncerinity(index, 1);
 		line += 13;
 		setUncerinity(uncerinity, line);
-		sheet.setValueAt(order.getMeasurments(index).average[1], 7 , line + 5);
+		sheet.setValueAt(checkValue(order.getMeasurments(index).average[1]), 7 , line + 5);
         sheet.setValueAt(referenceValue.measurmets[index].average[1],
         		7 , line + 7);
         sheet.setValueAt(reference[index].getCorrection(1), 7 , line +  9);
@@ -96,7 +87,9 @@ public class HuminidityNote extends TemperatureNote {
         double referenceData = DataCalculation.roundTonumber(
         		referenceValue.measurmets[index].average[1]
         		+ reference[index].getCorrection(1), round);
-        double deviceValue =DataCalculation.roundTonumber(order.getMeasurments(index).average[1], round);
+        double deviceValue = DataCalculation.roundTonumber(order.getMeasurments(index).average[1], round);
+        System.out.println(order.getMeasurments(index).average[1]);
+        System.out.println(deviceValue);
         certificateValue.setProbe(setNumber(referenceData), 1);
         certificateValue.setDevice(setNumber(deviceValue), 1);
         certificateValue.setError(setNumber(deviceValue - referenceData), 1);
