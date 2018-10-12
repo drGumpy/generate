@@ -45,6 +45,7 @@ public class Console extends JFrame {
                 console.setTitle(TITLE);
                 console.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 console.setSize(WIDTH, HEIGHT);
+                console.setResizable(false);
                 console.setVisible(true);
             }
         });
@@ -65,34 +66,22 @@ public class Console extends JFrame {
 	}
 
 	private void addPathPanels() {
-		addSheetPanel();
-    	addNotesPanel();
-    	addCertificatePanel();
+    	addPathPanel(PathType.SHEET);
+    	addPathPanel(PathType.NOTES);
+    	addPathPanel(PathType.CERTIFICATES);
 	}
 	
-	private void addSheetPanel() {
-		PathFinder sheetFinder = new PathFinder(PathType.SHEET);
+	private void addPathPanel(PathType type) {
+		PathFinder finder = new PathFinder(type);
 		constrain.weighty = 0.1;
-    	constrain.gridy = 1;
-    	add(sheetFinder, constrain);
-	}
-
-	private void addNotesPanel() {
-		PathFinder notesFinder = new PathFinder(PathType.NOTES);
-		constrain.gridy = 2;
-    	add(notesFinder, constrain);
-	}
-	
-	private void addCertificatePanel() {
-		PathFinder certificateFinder = new PathFinder(PathType.CERTIFICATES);
-		constrain.gridy = 3;
-    	add(certificateFinder, constrain);		
+    	constrain.gridy++;
+    	add(finder, constrain);
 	}
 
 	private void addTabbetPane() {
     	JTabbedPane tabbedPane = setTabbedPane();
     	constrain.weighty = 0.2;
-    	constrain.gridy = 4;
+    	constrain.gridy++;
     	add(tabbedPane, constrain);
 	}
 

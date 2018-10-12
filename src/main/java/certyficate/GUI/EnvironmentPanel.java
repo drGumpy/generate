@@ -42,7 +42,6 @@ public class EnvironmentPanel extends JPanel {
 		setSettings();
 		setEviromentsValue();
 		addFields();
-		addListener();
 	}
 
 	public static double[] getEnviromentCondition() {
@@ -155,11 +154,5 @@ public class EnvironmentPanel extends JPanel {
     	label.setText(LABEL_TEXT[index]);
     	constrain.gridx++;
     	add(label, constrain);		
-	}
-
-	private void addListener() {
-		for(int i = 0; i < PARAMETS_NUMBER ; i++) {
-	    	environment[i].addPropertyChangeListener(new EnvironmentListener());
-		}	
 	}
 }

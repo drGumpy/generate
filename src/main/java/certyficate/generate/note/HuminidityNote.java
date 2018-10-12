@@ -88,8 +88,6 @@ public class HuminidityNote extends TemperatureNote {
         		referenceValue.measurmets[index].average[1]
         		+ reference[index].getCorrection(1), round);
         double deviceValue = DataCalculation.roundTonumber(order.getMeasurments(index).average[1], round);
-        System.out.println(order.getMeasurments(index).average[1]);
-        System.out.println(deviceValue);
         certificateValue.setProbe(setNumber(referenceData), 1);
         certificateValue.setDevice(setNumber(deviceValue), 1);
         certificateValue.setError(setNumber(deviceValue - referenceData), 1);

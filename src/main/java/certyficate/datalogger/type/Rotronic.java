@@ -76,7 +76,7 @@ public class Rotronic extends Logger {
 	}
 
 	private void findNext() {
-		currentPoint++;
+		nonPointData();
 		System.out.println(files.nonFile(currentPoint));
 		findFile();
 	}

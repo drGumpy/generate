@@ -90,6 +90,11 @@ public abstract class Logger {
 	protected void checkFileData() {}
 	
 	protected abstract PointData divide(String nextLine);
+	
+	protected void nonPointData() {
+		data[currentPoint] = null;
+		currentPoint++;
+	}
 
 	private void setReader() throws IOException {
     	reader = ReaderCreator.getReader(file);
@@ -112,7 +117,6 @@ public abstract class Logger {
 	
 	private void noDataMessage() {
 		System.out.println(noDataInformation());
-		data[currentPoint] = null;
 	}
 	
 	private StringBuilder noDataInformation() {
@@ -135,7 +139,7 @@ public abstract class Logger {
 
 	private void nextPoint() {
 		noDataMessage();
-		currentPoint++;
+		nonPointData();
 		reopenFile();
 	}
 
